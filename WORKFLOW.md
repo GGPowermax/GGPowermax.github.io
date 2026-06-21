@@ -94,3 +94,9 @@
 - 新增 `scripts/scrape-hourly-stats.mjs` 與 `data/hourly-stats.json`。
 - 前端改為載入 `data/hourly-stats.json` 並合併角球、黃牌、紅牌等技術數據。
 - 下一步是選定固定網站，補上實際解析器。
+
+### 2026-06-22 04:05 TST
+
+- 賽事卡片、今日判斷與詳情頁改為台灣時間。
+- 依 `stadium_id` 對應場館時區，保留場館當地時間供對照。
+- 已驗證首頁與單場詳情都能同時顯示台灣時間與場館時間。

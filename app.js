@@ -42,6 +42,27 @@ const stageNames = {
   final: "決賽",
 };
 
+const TAIWAN_TIME_ZONE = "Asia/Taipei";
+
+const stadiumTimezones = {
+  "1": { label: "墨西哥城時間", offsetMinutes: -360 },
+  "2": { label: "瓜達拉哈拉時間", offsetMinutes: -360 },
+  "3": { label: "蒙特雷時間", offsetMinutes: -360 },
+  "4": { label: "達拉斯時間", offsetMinutes: -300 },
+  "5": { label: "休士頓時間", offsetMinutes: -300 },
+  "6": { label: "堪薩斯城時間", offsetMinutes: -300 },
+  "7": { label: "亞特蘭大時間", offsetMinutes: -240 },
+  "8": { label: "邁阿密時間", offsetMinutes: -240 },
+  "9": { label: "波士頓時間", offsetMinutes: -240 },
+  "10": { label: "費城時間", offsetMinutes: -240 },
+  "11": { label: "紐約/紐澤西時間", offsetMinutes: -240 },
+  "12": { label: "多倫多時間", offsetMinutes: -240 },
+  "13": { label: "溫哥華時間", offsetMinutes: -420 },
+  "14": { label: "西雅圖時間", offsetMinutes: -420 },
+  "15": { label: "舊金山時間", offsetMinutes: -420 },
+  "16": { label: "洛杉磯時間", offsetMinutes: -420 },
+};
+
 const teamFlags = {
   Algeria: "🇩🇿", Argentina: "🇦🇷", Australia: "🇦🇺", Austria: "🇦🇹", Belgium: "🇧🇪",
   Brazil: "🇧🇷", Canada: "🇨🇦", "Cape Verde": "🇨🇻", Colombia: "🇨🇴", Croatia: "🇭🇷",
@@ -82,24 +103,39 @@ function firstValue(source, keys) {
 
 function parseMatchDate(match) {
   const raw = safeText(match.local_date);
+  const timezone = stadiumTimezones[safeText(match.stadium_id)] || { label: "場館當地時間", offsetMinutes: 0 };
   const [datePart, timePart = "00:00"] = raw.split(" ");
   const [month, day, year] = datePart.split("/").map(Number);
   const [hour, minute] = timePart.split(":").map(Number);
-  return new Date(year, month - 1, day, hour, minute);
+  const utcTime = Date.UTC(year, month - 1, day, hour, minute) - timezone.offsetMinutes * 60 * 1000;
+  return new Date(utcTime);
 }
 
 function dateKey(date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TAIWAN_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
 }
 
 function formatDateTime(date) {
   return new Intl.DateTimeFormat("zh-TW", {
+    timeZone: TAIWAN_TIME_ZONE,
     month: "2-digit",
     day: "2-digit",
     weekday: "short",
     hour: "2-digit",
     minute: "2-digit",
   }).format(date);
+}
+
+function formatVenueDateTime(match) {
+  const timezone = stadiumTimezones[safeText(match.stadium_id)] || { label: "場館當地時間" };
+  return `${safeText(match.local_date, "-")} · ${timezone.label}`;
 }
 
 function extractStats(match) {
@@ -129,6 +165,7 @@ function normalizeMatch(match) {
     isFinished: safeText(match.finished).toUpperCase() === "TRUE",
     timeElapsed: safeText(match.time_elapsed, "notstarted").toLowerCase(),
     date: parseMatchDate(match),
+    venueTimeLabel: formatVenueDateTime(match),
   };
   normalized.stats = extractStats(normalized);
 
@@ -258,7 +295,7 @@ function createMatchCard(match) {
 
   button.innerHTML = `
     <div class="match-meta">
-      <span>${formatDateTime(match.date)} · ${stageText(match)}</span>
+      <span>台灣 ${formatDateTime(match.date)} · ${stageText(match)}</span>
       <span class="status-pill${liveClass}">${statusLabel(match)}</span>
     </div>
     <div class="team-row">
@@ -309,11 +346,12 @@ function getTodayMatches() {
 function renderHero() {
   const now = new Date();
   els.todayLabel.textContent = new Intl.DateTimeFormat("zh-TW", {
+    timeZone: TAIWAN_TIME_ZONE,
     year: "numeric",
     month: "long",
     day: "numeric",
     weekday: "long",
-  }).format(now);
+  }).format(now) + " · 台灣時間";
 
   const live = state.matches.filter((match) => statusLabel(match) === "進行中");
   const next = state.matches.find((match) => !match.isFinished);
@@ -506,7 +544,7 @@ function openMatch(id) {
   const match = state.matches.find((item) => item.id === id);
   if (!match) return;
 
-  els.dialogStage.textContent = `${formatDateTime(match.date)} · ${stageText(match)}`;
+  els.dialogStage.textContent = `台灣 ${formatDateTime(match.date)} · ${stageText(match)}`;
   els.dialogTitle.textContent = `${match.home} vs ${match.away}`;
   els.dialogBody.innerHTML = `
     <div class="detail-score">
@@ -517,7 +555,8 @@ function openMatch(id) {
     <div class="detail-block">
       <h3>比賽狀態</h3>
       <p>${statusLabel(match)} · Matchday ${safeText(match.matchday, "-")}</p>
-      <p>資料時間以 API 提供的賽事當地時間顯示。</p>
+      <p>台灣時間：${formatDateTime(match.date)}</p>
+      <p>場館時間：${match.venueTimeLabel}</p>
     </div>
     <div class="detail-block">
       <div class="detail-title-row">
