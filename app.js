@@ -1,4 +1,5 @@
 const API_BASE = "https://worldcup26.ir/get";
+const STATS_SNAPSHOT_URL = "data/hourly-stats.json";
 const FAVORITES_KEY = "worldcup26.favoriteMatches";
 const CACHE_KEY = "worldcup26.lastLivePayload";
 
@@ -143,6 +144,34 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function fetchStatsSnapshot() {
+  try {
+    const snapshot = await fetchJson(`${STATS_SNAPSHOT_URL}?v=${Date.now()}`);
+    if (!snapshot || !Array.isArray(snapshot.matches)) return;
+    mergeStatsSnapshot(snapshot.matches);
+  } catch (error) {
+    console.info("Hourly stats snapshot is not available yet.", error);
+  }
+}
+
+function mergeStatsSnapshot(snapshotMatches) {
+  const byId = new Map(state.matches.map((match) => [String(match.id), match]));
+  snapshotMatches.forEach((snapshot) => {
+    const match = byId.get(String(snapshot.id));
+    if (!match || !snapshot.stats) return;
+
+    Object.entries(snapshot.stats).forEach(([key, value]) => {
+      const stat = match.stats.find((item) => item.key === key);
+      if (!stat || !value) return;
+      stat.home = value.home ?? stat.home;
+      stat.away = value.away ?? stat.away;
+    });
+
+    match.statsSource = snapshot.source || "Hourly snapshot";
+    match.statsUpdatedAt = snapshot.updatedAt || null;
+  });
+}
+
 async function loadData() {
   setStatus("讀取最新資料中...", false);
   els.refreshButton.disabled = true;
@@ -151,6 +180,7 @@ async function loadData() {
     const data = await fetchJson(`${API_BASE}/games`);
     localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: new Date().toISOString(), data }));
     state.matches = (data.games || data || []).map(normalizeMatch).sort((a, b) => a.date - b.date);
+    await fetchStatsSnapshot();
     els.sourceBadge.textContent = "Live API";
     setStatus("", false);
   } catch (error) {
@@ -158,6 +188,7 @@ async function loadData() {
     const cached = readCachedPayload();
     if (cached) {
       state.matches = (cached.data.games || cached.data || []).map(normalizeMatch).sort((a, b) => a.date - b.date);
+      await fetchStatsSnapshot();
       els.sourceBadge.textContent = "快取";
       setStatus(`即時 API 暫時讀不到，現在顯示 ${formatCacheTime(cached.savedAt)} 儲存的真實資料。`, true);
     } else {
