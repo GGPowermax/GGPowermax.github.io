@@ -5,7 +5,7 @@ const sourceUrl = process.env.STATS_SOURCE_URL || "";
 
 async function main() {
   const snapshot = {
-    generatedAt: new Date().toISOString(),
+    generatedAt: sourceUrl ? new Date().toISOString() : null,
     source: sourceUrl || null,
     matches: [],
   };
