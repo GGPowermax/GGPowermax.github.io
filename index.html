@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#082d28" />
+    <title>世足比分小軟體</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">FIFA World Cup 2026</p>
+          <h1>世足比分</h1>
+        </div>
+        <button class="refresh-button" id="refreshButton" type="button" aria-label="重新整理">↻</button>
+      </header>
+
+      <main>
+        <section class="hero-panel">
+          <div>
+            <p id="todayLabel">載入中</p>
+            <strong id="heroTitle">讀取即時資料...</strong>
+          </div>
+          <span id="sourceBadge">Live API</span>
+        </section>
+
+        <section id="statusMessage" class="status-message" hidden></section>
+
+        <section class="view active" id="view-today" aria-label="今日賽事">
+          <div class="section-head">
+            <h2>今日與下一場</h2>
+            <button class="small-button" id="jumpUpcoming" type="button">下一場</button>
+          </div>
+          <div id="todayMatches" class="match-list"></div>
+        </section>
+
+        <section class="view" id="view-schedule" aria-label="全部賽程">
+          <div class="section-head">
+            <h2>賽程</h2>
+            <select id="stageFilter" aria-label="篩選賽程階段">
+              <option value="all">全部</option>
+              <option value="group">分組賽</option>
+              <option value="r32">32 強</option>
+              <option value="r16">16 強</option>
+              <option value="qf">8 強</option>
+              <option value="sf">4 強</option>
+              <option value="final">決賽</option>
+            </select>
+          </div>
+          <div id="scheduleMatches" class="match-list"></div>
+        </section>
+
+        <section class="view" id="view-standings" aria-label="分組排名">
+          <div class="section-head">
+            <h2>分組排名</h2>
+            <span class="hint">前二 + 最佳第三晉級</span>
+          </div>
+          <div id="standings" class="standings-grid"></div>
+        </section>
+
+        <section class="view" id="view-stats" aria-label="數據榜">
+          <div class="section-head">
+            <h2>數據</h2>
+            <span class="hint">由已完成賽事統計</span>
+          </div>
+          <div class="stats-grid">
+            <article>
+              <h3>射手榜</h3>
+              <ol id="scorersList" class="rank-list"></ol>
+            </article>
+            <article>
+              <h3>球隊進球</h3>
+              <ol id="teamGoalsList" class="rank-list"></ol>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-favorites" aria-label="收藏">
+          <div class="section-head">
+            <h2>收藏</h2>
+            <span class="hint">存在這支手機</span>
+          </div>
+          <div id="favoriteMatches" class="match-list"></div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主要功能">
+        <button class="nav-item active" data-view="today" type="button">今日</button>
+        <button class="nav-item" data-view="schedule" type="button">賽程</button>
+        <button class="nav-item" data-view="standings" type="button">排名</button>
+        <button class="nav-item" data-view="stats" type="button">數據</button>
+        <button class="nav-item" data-view="favorites" type="button">收藏</button>
+      </nav>
+    </div>
+
+    <dialog id="matchDialog">
+      <div class="dialog-head">
+        <div>
+          <p id="dialogStage" class="eyebrow"></p>
+          <h2 id="dialogTitle"></h2>
+        </div>
+        <button id="closeDialog" class="icon-button" type="button" aria-label="關閉">×</button>
+      </div>
+      <div id="dialogBody"></div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
