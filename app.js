@@ -20,6 +20,7 @@ const els = {
   standings: document.querySelector("#standings"),
   scorersList: document.querySelector("#scorersList"),
   teamGoalsList: document.querySelector("#teamGoalsList"),
+  dataCoverage: document.querySelector("#dataCoverage"),
   favoriteMatches: document.querySelector("#favoriteMatches"),
   stageFilter: document.querySelector("#stageFilter"),
   jumpUpcoming: document.querySelector("#jumpUpcoming"),
@@ -53,9 +54,29 @@ const teamFlags = {
   Uruguay: "🇺🇾", Uzbekistan: "🇺🇿",
 };
 
+const statDefinitions = [
+  { key: "possession", label: "控球率", unit: "%", homeKeys: ["home_possession", "homePossession"], awayKeys: ["away_possession", "awayPossession"] },
+  { key: "shots", label: "射門", homeKeys: ["home_shots", "homeShots"], awayKeys: ["away_shots", "awayShots"] },
+  { key: "shotsOnTarget", label: "射正", homeKeys: ["home_shots_on_target", "homeShotsOnTarget"], awayKeys: ["away_shots_on_target", "awayShotsOnTarget"] },
+  { key: "corners", label: "角球", homeKeys: ["home_corners", "home_corner", "homeCorners"], awayKeys: ["away_corners", "away_corner", "awayCorners"] },
+  { key: "yellowCards", label: "黃牌", homeKeys: ["home_yellow_cards", "home_yellowcards", "homeYellowCards"], awayKeys: ["away_yellow_cards", "away_yellowcards", "awayYellowCards"] },
+  { key: "redCards", label: "紅牌", homeKeys: ["home_red_cards", "home_redcards", "homeRedCards"], awayKeys: ["away_red_cards", "away_redcards", "awayRedCards"] },
+  { key: "fouls", label: "犯規", homeKeys: ["home_fouls", "homeFouls"], awayKeys: ["away_fouls", "awayFouls"] },
+  { key: "offsides", label: "越位", homeKeys: ["home_offsides", "homeOffsides"], awayKeys: ["away_offsides", "awayOffsides"] },
+];
+
 function safeText(value, fallback = "") {
   if (value === undefined || value === null || value === "null") return fallback;
   return String(value);
+}
+
+function firstValue(source, keys) {
+  for (const key of keys) {
+    if (source[key] !== undefined && source[key] !== null && source[key] !== "null" && source[key] !== "") {
+      return source[key];
+    }
+  }
+  return null;
 }
 
 function parseMatchDate(match) {
@@ -80,6 +101,18 @@ function formatDateTime(date) {
   }).format(date);
 }
 
+function extractStats(match) {
+  return statDefinitions.map((stat) => ({
+    ...stat,
+    home: firstValue(match, stat.homeKeys),
+    away: firstValue(match, stat.awayKeys),
+  }));
+}
+
+function hasDetailedStats(match) {
+  return match.stats.some((stat) => stat.home !== null || stat.away !== null);
+}
+
 function normalizeMatch(match) {
   const home = safeText(match.home_team_name_en || match.home_team_label, "待定");
   const away = safeText(match.away_team_name_en || match.away_team_label, "待定");
@@ -96,6 +129,7 @@ function normalizeMatch(match) {
     timeElapsed: safeText(match.time_elapsed, "notstarted").toLowerCase(),
     date: parseMatchDate(match),
   };
+  normalized.stats = extractStats(normalized);
 
   if (match.home_team_id && match.home_team_id !== "0") state.teams.set(match.home_team_id, home);
   if (match.away_team_id && match.away_team_id !== "0") state.teams.set(match.away_team_id, away);
@@ -189,6 +223,7 @@ function createMatchCard(match) {
 
   const liveClass = statusLabel(match) === "進行中" ? " live" : "";
   const favoriteActive = state.favorites.has(match.id) ? " active" : "";
+  const dataBadge = hasDetailedStats(match) ? "含技術數據" : "等待技術數據";
 
   button.innerHTML = `
     <div class="match-meta">
@@ -204,7 +239,7 @@ function createMatchCard(match) {
       <span class="score">${scoreText(match.awayScore, match)}</span>
     </div>
     <div class="match-actions">
-      <span>點開看進球與細節</span>
+      <span>${dataBadge}</span>
       <span class="favorite-toggle${favoriteActive}" data-favorite="${match.id}">★</span>
     </div>
   `;
@@ -371,6 +406,32 @@ function renderStats() {
 
   fillRankList(els.scorersList, [...scorers.entries()], "尚無進球資料");
   fillRankList(els.teamGoalsList, [...teamGoals.entries()], "尚無球隊進球資料", true);
+  renderDataCoverage();
+}
+
+function renderDataCoverage() {
+  const total = state.matches.length;
+  const withScores = state.matches.filter((match) => match.homeScore !== "-" && match.awayScore !== "-").length;
+  const withScorers = state.matches.filter((match) => parseScorers(match.home_scorers).length || parseScorers(match.away_scorers).length).length;
+  const withTechnicalStats = state.matches.filter(hasDetailedStats).length;
+
+  els.dataCoverage.innerHTML = `
+    ${coverageRow("賽程 / 比分", withScores, total)}
+    ${coverageRow("進球紀錄", withScorers, total)}
+    ${coverageRow("角球 / 紅黃牌", withTechnicalStats, total)}
+    <p class="data-note">角球、紅牌、黃牌目前等待第二資料源；介面與資料欄位已先準備好。</p>
+  `;
+}
+
+function coverageRow(label, value, total) {
+  const percent = total ? Math.round((value / total) * 100) : 0;
+  return `
+    <div class="coverage-row">
+      <span>${label}</span>
+      <strong>${value}/${total}</strong>
+      <div class="coverage-bar"><span style="width: ${percent}%"></span></div>
+    </div>
+  `;
 }
 
 function fillRankList(container, rows, emptyText, withFlag = false) {
@@ -428,6 +489,14 @@ function openMatch(id) {
       <p>資料時間以 API 提供的賽事當地時間顯示。</p>
     </div>
     <div class="detail-block">
+      <div class="detail-title-row">
+        <h3>技術數據</h3>
+        <span>${hasDetailedStats(match) ? "已接資料" : "等待資料源"}</span>
+      </div>
+      ${renderMatchStats(match)}
+      ${hasDetailedStats(match) ? "" : `<p class="data-note">目前免金鑰 API 尚未提供角球、黃牌、紅牌等技術統計；介面已先支援，下一輪會接可提供這些欄位的資料源。</p>`}
+    </div>
+    <div class="detail-block">
       <h3>${match.home} 進球</h3>
       ${renderScorerParagraphs(match.home_scorers)}
     </div>
@@ -437,6 +506,29 @@ function openMatch(id) {
     </div>
   `;
   els.dialog.showModal();
+}
+
+function renderMatchStats(match) {
+  return `
+    <div class="match-stats-table">
+      ${match.stats.map((stat) => {
+        const home = formatStatValue(stat.home, stat.unit);
+        const away = formatStatValue(stat.away, stat.unit);
+        return `
+          <div class="match-stat-row">
+            <strong>${home}</strong>
+            <span>${stat.label}</span>
+            <strong>${away}</strong>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+function formatStatValue(value, unit = "") {
+  if (value === null || value === undefined || value === "") return "-";
+  return `${value}${unit}`;
 }
 
 function renderScorerParagraphs(raw) {
