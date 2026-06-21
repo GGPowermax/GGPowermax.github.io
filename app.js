@@ -195,9 +195,16 @@ function mergeStatsSnapshot(snapshotMatches) {
   const byId = new Map(state.matches.map((match) => [String(match.id), match]));
   snapshotMatches.forEach((snapshot) => {
     const match = byId.get(String(snapshot.id));
-    if (!match || !snapshot.stats) return;
+    if (!match) return;
 
-    Object.entries(snapshot.stats).forEach(([key, value]) => {
+    if (snapshot.homeScore !== undefined) match.homeScore = String(snapshot.homeScore);
+    if (snapshot.awayScore !== undefined) match.awayScore = String(snapshot.awayScore);
+    if (snapshot.finished !== undefined) match.isFinished = Boolean(snapshot.finished);
+    if (snapshot.timeElapsed !== undefined) match.timeElapsed = String(snapshot.timeElapsed).toLowerCase();
+    if (snapshot.homeScorers !== undefined) match.home_scorers = snapshot.homeScorers;
+    if (snapshot.awayScorers !== undefined) match.away_scorers = snapshot.awayScorers;
+
+    Object.entries(snapshot.stats || {}).forEach(([key, value]) => {
       const stat = match.stats.find((item) => item.key === key);
       if (!stat || !value) return;
       stat.home = value.home ?? stat.home;
@@ -368,7 +375,11 @@ function renderHero() {
 
 function renderSchedule() {
   const filter = els.stageFilter.value;
-  const matches = filter === "all" ? state.matches : state.matches.filter((match) => match.stage === filter);
+  const matches = filter === "all"
+    ? state.matches
+    : filter === "finished"
+      ? state.matches.filter((match) => match.isFinished)
+      : state.matches.filter((match) => match.stage === filter);
   renderMatchList(els.scheduleMatches, matches, "沒有符合條件的賽事。");
 }
 
@@ -604,7 +615,7 @@ function formatStatValue(value, unit = "") {
 function renderScorerParagraphs(raw) {
   const scorers = parseScorers(raw);
   if (!scorers.length) return "<p>目前沒有進球紀錄。</p>";
-  return scorers.map((name) => `<p>${name}</p>`).join("");
+  return `<ul class="scorer-list">${scorers.map((name) => `<li>${name}</li>`).join("")}</ul>`;
 }
 
 function switchView(view) {

@@ -11,8 +11,7 @@ async function main() {
   };
 
   if (!sourceUrl) {
-    snapshot.note = "Set STATS_SOURCE_URL after choosing the fixed stats website.";
-    await writeSnapshot(snapshot);
+    console.log("STATS_SOURCE_URL is not set. Keeping the existing snapshot.");
     return;
   }
 

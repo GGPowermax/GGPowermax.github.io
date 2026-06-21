@@ -1,15 +1,15 @@
 :root {
   color-scheme: light;
-  --bg: #f3f7f4;
-  --ink: #10201d;
-  --muted: #60726d;
-  --line: #d8e4df;
-  --panel: #ffffff;
-  --brand: #0b5d4f;
-  --brand-dark: #082d28;
-  --accent: #d8a027;
-  --live: #d11f3d;
-  --shadow: 0 12px 30px rgba(13, 43, 37, 0.1);
+  --bg: #f4efe3;
+  --ink: #2c2418;
+  --muted: #786a55;
+  --line: #ded0b9;
+  --panel: #fffaf0;
+  --brand: #9f741f;
+  --brand-dark: #5a3b16;
+  --accent: #c79a2d;
+  --live: #a33725;
+  --shadow: 0 12px 26px rgba(92, 61, 22, 0.12);
 }
 
 * {
@@ -33,7 +33,7 @@ select {
   width: min(100%, 520px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: 16px 14px 92px;
+  padding: 14px 10px 90px;
 }
 
 .topbar,
@@ -116,7 +116,7 @@ select {
   margin-bottom: 18px;
   padding: 18px;
   border-radius: 8px;
-  background: linear-gradient(145deg, var(--brand-dark), var(--brand));
+  background: linear-gradient(145deg, var(--brand-dark), #8a641c 55%, var(--accent));
   color: white;
   box-shadow: var(--shadow);
 }
@@ -178,12 +178,14 @@ select {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
-  box-shadow: 0 4px 14px rgba(12, 40, 35, 0.05);
+  box-shadow: 0 4px 14px rgba(92, 61, 22, 0.06);
 }
 
 .match-card {
   width: 100%;
-  padding: 13px;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 10px;
   color: inherit;
   text-align: left;
 }
@@ -199,16 +201,17 @@ select {
 }
 
 .match-meta {
-  margin-bottom: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
 }
 
 .status-pill {
   border-radius: 999px;
   padding: 4px 8px;
-  background: #edf4f1;
+  background: #f5ead1;
   color: var(--brand);
 }
 
@@ -218,8 +221,8 @@ select {
 }
 
 .team-row {
-  min-height: 32px;
-  font-size: 17px;
+  min-height: 29px;
+  font-size: 15px;
   font-weight: 800;
 }
 
@@ -237,17 +240,17 @@ select {
 }
 
 .score {
-  min-width: 34px;
+  min-width: 28px;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
 .match-actions {
-  margin-top: 12px;
-  padding-top: 10px;
+  margin-top: 9px;
+  padding-top: 8px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .favorite-toggle {
@@ -331,7 +334,7 @@ select {
   height: 8px;
   overflow: hidden;
   border-radius: 999px;
-  background: #e7efeb;
+  background: #eadcc2;
 }
 
 .coverage-bar span {
@@ -360,7 +363,7 @@ select {
   margin: 0 auto;
   padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 250, 240, 0.94);
   backdrop-filter: blur(14px);
 }
 
@@ -375,7 +378,7 @@ select {
 }
 
 .nav-item.active {
-  background: #e6f2ee;
+  background: #f1e3c5;
   color: var(--brand);
 }
 
@@ -390,7 +393,7 @@ dialog {
 }
 
 dialog::backdrop {
-  background: rgba(5, 22, 20, 0.5);
+  background: rgba(44, 36, 24, 0.55);
 }
 
 #dialogBody {
@@ -415,7 +418,7 @@ dialog::backdrop {
 .detail-block {
   padding: 12px;
   border-radius: 8px;
-  background: #f6faf8;
+  background: #fbf2df;
 }
 
 .detail-block h3 {
@@ -438,7 +441,7 @@ dialog::backdrop {
   flex: 0 0 auto;
   border-radius: 999px;
   padding: 4px 8px;
-  background: #e8f2ef;
+  background: #f1e3c5;
   color: var(--brand);
   font-size: 12px;
   font-weight: 800;
@@ -446,6 +449,15 @@ dialog::backdrop {
 
 .detail-block p {
   margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.scorer-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
   color: var(--muted);
   font-size: 14px;
 }
@@ -500,7 +512,7 @@ dialog::backdrop {
 @media (min-width: 720px) {
   body {
     background:
-      radial-gradient(circle at top, rgba(11, 93, 79, 0.18), transparent 38%),
+      radial-gradient(circle at top, rgba(199, 154, 45, 0.2), transparent 38%),
       var(--bg);
   }
 

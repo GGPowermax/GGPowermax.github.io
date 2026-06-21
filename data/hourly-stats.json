@@ -1,6 +1,26 @@
 {
-  "generatedAt": null,
-  "source": null,
-  "matches": [],
-  "note": "Set STATS_SOURCE_URL after choosing the fixed stats website."
+  "generatedAt": "2026-06-22T03:30:00+08:00",
+  "source": "Manual media snapshot: Sporting News / Google result check",
+  "matches": [
+    {
+      "id": "39",
+      "updatedAt": "2026-06-22T03:30:00+08:00",
+      "source": "Sporting News box score",
+      "homeScore": 4,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Lamine Yamal 11'\", \"Mikel Oyarzabal 21'\", \"Mikel Oyarzabal 24'\", \"Hassan Tambakti 49' (OG)\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": { "home": 67, "away": 33 },
+        "shotsOnTarget": { "home": 8, "away": 1 },
+        "corners": { "home": 6, "away": 1 },
+        "yellowCards": { "home": 0, "away": 2 },
+        "redCards": { "home": 0, "away": 0 },
+        "fouls": { "home": 10, "away": 2 }
+      }
+    }
+  ],
+  "note": "Manual snapshot added because the primary free API lagged behind published match reports. Replace with automated fixed-site parsing in the next data iteration."
 }
