@@ -172,6 +172,7 @@ body{font-family:var(--font-body);background:radial-gradient(circle at 50% -10%,
 .cat-row.pro{display:grid;grid-template-columns:44px 1fr 48px;gap:10px;align-items:center;margin:12px 0}.cat-meta{min-width:0}.cat-meta-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}.cat-name-pro{font-size:13px;font-weight:700}.cat-tag{font-size:10px;color:var(--text2);background:rgba(216,167,76,.08);border:1px solid rgba(216,167,76,.12);border-radius:999px;padding:2px 7px;white-space:nowrap}.cat-score-pro{text-align:right;font-family:var(--font-display);font-size:21px;font-weight:900}
 .hour-mini{display:grid;gap:8px}.hour-mini-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;border-radius:var(--radius-sm);background:rgba(255,255,255,.025);border:1px solid rgba(216,167,76,.08);font-size:13px}.hour-mini-row.best{border-color:rgba(216,167,76,.22);background:rgba(216,167,76,.07)}.hour-mini-row.avoid{border-color:rgba(198,93,73,.2);background:rgba(198,93,73,.07)}.hour-mini-label{color:var(--text2);font-size:12px}.hour-mini-score{font-family:var(--font-display);font-weight:900}
 .insight-card .card-title{display:flex;align-items:center;justify-content:space-between}.section-hint{font-size:10px;color:var(--text3);letter-spacing:0;text-transform:none;font-weight:500}.risk-note{margin-top:10px;padding-top:10px;border-top:1px solid rgba(216,167,76,.1);font-size:11px;color:var(--text2);line-height:1.7}
+.bazi-pillars-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}.mini-pillar{text-align:center;background:rgba(255,255,255,.025);border:1px solid rgba(216,167,76,.09);border-radius:var(--radius-sm);padding:10px 4px}.mini-pillar .pl{font-size:9px;color:var(--text3);letter-spacing:1px}.mini-pillar .gz{font-family:var(--font-display);font-size:17px;font-weight:900;margin-top:4px}.bazi-tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.bazi-tag{font-size:10px;border-radius:999px;padding:4px 9px;background:rgba(216,167,76,.08);border:1px solid rgba(216,167,76,.14);color:var(--text2)}.bazi-warning{border-color:rgba(198,93,73,.18);background:rgba(198,93,73,.08);color:var(--red)}.bazi-guide-row{padding:10px 0;border-top:1px solid rgba(216,167,76,.08);font-size:12.5px;line-height:1.75;color:var(--text2)}.bazi-guide-row strong{color:var(--accent);font-weight:700}.glossary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.glossary-chip{background:rgba(255,255,255,.025);border:1px solid rgba(216,167,76,.1);border-radius:var(--radius-sm);padding:10px 6px;text-align:center;font-size:12px;color:var(--text);cursor:pointer}.glossary-chip:active{transform:scale(.96);background:rgba(216,167,76,.08)}.guide-section{font-size:12.5px;line-height:1.8;color:var(--text2);padding:9px 0;border-bottom:1px solid rgba(216,167,76,.08)}.guide-section:last-child{border:none}.guide-section h4{font-size:12px;color:var(--accent);margin-bottom:3px}.compass-legend{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.compass-item{padding:9px 10px;border-radius:var(--radius-sm);background:rgba(255,255,255,.025);border:1px solid rgba(216,167,76,.09);font-size:12px;line-height:1.55}.compass-item strong{font-family:var(--font-display);font-size:15px}.anti-misread{margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid rgba(198,93,73,.18);background:rgba(198,93,73,.07);font-size:12px;line-height:1.7;color:var(--text2)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .card,.verdict-box,.cat-card{animation:fadeUp .6s ease both}
 @keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}.count-done{animation:countPulse .4s ease}
@@ -214,6 +215,7 @@ body{font-family:var(--font-body);background:radial-gradient(circle at 50% -10%,
   </div>
   <div class="kpi-grid" id="h-kpis"></div>
   <div class="verdict-box" id="h-verdict"></div>
+  <div class="card"><div class="card-title">今日八字理路</div><div id="h-bazi-guide"></div></div>
   <div class="card"><div class="card-title">五維運勢</div><div id="h-cats"></div></div>
   <div class="card"><div class="card-title">今日時辰速判</div><div class="hour-mini" id="h-hours"></div></div>
   <div class="qa-wrap">
@@ -248,8 +250,9 @@ body{font-family:var(--font-body);background:radial-gradient(circle at 50% -10%,
   <div class="pg-title">個人命盤</div><div class="pg-sub">甲木日主 · 身強 · 喜用火土金</div>
   <div class="card"><div class="card-title">八字四柱</div><div class="natal-pillar" id="natal-pillars"></div></div>
   <div class="card"><div class="card-title">十神關係</div><div class="tengod-grid" id="tengod-grid"></div><div id="tengod-detail" style="margin-top:10px;font-size:12px;color:var(--text2);line-height:1.8"></div></div>
+  <div class="card"><div class="card-title">八字小百科</div><div class="glossary-grid" id="bazi-glossary"></div></div>
   <div class="card"><div class="card-title">用神分析</div><div id="natal-yongshen"></div></div>
-  <div class="card"><div class="card-title">今日方位</div><div class="compass-wrap" id="compass-wrap"></div><div id="compass-detail" style="font-size:12px;color:var(--text2);text-align:center;margin-top:8px"></div></div>
+  <div class="card"><div class="card-title">今日方位與財位</div><div class="compass-wrap" id="compass-wrap"></div><div id="compass-detail" style="font-size:12px;color:var(--text2);margin-top:8px"></div></div>
   <div class="card"><div class="card-title">紫微斗數</div><div id="natal-ziwei"></div></div>
   <div class="card"><div class="card-title">大限 · 流年</div><div id="natal-daxian"></div></div>
   <div class="card"><div class="card-title">今日求籤</div><div class="stick-area" id="stick-area"><button class="stick-btn" onclick="drawStick()">🥢 搖籤</button><div class="stick-result" id="stick-result"></div></div></div>
@@ -279,6 +282,39 @@ var LC=[["子","午"],["丑","未"],["寅","申"],["卯","酉"],["辰","戌"],["
 var LH=[["子","丑"],["寅","亥"],["卯","戌"],["辰","酉"],["巳","申"],["午","未"]];
 var SX=[["寅","巳","申"],["丑","戌","未"],["子","卯"]];
 var GHP=[["甲","己"],["乙","庚"],["丙","辛"],["丁","壬"],["戊","癸"]];
+var GAN_TEN_GOD={甲:"比肩",乙:"劫財",丙:"食神",丁:"傷官",戊:"偏財",己:"正財",庚:"七殺",辛:"正官",壬:"偏印",癸:"正印"};
+var baziGlossary={
+  "六沖":{meaning:"地支正面相沖，像兩股力量互相推開。它主變動、翻案、移動、臨時狀況，不等於一定壞。",ken:"Ken 盤中有申、子、卯、丑，被沖時常落在客戶變動、溝通反覆、行程改動或心態浮動。",use:"用來提醒先準備備案、保留彈性、不要把話說死。",misuse:"不要看到沖就認定必凶；也不要在沖日硬敲長約、重倉或攤牌。"},
+  "六合":{meaning:"地支相合，主黏著、合作、牽引、彼此有情。合不一定好，也可能拖住或讓界線變模糊。",ken:"合到財、官時利於談條件與建立關係；合到忌神時，容易被情緒、人情或舊問題黏住。",use:"適合談合作、修復關係、把分散資源收回來。",misuse:"不要把合當成保證成交；合也可能代表拖延、依賴或被綁住。"},
+  "三刑":{meaning:"刑是內部摩擦、規則卡點、口舌與心理拉扯。它不像沖那麼外顯，但容易讓人不爽或鑽牛角尖。",ken:"子卯刑是本命重點，遇到刑動時要特別注意溝通語氣、情緒反應和過度解讀。",use:"用來提醒降溫、少硬話、重要訊息先寫草稿再送。",misuse:"不要用刑來恐嚇自己；刑日不是不能做事，是不能用情緒做事。"},
+  "三合":{meaning:"三個地支形成一組五行局，代表某種能量被放大。半合也會引動該五行。",ken:"申子半合水是本命重點，水被引動時資訊多、想法多，但也容易焦慮和拖延。",use:"看哪一種五行被放大，再決定是推進、整理、表達或降溫。",misuse:"不要看到合局就覺得一定順；如果合出忌神，反而要減少沉溺。"},
+  "天干五合":{meaning:"天干相合，代表表層事件、角色或意圖有牽連。合有合作，也有被牽制。",ken:"天干合到火土金多半可用；合到水木時，要留意想太多或同儕競爭分資源。",use:"看當天事情是否容易談成、被拉住、或需要協調。",misuse:"不要只看合就說好，還要看合出的五行對 Ken 是喜還是忌。"},
+  "藏干":{meaning:"地支裡藏著天干，代表事情背後的動機、資源和壓力。",ken:"申中藏庚壬戊，代表壓力、資訊和財務資源常混在一起；子中癸水會放大思考和焦慮。",use:"用來看表面分數之外，底下真正被觸發的是財、官、印還是比劫。",misuse:"不要把藏干當成單一結論；它是背景，不是直接保證結果。"},
+  "十神":{meaning:"十神是日主與其他天干的關係，轉成現代語言就是角色和事件類型。",ken:"財看資源與客戶，官殺看主管與規則，食傷看表達，印看文件支援，比劫看競爭與衝動。",use:"用來判斷今天主要該處理哪一類事。",misuse:"不要只看十神名稱下結論；要配合月令、調候、沖合刑和現實狀態。"},
+  "調候":{meaning:"調候是看冷熱燥濕是否平衡。Ken 甲木生子月，寒木最需要火來暖局。",ken:"丙丁火出現時，表達、啟動、曝光通常較順，但火太急也會變成躁進。",use:"火起日適合開口、提案、整理方向；水重日適合收斂、睡飽、少看盤。",misuse:"看到丙丁火不能直接衝、加碼或硬碰硬；火是照明，不是免死金牌。"},
+  "喜忌":{meaning:"喜忌是對命局有幫助或增加負擔的五行方向，不是絕對吉凶。",ken:"Ken 以火土金為喜，水木為忌；但喜神過猛或遇沖刑，仍然要控風險。",use:"用來判斷當日能量是否順手，以及該往表達、財務、規則哪邊走。",misuse:"不要看到喜神就放大部位或忽略現實條件。"},
+  "財星":{meaning:"甲木剋土，土為財星。財不只錢，也代表客戶、資源、預算、條件與交換。",ken:"戊土偏財透月，Ken 本命商務與資源議題明顯；財動日適合談條件，但要守住底線。",use:"適合整理預算、談價格、盤點資源、規劃現金流。",misuse:"財星動不等於會賺錢，更不等於可以重倉、追損或賭。"},
+  "官殺":{meaning:"金剋甲木，官殺代表規則、主管、制度、壓力、競爭和風控。",ken:"申中藏庚七殺，壓力場在本命日支，工作與競爭常需要靠紀律把壓力化成執行力。",use:"適合做合約、流程、報告、向上管理和風險控制。",misuse:"不要把殺壓當成壞事；但也不要硬槓權威或制度。"},
+  "食傷":{meaning:"木生火，食傷代表輸出、表達、創作、簡報、反駁和曝光。",ken:"丁火時干是重要調候與輸出點，火起時你更容易把想法講清楚。",use:"適合提案、簡報、寫文案、說服客戶。",misuse:"食傷旺不代表可以口無遮攔；火起可開口，不代表可硬衝。"}
+};
+var formationExplanations={
+  "六沖":"變動訊號：先備案、保彈性，不宜把變數日當定案日。",
+  "六合":"黏著訊號：利合作與修復，但也可能拖住或讓界線模糊。",
+  "三刑":"摩擦訊號：少硬話、少衝動，重要溝通先降溫。",
+  "三合":"放大訊號：看合出的五行是喜還是忌，再決定攻守。"
+};
+var tenGodGuides={
+  "比肩":{scene:"同儕、朋友、自我意志、競爭者",use:"適合自我整理、建立立場。",misuse:"不要意氣用事或為了面子硬撐。"},
+  "劫財":{scene:"競爭、分資源、衝動花費、同伴拉扯",use:"適合檢查資源分配與合作界線。",misuse:"不要衝動消費、借錢加碼或被朋友情緒帶走。"},
+  "食神":{scene:"表達、內容、提案、創意、溫和輸出",use:"適合說故事、提案、整理觀點。",misuse:"不要把順口當成可以承諾過多。"},
+  "傷官":{scene:"強表達、反駁、技術、突破、鋒芒",use:"適合提出新做法與精準指出問題。",misuse:"不要頂撞主管、硬碰制度或講太滿。"},
+  "正財":{scene:"薪資、固定收入、合約條件、穩定資源",use:"適合對帳、整理預算、談明確條件。",misuse:"不要把穩定財當投機財。"},
+  "偏財":{scene:"客戶、商務、機會、副業、非固定資源",use:"適合談資源、拜訪客戶、找機會。",misuse:"偏財動不等於賭運保證，不可重倉或追損。"},
+  "正官":{scene:"主管、制度、規則、正式評價",use:"適合流程、報告、正式會議。",misuse:"不要為了表現去挑戰規範。"},
+  "七殺":{scene:"壓力、競爭、突發任務、硬規則",use:"適合用紀律處理壓力，把風險列清楚。",misuse:"不要把壓力轉成衝動攻擊。"},
+  "正印":{scene:"文件、支援、學習、保護、長輩資源",use:"適合讀資料、補證據、請支援。",misuse:"不要想太多、等太久、不行動。"},
+  "偏印":{scene:"直覺、偏門資訊、研究、孤獨思考",use:"適合研究冷門資料和策略。",misuse:"不要鑽牛角尖或用直覺取代風控。"}
+};
 function isC(a,b){return LC.some(function(p){return(p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a)})}
 function isH(a,b){return LH.some(function(p){return(p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a)})}
 function isGH(a,b){return GHP.some(function(p){return(p[0]===a&&p[1]===b)||(p[0]===b&&p[1]===a)})}
@@ -307,6 +343,53 @@ function todayDecision(f){
   if(chong)strategy="今日有沖象，行動可以安排，但不要把變數日當定案日；先準備備案與退路。";
   if(xing&&!chong)strategy="今日刑動，口舌與情緒摩擦風險較高；重要溝通先降溫、少用硬話。";
   return{headline:headline,strategy:strategy,risk:risk,work:actionTone(c["事業"]),wealth:actionTone(c["財運"]),spec:c["偏財"]>=70?"只限小部位":c["偏財"]>=50?"觀察小試":"不宜冒險"}
+}
+function getBaziWarnings(f){
+  var gz=f.gz,c=f.cats,w=[],dayG=gz.day.g,hourG=gz.hour.g,fire=(dayG==="丙"||dayG==="丁"||hourG==="丙"||hourG==="丁");
+  var wealth=(dayG==="戊"||dayG==="己"||hourG==="戊"||hourG==="己"||c["財運"]>=70||c["偏財"]>=70);
+  var strongSignal=(fire||wealth||hasSpecial(f,"六合")),unstable=(hasSpecial(f,"六沖")||hasSpecial(f,"三刑")||c["偏財"]>=70||f.comp<60);
+  if(strongSignal&&unstable)w.push("旺象不可直接等於行動：先看沖刑、風險與部位，再決定要不要動。");
+  if(fire)w.push("見丙丁火：適合開口、提案、啟動，不代表可以衝動決策、加碼或硬碰硬。");
+  if(wealth)w.push("財星被引動：適合談資源與盤點現金流，不等於今天一定能賺。");
+  if(hasSpecial(f,"六沖"))w.push("有六沖：事情容易變動，先備案，不宜把話說死。");
+  if(hasSpecial(f,"三刑"))w.push("有三刑：口舌與內耗升高，重要訊息先降溫再送。");
+  if(c["偏財"]>=70)w.push("偏財分高：只代表狀態較活，不是下注或重倉理由。");
+  if(!w.length)w.push("今日無強烈誤判訊號；照計畫執行，仍保留停損與現實檢查。");
+  return w
+}
+function getWealthDirection(f){
+  var branchDir={"子":"北","丑":"東北","寅":"東北","卯":"東","辰":"東南","巳":"東南","午":"南","未":"西南","申":"西南","酉":"西","戌":"西北","亥":"西北"};
+  var chongMap={"子":"南","丑":"西南","寅":"西南","卯":"西","辰":"西北","巳":"西北","午":"北","未":"東北","申":"東北","酉":"東","戌":"東南","亥":"東南"};
+  var wealthByDayGan={甲:"東北",乙:"西南",丙:"西",丁:"西北",戊:"北",己:"北",庚:"東",辛:"東南",壬:"南",癸:"南"};
+  var dayZ=f.gz.day.z,dayG=f.gz.day.g,wealth=wealthByDayGan[dayG]||"東北";
+  var move=branchDir[dayZ]||"東",avoid=chongMap[dayZ]||"西";
+  var guard=(f.cats["財運"]<50||f.cats["偏財"]<50||hasSpecial(f,"六沖")||hasSpecial(f,"三刑"));
+  return{wealth:wealth,move:move,avoid:avoid,guard:guard,guardText:guard?"有財位，但今日不宜重倉、追損或冒險；適合整理財務與談條件。":"財位可作為談財務、整理預算、安排行動的提示；仍不是獲利保證。"}
+}
+function pillarMiniHTML(gz){
+  var labels=[["年",gz.year],["月",gz.month],["日",gz.day],["時",gz.hour]],h="";
+  for(var i=0;i<labels.length;i++)h+='<div class="mini-pillar"><div class="pl">'+labels[i][0]+'柱</div><div class="gz">'+labels[i][1].g+labels[i][1].z+'</div></div>';
+  return h
+}
+function getMainTenGods(f){
+  var gz=f.gz,stems=[gz.year.g,gz.month.g,gz.hour.g],counts={};
+  for(var i=0;i<stems.length;i++){var tg=GAN_TEN_GOD[stems[i]];if(tg)counts[tg]=(counts[tg]||0)+1}
+  var c=f.cats;
+  if(c["財運"]>=65)counts["偏財"]=(counts["偏財"]||0)+1;
+  if(c["事業"]>=65)counts["正官"]=(counts["正官"]||0)+1;
+  if(c["偏財"]>=70)counts["偏財"]=(counts["偏財"]||0)+1;
+  var arr=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});
+  return{main:arr[0]||"傷官",assist:arr[1]||"偏財",risk:(counts["劫財"]||hasSpecial(f,"三刑"))?"劫財":(hasSpecial(f,"六沖")?"七殺":"偏印")}
+}
+function renderBaziGuide(f){
+  var gz=f.gz,tg=getMainTenGods(f),warnings=getBaziWarnings(f),tags="";
+  for(var i=0;i<f.sp.length;i++){var s=f.sp[i];tags+='<span class="bazi-tag '+(s.t==="六沖"||s.t==="三刑"?"bazi-warning":"")+'" onclick="showGlossary(\''+s.t+'\')">'+s.t+'</span>'}
+  if(!tags)tags='<span class="bazi-tag">無明顯沖合刑</span>';
+  var fire=(gz.day.g==="丙"||gz.day.g==="丁"||gz.hour.g==="丙"||gz.hour.g==="丁");
+  var tiaohou=fire?"火起：表達與啟動較順，但不可硬衝。":(GW[gz.day.g]==="水"?"水重：資訊與思考變多，先收斂再動。":"調候普通：照計畫推進，靠紀律控節奏。");
+  var misread=fire?"見火可開口，不代表可硬衝。":(hasSpecial(f,"六合")?"見合可合作，也可能被牽制。":(hasSpecial(f,"六沖")?"見沖先備案，不是一定壞。":"分數只是狀態，不是命令。"));
+  var wh="";for(i=0;i<warnings.length;i++)wh+='<div class="anti-misread">'+warnings[i]+'</div>';
+  return '<div class="bazi-pillars-mini">'+pillarMiniHTML(gz)+'</div><div class="bazi-tags"><span class="bazi-tag" onclick="showTenGodByName(\''+tg.main+'\')">主軸：'+tg.main+'</span><span class="bazi-tag" onclick="showTenGodByName(\''+tg.assist+'\')">輔助：'+tg.assist+'</span><span class="bazi-tag bazi-warning" onclick="showTenGodByName(\''+tg.risk+'\')">風險：'+tg.risk+'</span>'+tags+'</div><div class="bazi-guide-row"><strong>調候：</strong>'+tiaohou+'</div><div class="bazi-guide-row"><strong>今日用法：</strong>'+tenGodGuides[tg.main].use+' '+tenGodGuides[tg.assist].use+'</div><div class="bazi-guide-row"><strong>今日一句反誤判：</strong>'+misread+'</div>'+wh;
 }
 function rankedHours(base){
   var hrs=[[23,"子時","23-01"],[1,"丑時","01-03"],[3,"寅時","03-05"],[5,"卯時","05-07"],[7,"辰時","07-09"],[9,"巳時","09-11"],[11,"午時","11-13"],[13,"未時","13-15"],[15,"申時","15-17"],[17,"酉時","17-19"],[19,"戌時","19-21"],[21,"亥時","21-23"]];
@@ -464,6 +547,7 @@ function rHome(){
   document.getElementById("qa-tags").innerHTML=tagH;
   document.getElementById("qa-resp").classList.remove("show");document.getElementById("qa-resp").innerHTML="";
   var yj=yiJi(f);document.getElementById("h-verdict").innerHTML='<h4>今日結論</h4><div class="decision-grid"><div class="decision-item"><div class="decision-label">攻守</div><div class="decision-text">'+decision.headline+'</div></div><div class="decision-item"><div class="decision-label">風險</div><div class="decision-text" style="color:'+(decision.risk==="高"||decision.risk==="中高"?"var(--red)":"var(--accent)")+'">'+decision.risk+'</div></div><div class="decision-item wide"><div class="decision-label">宜</div><div class="decision-text">'+yj.yi.join("、")+'</div></div><div class="decision-item wide"><div class="decision-label">忌</div><div class="decision-text">'+yj.ji.join("、")+'</div></div></div>';
+  document.getElementById("h-bazi-guide").innerHTML=renderBaziGuide(f);
   var cn=["財運","事業","健康","感情","偏財"],ciI=["財","業","康","情","偏"];
   var catH="";for(var ki=0;ki<cn.length;ki++){var sv=f.cats[cn[ki]];var w=((sv-30)/70*100).toFixed(0);catH+='<div class="cat-row pro"><span class="cat-icon">'+ciI[ki]+'</span><div class="cat-meta"><div class="cat-meta-top"><span class="cat-name-pro">'+cn[ki]+'</span><span class="cat-tag">'+scoreTag(sv)+'</span></div><div class="cat-track"><div class="cat-fill" style="width:'+w+"%;background:"+sCol(sv)+'"></div></div></div><span class="cat-score-pro" style="color:'+sCol(sv)+'">'+sv+"</span></div>"}
   document.getElementById("h-cats").innerHTML=catH
@@ -663,14 +747,15 @@ function closeM(){document.getElementById("modal").classList.remove("on")}
 function showHr(r){
   var cn=["財運","事業","健康","感情","偏財"],b="";
   for(var i=0;i<cn.length;i++){var n=cn[i],v=r.cats[n],pct=((v-30)/70*100).toFixed(0);b+='<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="width:40px;font-size:13px">'+n+'</span><div style="flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px"><div style="width:'+pct+"%;height:100%;background:"+sCol(v)+';border-radius:3px"></div></div><span style="width:28px;text-align:right;font-size:13px;color:'+sCol(v)+'">'+v+"</span></div>"}
-  var bdg="";for(var si=0;si<r.sp.length;si++){var s=r.sp[si];bdg+='<span class="badge '+(s.t==="六沖"?"b-chong":s.t==="六合"?"b-he":"b-xing")+'">'+s.t+" "+s.a+"↔"+s.b+"</span> "}
-  showM(r.n+"時 詳細",'<div style="text-align:center;margin-bottom:12px"><div style="font-size:32px;font-weight:700;color:'+sCol(r.comp)+'">'+r.comp+'</div><div>'+stars(r.star)+'</div></div><div style="font-size:13px;color:var(--text2);margin-bottom:12px">'+r.gz.day.g+r.gz.day.z+"日 "+r.gz.hour.g+r.gz.hour.z+"時</div>"+b+(bdg?'<div style="margin-top:10px">'+bdg+"</div>":""))
+  var bdg="",expl="";for(var si=0;si<r.sp.length;si++){var s=r.sp[si],txt=formationExplanations[s.t]||"";bdg+='<span class="badge '+(s.t==="六沖"?"b-chong":s.t==="六合"?"b-he":"b-xing")+'" onclick="showGlossary(\''+s.t+'\')">'+s.t+"</span> ";if(txt)expl+='<div class="guide-section"><h4>'+s.t+'</h4>'+txt+'</div>'}
+  showM(r.n+"時 詳細",'<div style="text-align:center;margin-bottom:12px"><div style="font-size:32px;font-weight:700;color:'+sCol(r.comp)+'">'+r.comp+'</div><div>'+stars(r.star)+'</div></div><div style="font-size:13px;color:var(--text2);margin-bottom:12px">'+r.gz.day.g+r.gz.day.z+"日 "+r.gz.hour.g+r.gz.hour.z+"時</div>"+b+(bdg?'<div style="margin-top:10px">'+bdg+"</div>":"")+(expl?'<div style="margin-top:10px">'+expl+"</div>":""))
 }
 function showDay(y,m,d){
   var dt=new Date(y,m,d,12,0,0),f=calc(dt),gz=f.gz,cn=["財運","事業","健康","感情","偏財"],b="";
   for(var i=0;i<cn.length;i++){var n=cn[i],v=f.cats[n],pct=((v-30)/70*100).toFixed(0);b+='<div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="width:40px;font-size:13px">'+n+'</span><div style="flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px"><div style="width:'+pct+"%;height:100%;background:"+sCol(v)+';border-radius:3px"></div></div><span style="width:28px;text-align:right;font-size:13px;color:'+sCol(v)+'">'+v+"</span></div>"}
-  var bdg="";for(var si=0;si<f.sp.length;si++){var s=f.sp[si];bdg+='<span class="badge '+(s.t==="六沖"?"b-chong":s.t==="六合"?"b-he":"b-xing")+'">'+s.t+" "+s.a+"↔"+s.b+"</span> "}
-  showM((m+1)+"月"+d+"日",'<div style="text-align:center;margin-bottom:12px"><div style="font-size:32px;font-weight:700;color:'+sCol(f.comp)+'">'+f.comp+'</div><div>'+stars(f.star)+'</div></div><div style="font-size:13px;color:var(--text2);margin-bottom:12px">'+gz.year.g+gz.year.z+"年 "+gz.month.g+gz.month.z+"月 "+gz.day.g+gz.day.z+"日</div>"+b+(bdg?'<div style="margin-top:10px">'+bdg+"</div>":""))
+  var bdg="",expl="",warns=getBaziWarnings(f);for(var si=0;si<f.sp.length;si++){var s=f.sp[si],txt=formationExplanations[s.t]||"";bdg+='<span class="badge '+(s.t==="六沖"?"b-chong":s.t==="六合"?"b-he":"b-xing")+'" onclick="showGlossary(\''+s.t+'\')">'+s.t+"</span> ";if(txt)expl+='<div class="guide-section"><h4>'+s.t+'</h4>'+txt+'</div>'}
+  var warnHtml='<div class="anti-misread">'+warns[0]+'</div>';
+  showM((m+1)+"月"+d+"日",'<div style="text-align:center;margin-bottom:12px"><div style="font-size:32px;font-weight:700;color:'+sCol(f.comp)+'">'+f.comp+'</div><div>'+stars(f.star)+'</div></div><div style="font-size:13px;color:var(--text2);margin-bottom:12px">'+gz.year.g+gz.year.z+"年 "+gz.month.g+gz.month.z+"月 "+gz.day.g+gz.day.z+"日</div>"+b+(bdg?'<div style="margin-top:10px">'+bdg+"</div>":"")+warnHtml+(expl?'<div style="margin-top:10px">'+expl+"</div>":""))
 }
 function showMon(y,m){
   var days=new Date(y,m+1,0).getDate(),rows="";
@@ -737,17 +822,29 @@ function getTodayActiveGods(){
 }
 function showTenGod(idx){
   var g=tenGods[idx];var isActive=getTodayActiveGods().indexOf(g.name)>=0;
-  document.getElementById("tengod-detail").innerHTML='<div style="padding:10px;background:rgba(255,255,255,.02);border-radius:var(--radius-sm);border:1px solid '+g.color+'22"><div style="font-size:15px;font-weight:700;color:'+g.color+';margin-bottom:6px">'+g.name+' <span style="font-size:11px;color:var(--text3)">'+g.label+' · '+g.el+'</span>'+(isActive?' <span style="font-size:10px;background:rgba(240,180,41,.1);color:var(--accent);padding:2px 8px;border-radius:8px">今日出現</span>':'')+'</div><div style="line-height:1.8">'+g.desc+'</div></div>'
+  var guide=tenGodGuides[g.name]||{scene:"",use:"",misuse:""};
+  document.getElementById("tengod-detail").innerHTML='<div style="padding:12px;background:rgba(255,255,255,.02);border-radius:var(--radius-sm);border:1px solid '+g.color+'22"><div style="font-size:15px;font-weight:700;color:'+g.color+';margin-bottom:6px">'+g.name+' <span style="font-size:11px;color:var(--text3)">'+g.label+' · '+g.el+'</span>'+(isActive?' <span style="font-size:10px;background:rgba(216,167,76,.1);color:var(--accent);padding:2px 8px;border-radius:8px">今日出現</span>':'')+'</div><div class="guide-section"><h4>命理意思</h4>'+g.desc+'</div><div class="guide-section"><h4>現實場景</h4>'+guide.scene+'</div><div class="guide-section"><h4>今天怎麼用</h4>'+guide.use+'</div><div class="guide-section"><h4>不要誤用</h4>'+guide.misuse+'</div></div>'
+}
+function showTenGodByName(name){for(var i=0;i<tenGods.length;i++){if(tenGods[i].name===name){var idx=i;go("natal");setTimeout(function(){showTenGod(idx)},120);break}}}
+function renderGlossary(){
+  var order=["六沖","六合","三刑","三合","天干五合","藏干","十神","調候","喜忌","財星","官殺","食傷"],h="";
+  for(var i=0;i<order.length;i++)h+='<button class="glossary-chip" onclick="showGlossary(\''+order[i]+'\')">'+order[i]+'</button>';
+  document.getElementById("bazi-glossary").innerHTML=h
+}
+function showGlossary(name){
+  var g=baziGlossary[name];if(!g)return;
+  showM(name,'<div class="guide-section"><h4>命理意思</h4>'+g.meaning+'</div><div class="guide-section"><h4>對 Ken 的意義</h4>'+g.ken+'</div><div class="guide-section"><h4>今天怎麼用</h4>'+g.use+'</div><div class="guide-section"><h4>不要誤用</h4>'+g.misuse+'</div>')
 }
 // === COMPASS (方位) ===
 function renderCompass(){
   var f=curFortune||calc(new Date()),gz=f.gz;
+  var wd=getWealthDirection(f);
   // Determine auspicious/inauspicious directions based on day branch
   var branchDir={"子":"北","丑":"東北","寅":"東北","卯":"東","辰":"東南","巳":"東南","午":"南","未":"西南","申":"西南","酉":"西","戌":"西北","亥":"西北"};
   var dayZ=gz.day.z;
   // 沖方 is opposite of day branch
   var chongMap={"子":"南","丑":"西南","寅":"西南","卯":"西","辰":"西北","巳":"西北","午":"北","未":"東北","申":"東北","酉":"東","戌":"東南","亥":"東南"};
-  var goodDir=branchDir[dayZ]||"東",badDir=chongMap[dayZ]||"西";
+  var goodDir=wd.move,badDir=wd.avoid,wealthDir=wd.wealth;
   var size=180,cx=90,cy=90,r=70;
   var dirs=[["北",0],["東北",45],["東",90],["東南",135],["南",180],["西南",225],["西",270],["西北",315]];
   var svg='<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+" "+size+'">';
@@ -762,13 +859,13 @@ function renderCompass(){
     var x2=cx+(r+2)*Math.cos(ang),y2=cy+(r+2)*Math.sin(ang);
     var lx=cx+(r-28)*Math.cos(ang),ly=cy+(r-28)*Math.sin(ang);
     svg+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="rgba(255,255,255,.1)" stroke-width="1.5"/>';
-    var col="var(--text3)";if(name===goodDir)col="var(--green)";if(name===badDir)col="var(--red)";
+    var col="var(--text3)";if(name===wealthDir)col="var(--accent)";if(name===goodDir)col="var(--green)";if(name===badDir)col="var(--red)";
     var fs=name.length>1?8:10;
     svg+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" fill="'+col+'" font-size="'+fs+'" font-weight="700" font-family="var(--font-display)">'+name+'</text>'
   }
   svg+='</svg>';
   document.getElementById("compass-wrap").innerHTML=svg;
-  document.getElementById("compass-detail").innerHTML='<span style="color:var(--green)">✅ 吉方：'+goodDir+'</span> · <span style="color:var(--red)">❌ 沖方：'+badDir+'</span><br><span style="font-size:11px;color:var(--text3)">'+gz.day.g+gz.day.z+'日 · 日支'+dayZ+'的方位參考</span>'
+  document.getElementById("compass-detail").innerHTML='<div class="compass-legend"><div class="compass-item"><span style="color:var(--accent)">財位</span><br><strong>'+wealthDir+'</strong><br>談條件、整理預算</div><div class="compass-item"><span style="color:var(--green)">宜動方</span><br><strong>'+goodDir+'</strong><br>拜訪、溝通、推進</div><div class="compass-item"><span style="color:var(--red)">沖方</span><br><strong>'+badDir+'</strong><br>少硬碰、留備案</div><div class="compass-item"><span style="color:var(--text2)">宜守方</span><br><strong>'+dayZ+'</strong><br>'+gz.day.g+gz.day.z+'日參考</div></div><div class="anti-misread">'+wd.guardText+' 命理只能作為狀態與風險輔助，不能取代現實風控。</div>'
 }
 // === JIEQI (節氣) ===
 var jieqiData=[
@@ -785,6 +882,7 @@ function rNatal(){
   var pH="";for(var i=0;i<4;i++){var p=pillars[i];pH+='<div class="pillar"><div class="pillar-label">'+p.label+'</div><div class="pillar-g" style="color:'+elCol[p.gEl]+'">'+p.g+'</div><div class="pillar-z" style="color:'+elCol[p.zEl]+'">'+p.z+'</div><div class="elem-tag" style="background:'+elCol[p.gEl]+'22;color:'+elCol[p.gEl]+'">'+p.gEl+'</div></div>'}
   document.getElementById("natal-pillars").innerHTML=pH;
   renderTenGods();
+  renderGlossary();
   document.getElementById("natal-yongshen").innerHTML='<div style="font-size:13px;line-height:2"><div style="margin-bottom:8px"><span style="color:var(--accent);font-weight:700;font-family:var(--font-display)">日主：甲木</span> · 身強</div><div style="padding:8px 0;border-top:1px solid rgba(216,167,76,.1)"><span style="color:var(--accent)">✅ 喜用神</span><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><span class="elem-tag" style="background:rgba(198,93,73,.12);color:var(--fire)">火 — 洩秀</span><span class="elem-tag" style="background:rgba(216,167,76,.12);color:var(--earth)">土 — 財星</span><span class="elem-tag" style="background:rgba(199,181,155,.12);color:var(--metal)">金 — 官殺</span></div></div><div style="padding:8px 0;border-top:1px solid rgba(216,167,76,.1)"><span style="color:var(--red)">❌ 忌神</span><div style="display:flex;gap:6px;margin-top:6px"><span class="elem-tag" style="background:rgba(143,115,89,.14);color:var(--water)">水 — 印星生身</span><span class="elem-tag" style="background:rgba(183,141,79,.12);color:var(--wood)">木 — 比劫助身</span></div></div><div style="padding:10px 0;border-top:1px solid rgba(216,167,76,.1);color:var(--text2);font-size:12px">甲木生於子月水旺，地支有卯木助身，得令得地，身強無疑。需火洩秀、土耗身取財、金制身為佳。</div></div>';
   renderCompass();
   document.getElementById("natal-ziwei").innerHTML='<div style="font-size:13px;line-height:2"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">局數</div><div style="font-weight:700;color:var(--water)">水二局</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">命主星</div><div style="font-weight:700;color:var(--purple)">廉貞</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">身主星</div><div style="font-weight:700;color:var(--blue)">天相</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">身宮</div><div style="font-weight:700;color:var(--green)">遷移宮（寅）</div></div></div><div style="font-size:11px;color:var(--text2);border-top:1px solid rgba(216,167,76,.1);padding-top:10px"><strong style="color:var(--accent)">生年四化：</strong>天機化祿、天梁化權、紫微化科、太陰化忌</div><div style="margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(198,93,73,.08);border:1px solid rgba(198,93,73,.16);font-size:11px;color:var(--text2);line-height:1.7"><strong style="color:var(--red)">TODO：</strong>完整十二宮星曜尚未載入，目前只顯示已知固定資料，不自行補斷宮位主星。</div></div>';
