@@ -1,12 +1,484 @@
 {
-  "generatedAt": "2026-06-22T11:15:00+08:00",
-  "source": "Manual media snapshot: ESPN / Guardian / FOX Sports result check",
+  "generatedAt": "2026-06-22T04:30:08.556Z",
+  "source": "ESPN public scoreboard and summary JSON",
+  "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719",
   "matches": [
     {
-      "id": "37",
-      "updatedAt": "2026-06-22T11:15:00+08:00",
-      "source": "ESPN / Guardian match report",
-      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
+      "id": "1",
+      "updatedAt": "2026-06-22T04:30:02.597Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760415",
+      "espnEventId": "760415",
+      "homeScore": 2,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Julián Quiñones 9'\", \"Raúl Jiménez 67'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 60.5,
+          "away": 39.5
+        },
+        "shots": {
+          "home": 16,
+          "away": 3
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 2
+        },
+        "corners": {
+          "home": 3,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 2
+        },
+        "redCards": {
+          "home": 1,
+          "away": 2
+        },
+        "fouls": {
+          "home": 12,
+          "away": 11
+        },
+        "offsides": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "2",
+      "updatedAt": "2026-06-22T04:30:02.773Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760414",
+      "espnEventId": "760414",
+      "homeScore": 2,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Hwang In-Beom 67'\", \"Oh Hyeon-Gyu 80'\" }",
+      "awayScorers": "{ \"Ladislav Krejcí 59'\" }",
+      "stats": {
+        "possession": {
+          "home": 61.5,
+          "away": 38.5
+        },
+        "shots": {
+          "home": 15,
+          "away": 7
+        },
+        "shotsOnTarget": {
+          "home": 6,
+          "away": 4
+        },
+        "corners": {
+          "home": 4,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 9,
+          "away": 16
+        },
+        "offsides": {
+          "home": 2,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "4",
+      "updatedAt": "2026-06-22T04:30:02.939Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760417",
+      "espnEventId": "760417",
+      "homeScore": 4,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Damián Bobadilla 7' (OG)\", \"Folarin Balogun 31'\", \"Folarin Balogun 45'+5'\", \"Giovanni Reyna 90'+8'\" }",
+      "awayScorers": "{ \"Mauricio 73'\" }",
+      "stats": {
+        "possession": {
+          "home": 65.3,
+          "away": 34.7
+        },
+        "shots": {
+          "home": 16,
+          "away": 9
+        },
+        "shotsOnTarget": {
+          "home": 6,
+          "away": 1
+        },
+        "corners": {
+          "home": 3,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 5
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 13,
+          "away": 17
+        },
+        "offsides": {
+          "home": 2,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "8",
+      "updatedAt": "2026-06-22T04:30:03.114Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760420",
+      "espnEventId": "760420",
+      "homeScore": 1,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Miro Muheim 90'+4' (OG)\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 32,
+          "away": 68
+        },
+        "shots": {
+          "home": 6,
+          "away": 26
+        },
+        "shotsOnTarget": {
+          "home": 3,
+          "away": 7
+        },
+        "corners": {
+          "home": 3,
+          "away": 10
+        },
+        "yellowCards": {
+          "home": 2,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 12,
+          "away": 11
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "7",
+      "updatedAt": "2026-06-22T04:30:03.273Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760419",
+      "espnEventId": "760419",
+      "homeScore": 1,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Vinícius Júnior 32'\" }",
+      "awayScorers": "{ \"Ismael Saibari 21'\" }",
+      "stats": {
+        "possession": {
+          "home": 51.4,
+          "away": 48.6
+        },
+        "shots": {
+          "home": 12,
+          "away": 14
+        },
+        "shotsOnTarget": {
+          "home": 5,
+          "away": 3
+        },
+        "corners": {
+          "home": 6,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 2,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 16,
+          "away": 14
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "5",
+      "updatedAt": "2026-06-22T04:30:03.459Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760418",
+      "espnEventId": "760418",
+      "homeScore": 0,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "{ \"John McGinn 28'\" }",
+      "stats": {
+        "possession": {
+          "home": 53.7,
+          "away": 46.3
+        },
+        "shots": {
+          "home": 15,
+          "away": 9
+        },
+        "shotsOnTarget": {
+          "home": 2,
+          "away": 2
+        },
+        "corners": {
+          "home": 4,
+          "away": 3
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 3
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 23,
+          "away": 21
+        },
+        "offsides": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "10",
+      "updatedAt": "2026-06-22T04:30:03.627Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760422",
+      "espnEventId": "760422",
+      "homeScore": 7,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Felix Nmecha 6'\", \"Nico Schlotterbeck 38'\", \"Jamal Musiala 47'\", \"Nathaniel Brown 68'\", \"Deniz Undav 78'\", \"Kai Havertz 88'\" }",
+      "awayScorers": "{ \"Livano Comenencia 21'\" }",
+      "stats": {
+        "possession": {
+          "home": 64.6,
+          "away": 35.4
+        },
+        "shots": {
+          "home": 26,
+          "away": 8
+        },
+        "shotsOnTarget": {
+          "home": 12,
+          "away": 2
+        },
+        "corners": {
+          "home": 8,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 18,
+          "away": 11
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "11",
+      "updatedAt": "2026-06-22T04:30:03.795Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760425",
+      "espnEventId": "760425",
+      "homeScore": 2,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Virgil van Dijk 51'\", \"Crysencio Summerville 64'\" }",
+      "awayScorers": "{ \"Keito Nakamura 57'\", \"Daichi Kamada 89'\" }",
+      "stats": {
+        "possession": {
+          "home": 59.8,
+          "away": 40.2
+        },
+        "shots": {
+          "home": 10,
+          "away": 10
+        },
+        "shotsOnTarget": {
+          "home": 6,
+          "away": 3
+        },
+        "corners": {
+          "home": 5,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 3,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 7,
+          "away": 7
+        },
+        "offsides": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "9",
+      "updatedAt": "2026-06-22T04:30:03.970Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760423",
+      "espnEventId": "760423",
+      "homeScore": 1,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Amad Diallo 90'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 48.4,
+          "away": 51.6
+        },
+        "shots": {
+          "home": 15,
+          "away": 12
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 1
+        },
+        "corners": {
+          "home": 3,
+          "away": 6
+        },
+        "yellowCards": {
+          "home": 3,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 13
+        },
+        "offsides": {
+          "home": 0,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "12",
+      "updatedAt": "2026-06-22T04:30:04.138Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760424",
+      "espnEventId": "760424",
+      "homeScore": 5,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Yasin Ayari 7'\", \"Alexander Isak 30'\", \"Viktor Gyökeres 59'\", \"Mattias Svanberg 84'\", \"Yasin Ayari 90'+6'\" }",
+      "awayScorers": "{ \"Omar Rekik 43'\" }",
+      "stats": {
+        "possession": {
+          "home": 48.7,
+          "away": 51.3
+        },
+        "shots": {
+          "home": 13,
+          "away": 6
+        },
+        "shotsOnTarget": {
+          "home": 7,
+          "away": 2
+        },
+        "corners": {
+          "home": 4,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 8
+        },
+        "offsides": {
+          "home": 3,
+          "away": 6
+        }
+      }
+    },
+    {
+      "id": "14",
+      "updatedAt": "2026-06-22T04:30:04.305Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760428",
+      "espnEventId": "760428",
       "homeScore": 0,
       "awayScore": 0,
       "finished": true,
@@ -14,58 +486,1168 @@
       "homeScorers": "null",
       "awayScorers": "null",
       "stats": {
-        "redCards": { "home": 1, "away": 0 }
-      },
-      "note": "Nathan Ngoy red card reported by ESPN/Guardian; other technical stats still pending a reliable box-score source."
+        "possession": {
+          "home": 74.3,
+          "away": 25.7
+        },
+        "shots": {
+          "home": 27,
+          "away": 6
+        },
+        "shotsOnTarget": {
+          "home": 7,
+          "away": 1
+        },
+        "corners": {
+          "home": 11,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 1
+        },
+        "offsides": {
+          "home": 2,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "15",
+      "updatedAt": "2026-06-22T04:30:04.486Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760426",
+      "espnEventId": "760426",
+      "homeScore": 1,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Mohamed Hany 66' (OG)\" }",
+      "awayScorers": "{ \"Emam Ashour 20'\" }",
+      "stats": {
+        "possession": {
+          "home": 53.6,
+          "away": 46.4
+        },
+        "shots": {
+          "home": 15,
+          "away": 14
+        },
+        "shotsOnTarget": {
+          "home": 3,
+          "away": 3
+        },
+        "corners": {
+          "home": 2,
+          "away": 7
+        },
+        "yellowCards": {
+          "home": 2,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 15,
+          "away": 15
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "16",
+      "updatedAt": "2026-06-22T04:30:04.658Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760429",
+      "espnEventId": "760429",
+      "homeScore": 1,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Abdulelah Al Amri 41'\" }",
+      "awayScorers": "{ \"Maxi Araújo 80'\" }",
+      "stats": {
+        "possession": {
+          "home": 33.2,
+          "away": 66.8
+        },
+        "shots": {
+          "home": 7,
+          "away": 27
+        },
+        "shotsOnTarget": {
+          "home": 3,
+          "away": 10
+        },
+        "corners": {
+          "home": 4,
+          "away": 14
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 11,
+          "away": 6
+        },
+        "offsides": {
+          "home": 0,
+          "away": 6
+        }
+      }
+    },
+    {
+      "id": "13",
+      "updatedAt": "2026-06-22T04:30:04.829Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760427",
+      "espnEventId": "760427",
+      "homeScore": 2,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Ramin Rezaeian 32'\", \"Mohammad Mohebbi 64'\" }",
+      "awayScorers": "{ \"Elijah Just 7'\", \"Elijah Just 54'\" }",
+      "stats": {
+        "possession": {
+          "home": 48.5,
+          "away": 51.5
+        },
+        "shots": {
+          "home": 17,
+          "away": 14
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 8
+        },
+        "corners": {
+          "home": 4,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 8
+        },
+        "offsides": {
+          "home": 2,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "17",
+      "updatedAt": "2026-06-22T04:30:05.003Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760432",
+      "espnEventId": "760432",
+      "homeScore": 3,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Kylian Mbappé 66'\", \"Bradley Barcola 82'\", \"Kylian Mbappé 90'+6'\" }",
+      "awayScorers": "{ \"Ibrahim Mbaye 90'+5'\" }",
+      "stats": {
+        "possession": {
+          "home": 53.4,
+          "away": 46.6
+        },
+        "shots": {
+          "home": 11,
+          "away": 6
+        },
+        "shotsOnTarget": {
+          "home": 8,
+          "away": 2
+        },
+        "corners": {
+          "home": 6,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 5,
+          "away": 9
+        },
+        "offsides": {
+          "home": 1,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "18",
+      "updatedAt": "2026-06-22T04:30:05.182Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760430",
+      "espnEventId": "760430",
+      "homeScore": 1,
+      "awayScore": 4,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Aymen Hussein 39'\" }",
+      "awayScorers": "{ \"Erling Haaland 29'\", \"Erling Haaland 43'\", \"Leo Østigård 76'\", \"Aymen Hussein 90'+6' (OG)\" }",
+      "stats": {
+        "possession": {
+          "home": 38.7,
+          "away": 61.3
+        },
+        "shots": {
+          "home": 11,
+          "away": 12
+        },
+        "shotsOnTarget": {
+          "home": 1,
+          "away": 5
+        },
+        "corners": {
+          "home": 2,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 12,
+          "away": 13
+        },
+        "offsides": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "19",
+      "updatedAt": "2026-06-22T04:30:05.361Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760433",
+      "espnEventId": "760433",
+      "homeScore": 3,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Lionel Messi 17'\", \"Lionel Messi 60'\", \"Lionel Messi 76'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 47.8,
+          "away": 52.2
+        },
+        "shots": {
+          "home": 10,
+          "away": 7
+        },
+        "shotsOnTarget": {
+          "home": 6,
+          "away": 1
+        },
+        "corners": {
+          "home": 2,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 13,
+          "away": 8
+        },
+        "offsides": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "20",
+      "updatedAt": "2026-06-22T04:30:05.526Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760431",
+      "espnEventId": "760431",
+      "homeScore": 3,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Romano Schmid 21'\", \"Yazan Al Arab 76' (OG)\" }",
+      "awayScorers": "{ \"Ali Olwan 50'\" }",
+      "stats": {
+        "possession": {
+          "home": 63.2,
+          "away": 36.8
+        },
+        "shots": {
+          "home": 11,
+          "away": 11
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 4
+        },
+        "corners": {
+          "home": 4,
+          "away": 3
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 12,
+          "away": 7
+        },
+        "offsides": {
+          "home": 3,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "22",
+      "updatedAt": "2026-06-22T04:30:05.710Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760437",
+      "espnEventId": "760437",
+      "homeScore": 4,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Harry Kane 42'\", \"Jude Bellingham 47'\", \"Marcus Rashford 85'\" }",
+      "awayScorers": "{ \"Martin Baturina 36'\", \"Petar Musa 45'+5'\" }",
+      "stats": {
+        "possession": {
+          "home": 51.7,
+          "away": 48.3
+        },
+        "shots": {
+          "home": 22,
+          "away": 10
+        },
+        "shotsOnTarget": {
+          "home": 11,
+          "away": 5
+        },
+        "corners": {
+          "home": 8,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 12
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "24",
+      "updatedAt": "2026-06-22T04:30:05.875Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760434",
+      "espnEventId": "760434",
+      "homeScore": 1,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Caleb Yirenkyi 90'+5'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 38,
+          "away": 62
+        },
+        "shots": {
+          "home": 7,
+          "away": 11
+        },
+        "shotsOnTarget": {
+          "home": 2,
+          "away": 4
+        },
+        "corners": {
+          "home": 2,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 9,
+          "away": 11
+        },
+        "offsides": {
+          "home": 4,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "23",
+      "updatedAt": "2026-06-22T04:30:06.041Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760436",
+      "espnEventId": "760436",
+      "homeScore": 1,
+      "awayScore": 3,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Abbosbek Fayzullaev 60'\" }",
+      "awayScorers": "{ \"Daniel Muñoz 40'\", \"Luis Díaz 65'\", \"Jaminton Campaz 90'+9'\" }",
+      "stats": {
+        "possession": {
+          "home": 38.6,
+          "away": 61.4
+        },
+        "shots": {
+          "home": 8,
+          "away": 15
+        },
+        "shotsOnTarget": {
+          "home": 2,
+          "away": 4
+        },
+        "corners": {
+          "home": 3,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 14,
+          "away": 11
+        },
+        "offsides": {
+          "home": 0,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "28",
+      "updatedAt": "2026-06-22T04:30:06.242Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760438",
+      "espnEventId": "760438",
+      "homeScore": 1,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Michal Sadílek 6'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 38.3,
+          "away": 61.7
+        },
+        "shots": {
+          "home": 14,
+          "away": 17
+        },
+        "shotsOnTarget": {
+          "home": 3,
+          "away": 4
+        },
+        "corners": {
+          "home": 5,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 12,
+          "away": 10
+        },
+        "offsides": {
+          "home": 2,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "27",
+      "updatedAt": "2026-06-22T04:30:06.411Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760440",
+      "espnEventId": "760440",
+      "homeScore": 6,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Cyle Larin 16'\", \"Jonathan David 29'\", \"Jonathan David 45'+3'\", \"Nathan Saliba 64'\", \"Mohammad Al Manai 75' (OG)\", \"Jonathan David 90'+2'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 79,
+          "away": 21
+        },
+        "shots": {
+          "home": 32,
+          "away": 2
+        },
+        "shotsOnTarget": {
+          "home": 10,
+          "away": 0
+        },
+        "corners": {
+          "home": 19,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 2
+        },
+        "fouls": {
+          "home": 9,
+          "away": 10
+        },
+        "offsides": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "25",
+      "updatedAt": "2026-06-22T04:30:06.604Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760441",
+      "espnEventId": "760441",
+      "homeScore": 1,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Luis Romo 50'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 42.4,
+          "away": 57.6
+        },
+        "shots": {
+          "home": 8,
+          "away": 9
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 2
+        },
+        "corners": {
+          "home": 1,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 9,
+          "away": 7
+        },
+        "offsides": {
+          "home": 3,
+          "away": 6
+        }
+      }
+    },
+    {
+      "id": "31",
+      "updatedAt": "2026-06-22T04:30:06.775Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760442",
+      "espnEventId": "760442",
+      "homeScore": 2,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Cameron Burgess 11' (OG)\", \"Alex Freeman 43'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 61.9,
+          "away": 38.1
+        },
+        "shots": {
+          "home": 10,
+          "away": 5
+        },
+        "shotsOnTarget": {
+          "home": 2,
+          "away": 2
+        },
+        "corners": {
+          "home": 7,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 3,
+          "away": 4
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 12,
+          "away": 16
+        },
+        "offsides": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "30",
+      "updatedAt": "2026-06-22T04:30:06.940Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760445",
+      "espnEventId": "760445",
+      "homeScore": 0,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "{ \"Ismael Saibari 2'\" }",
+      "stats": {
+        "possession": {
+          "home": 41.1,
+          "away": 58.9
+        },
+        "shots": {
+          "home": 6,
+          "away": 12
+        },
+        "shotsOnTarget": {
+          "home": 0,
+          "away": 2
+        },
+        "corners": {
+          "home": 2,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 11,
+          "away": 8
+        },
+        "offsides": {
+          "home": 1,
+          "away": 0
+        }
+      }
+    },
+    {
+      "id": "29",
+      "updatedAt": "2026-06-22T04:30:07.115Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760444",
+      "espnEventId": "760444",
+      "homeScore": 3,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Matheus Cunha 23'\", \"Matheus Cunha 36'\", \"Vinícius Júnior 45'+3'\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 56.7,
+          "away": 43.3
+        },
+        "shots": {
+          "home": 8,
+          "away": 7
+        },
+        "shotsOnTarget": {
+          "home": 5,
+          "away": 3
+        },
+        "corners": {
+          "home": 4,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 3
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 13,
+          "away": 14
+        },
+        "offsides": {
+          "home": 8,
+          "away": 4
+        }
+      }
+    },
+    {
+      "id": "35",
+      "updatedAt": "2026-06-22T04:30:07.301Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760447",
+      "espnEventId": "760447",
+      "homeScore": 5,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Brian Brobbey 5'\", \"Brian Brobbey 17'\", \"Cody Gakpo 47'\", \"Cody Gakpo 54'\", \"Crysencio Summerville 89'\" }",
+      "awayScorers": "{ \"Anthony Elanga 59'\" }",
+      "stats": {
+        "possession": {
+          "home": 50.9,
+          "away": 49.1
+        },
+        "shots": {
+          "home": 10,
+          "away": 16
+        },
+        "shotsOnTarget": {
+          "home": 7,
+          "away": 8
+        },
+        "corners": {
+          "home": 2,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 3
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 9,
+          "away": 12
+        },
+        "offsides": {
+          "home": 3,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "33",
+      "updatedAt": "2026-06-22T04:30:07.471Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760448",
+      "espnEventId": "760448",
+      "homeScore": 2,
+      "awayScore": 1,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Deniz Undav 68'\", \"Deniz Undav 90'+4'\" }",
+      "awayScorers": "{ \"Franck Kessie 30'\" }",
+      "stats": {
+        "possession": {
+          "home": 59.5,
+          "away": 40.5
+        },
+        "shots": {
+          "home": 16,
+          "away": 9
+        },
+        "shotsOnTarget": {
+          "home": 7,
+          "away": 2
+        },
+        "corners": {
+          "home": 8,
+          "away": 3
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 5,
+          "away": 7
+        },
+        "offsides": {
+          "home": 0,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "34",
+      "updatedAt": "2026-06-22T04:30:07.641Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760446",
+      "espnEventId": "760446",
+      "homeScore": 0,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 74.6,
+          "away": 25.4
+        },
+        "shots": {
+          "home": 27,
+          "away": 10
+        },
+        "shotsOnTarget": {
+          "home": 15,
+          "away": 3
+        },
+        "corners": {
+          "home": 9,
+          "away": 0
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 5
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 7,
+          "away": 10
+        },
+        "offsides": {
+          "home": 1,
+          "away": 2
+        }
+      }
+    },
+    {
+      "id": "36",
+      "updatedAt": "2026-06-22T04:30:07.833Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760449",
+      "espnEventId": "760449",
+      "homeScore": 0,
+      "awayScore": 4,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "{ \"Daichi Kamada 4'\", \"Ayase Ueda 31'\", \"Junya Ito 69'\", \"Ayase Ueda 83'\" }",
+      "stats": {
+        "possession": {
+          "home": 37.9,
+          "away": 62.1
+        },
+        "shots": {
+          "home": 2,
+          "away": 11
+        },
+        "shotsOnTarget": {
+          "home": 0,
+          "away": 5
+        },
+        "corners": {
+          "home": 3,
+          "away": 5
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 0
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 8,
+          "away": 15
+        },
+        "offsides": {
+          "home": 1,
+          "away": 1
+        }
+      }
+    },
+    {
+      "id": "39",
+      "updatedAt": "2026-06-22T04:30:08.001Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760453",
+      "espnEventId": "760453",
+      "homeScore": 4,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Lamine Yamal 10'\", \"Mikel Oyarzabal 21'\", \"Mikel Oyarzabal 24'\", \"Hassan Al Tambakti 49' (OG)\" }",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 67.1,
+          "away": 32.9
+        },
+        "shots": {
+          "home": 22,
+          "away": 3
+        },
+        "shotsOnTarget": {
+          "home": 8,
+          "away": 1
+        },
+        "corners": {
+          "home": 6,
+          "away": 1
+        },
+        "yellowCards": {
+          "home": 0,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 10,
+          "away": 2
+        },
+        "offsides": {
+          "home": 2,
+          "away": 3
+        }
+      }
+    },
+    {
+      "id": "37",
+      "updatedAt": "2026-06-22T04:30:08.194Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760451",
+      "espnEventId": "760451",
+      "homeScore": 0,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "null",
+      "stats": {
+        "possession": {
+          "home": 70.1,
+          "away": 29.9
+        },
+        "shots": {
+          "home": 23,
+          "away": 7
+        },
+        "shotsOnTarget": {
+          "home": 7,
+          "away": 3
+        },
+        "corners": {
+          "home": 4,
+          "away": 2
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 1,
+          "away": 0
+        },
+        "fouls": {
+          "home": 7,
+          "away": 9
+        },
+        "offsides": {
+          "home": 3,
+          "away": 4
+        }
+      }
+    },
+    {
+      "id": "40",
+      "updatedAt": "2026-06-22T04:30:08.360Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760450",
+      "espnEventId": "760450",
+      "homeScore": 2,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Maxi Araújo 44'\", \"Agustín Canobbio 45'+6'\" }",
+      "awayScorers": "{ \"Kevin Pina 21'\", \"Hélio Varela 61'\" }",
+      "stats": {
+        "possession": {
+          "home": 65.2,
+          "away": 34.8
+        },
+        "shots": {
+          "home": 17,
+          "away": 12
+        },
+        "shotsOnTarget": {
+          "home": 2,
+          "away": 4
+        },
+        "corners": {
+          "home": 11,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 2,
+          "away": 2
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 11,
+          "away": 4
+        },
+        "offsides": {
+          "home": 3,
+          "away": 0
+        }
+      }
     },
     {
       "id": "38",
-      "updatedAt": "2026-06-22T11:15:00+08:00",
-      "source": "Guardian live report",
-      "sourceUrl": "https://www.theguardian.com/football/live/2026/jun/22/fifa-world-cup-2026-live-new-zealand-v-egypt-updates-nzl-vs-egy-group-g-match-score-latest",
+      "updatedAt": "2026-06-22T04:30:08.556Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760452",
+      "espnEventId": "760452",
       "homeScore": 1,
       "awayScore": 3,
       "finished": true,
       "timeElapsed": "finished",
       "homeScorers": "{ \"Finn Surman 15'\" }",
-      "awayScorers": "{ \"Ziko 59'\", \"Mohamed Salah 67'\", \"Trezeguet 82'\" }",
-      "stats": {},
-      "note": "Result and scorers verified from Guardian live report; technical stats pending."
-    },
-    {
-      "id": "39",
-      "updatedAt": "2026-06-22T03:30:00+08:00",
-      "source": "Sporting News box score",
-      "sourceUrl": "https://www.sportingnews.com/",
-      "homeScore": 4,
-      "awayScore": 0,
-      "finished": true,
-      "timeElapsed": "finished",
-      "homeScorers": "{ \"Lamine Yamal 11'\", \"Mikel Oyarzabal 21'\", \"Mikel Oyarzabal 24'\", \"Hassan Tambakti 49' (OG)\" }",
-      "awayScorers": "null",
+      "awayScorers": "{ \"Mostafa Zico 58'\", \"Mohamed Salah 67'\", \"Trezeguet 82'\" }",
       "stats": {
-        "possession": { "home": 67, "away": 33 },
-        "shotsOnTarget": { "home": 8, "away": 1 },
-        "corners": { "home": 6, "away": 1 },
-        "yellowCards": { "home": 0, "away": 2 },
-        "redCards": { "home": 0, "away": 0 },
-        "fouls": { "home": 10, "away": 2 }
+        "possession": {
+          "home": 44.3,
+          "away": 55.7
+        },
+        "shots": {
+          "home": 11,
+          "away": 19
+        },
+        "shotsOnTarget": {
+          "home": 5,
+          "away": 7
+        },
+        "corners": {
+          "home": 4,
+          "away": 4
+        },
+        "yellowCards": {
+          "home": 2,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 14,
+          "away": 8
+        },
+        "offsides": {
+          "home": 3,
+          "away": 0
+        }
       }
-    },
-    {
-      "id": "40",
-      "updatedAt": "2026-06-22T11:15:00+08:00",
-      "source": "ESPN / Guardian / FOX Sports recap",
-      "sourceUrl": "https://www.espn.com.au/football/match/_/gameId/760450/cape-verde-uruguay",
-      "homeScore": 2,
-      "awayScore": 2,
-      "finished": true,
-      "timeElapsed": "finished",
-      "homeScorers": "{ \"Maximiliano Araújo 44'\", \"Agustín Canobbio 45+6'\" }",
-      "awayScorers": "{ \"Kevin Pina 21'\", \"Hélio Varela 61'\" }",
-      "stats": {},
-      "note": "Result and scorers verified from ESPN/Guardian/FOX reporting; technical stats pending."
     }
   ],
-  "note": "Manual snapshot added because the primary free API can lag behind published match reports. Result-only rows intentionally leave technical stats empty until a reliable box-score source is parsed."
+  "note": "Generated hourly from ESPN public JSON endpoints and mapped to worldcup26.ir match ids. Empty fields mean the source did not provide reliable data."
 }

@@ -21,3 +21,8 @@
 
 - https://worldcup26.ir/get/games
 - https://github.com/rezarahiminia/worldcup2026
+
+每小時技術數據快照使用 ESPN public scoreboard / summary JSON，並映射回主資料源 match id：
+
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard`
+- `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary`

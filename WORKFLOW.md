@@ -72,13 +72,12 @@
 
 ## Backlog
 
-1. 選定固定網站，完成角球、黃牌、紅牌解析器。優先測 Sporting News、FOX Sports、AS、Sofascore HTML；不要爬 Google 搜尋結果本身。
-2. 將固定網站解析結果寫入 `data/hourly-stats.json`，覆蓋比分、完賽狀態、進球者、角球、紅黃牌、射正、控球率等欄位。
-3. 將賽事時間切換為台灣時間，並標示原始當地時間。
-4. 新增球隊頁：隊伍賽程、進球、失球、牌數。
-5. 新增資料完整度指標：比分、進球、技術統計、陣容。
-6. 加 PWA：手機桌面圖示、離線快取、更新提示。
-7. 加搜尋與快速篩選球隊。
+1. 監控 ESPN public JSON 管線穩定性，必要時加 FOX Sports / Guardian fallback；不要爬 Google 搜尋結果本身。
+2. 擴充 `data/hourly-stats.json` 欄位：陣容、換人、球員事件、資料源健康狀態。
+3. 新增球隊頁：隊伍賽程、進球、失球、角球、牌數。
+4. 新增資料完整度指標：比分、進球、技術統計、陣容。
+5. 加 PWA：手機桌面圖示、離線快取、更新提示。
+6. 加搜尋與快速篩選球隊。
 
 ## 迭代紀錄
 
@@ -117,3 +116,11 @@
 - 沒有可靠 box score 的角球、黃牌等技術統計保持空白，不塞假資料。
 - 單場詳情新增「最新快照」來源列，數據頁新增「最新快照覆蓋」完整度列，方便辨識哪些比賽由快照修正。
 - 下一輪資料重點：解析 FOX Sports/ESPN box score 或可用 API，把今天三場的角球、黃牌、射正等技術統計補齊。
+
+### 2026-06-22 12:30 TST
+
+- `scripts/scrape-hourly-stats.mjs` 改為預設抓 ESPN public scoreboard/summary JSON，不再依賴手動 `STATS_SOURCE_URL`。
+- 每小時 workflow 會抓 `20260611-20260719` 全世足日期範圍，將 ESPN event 對應回 `worldcup26.ir` 的 match id。
+- 已自動匯入 35 場完賽/可用賽事資料，欄位包含比分、完賽狀態、進球者、控球率、射門、射正、角球、黃牌、紅牌、犯規、越位。
+- 今日三場已補齊技術統計：Belgium 0-0 Iran、New Zealand 1-3 Egypt、Uruguay 2-2 Cape Verde。
+- 下一輪資料重點：在前端增加 ESPN 資料源健康狀態與球隊頁牌數/角球彙總。

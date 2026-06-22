@@ -18,7 +18,7 @@ jobs:
           node-version: "22"
       - name: Generate hourly stats snapshot
         env:
-          STATS_SOURCE_URL: ${{ vars.STATS_SOURCE_URL }}
+          ESPN_SCOREBOARD_DATES: 20260611-20260719
         run: node scripts/scrape-hourly-stats.mjs
       - name: Commit snapshot
         run: |
