@@ -328,10 +328,18 @@ function stageText(match) {
 }
 
 function createMatchCard(match) {
-  const button = document.createElement("button");
+  const button = document.createElement("article");
   button.className = "match-card";
-  button.type = "button";
+  button.tabIndex = 0;
+  button.setAttribute("role", "button");
+  button.setAttribute("aria-label", `${match.home} 對 ${match.away}`);
   button.addEventListener("click", () => openMatch(match.id));
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openMatch(match.id);
+    }
+  });
 
   const liveClass = statusLabel(match) === "進行中" ? " live" : "";
   const favoriteActive = state.favorites.has(match.id) ? " active" : "";
@@ -343,22 +351,28 @@ function createMatchCard(match) {
       <span class="status-pill${liveClass}">${statusLabel(match)}</span>
     </div>
     <div class="team-row">
-      <span class="team-name"><span>${flagFor(match.home)}</span><span>${match.home}</span></span>
+      <button class="team-name team-link" type="button" data-team="${match.home}"><span>${flagFor(match.home)}</span><span>${match.home}</span></button>
       <span class="score">${scoreText(match.homeScore, match)}</span>
     </div>
     <div class="team-row">
-      <span class="team-name"><span>${flagFor(match.away)}</span><span>${match.away}</span></span>
+      <button class="team-name team-link" type="button" data-team="${match.away}"><span>${flagFor(match.away)}</span><span>${match.away}</span></button>
       <span class="score">${scoreText(match.awayScore, match)}</span>
     </div>
     <div class="match-actions">
       <span>${dataBadge}</span>
-      <span class="favorite-toggle${favoriteActive}" data-favorite="${match.id}">★</span>
+      <button class="favorite-toggle${favoriteActive}" type="button" data-favorite="${match.id}" aria-label="收藏比賽">★</button>
     </div>
   `;
 
   button.querySelector("[data-favorite]").addEventListener("click", (event) => {
     event.stopPropagation();
     toggleFavorite(match.id);
+  });
+  button.querySelectorAll("[data-team]").forEach((teamButton) => {
+    teamButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openTeam(teamButton.dataset.team);
+    });
   });
 
   return button;
@@ -548,7 +562,9 @@ function renderStandings() {
         <tbody>
           ${teams.map((team, index) => `
             <tr>
-              <td class="${index < 2 ? "qualify" : ""}">${flagFor(team.name)} ${team.name}</td>
+              <td class="${index < 2 ? "qualify" : ""}">
+                <button class="team-link table-team-link" type="button" data-team="${team.name}">${flagFor(team.name)} ${team.name}</button>
+              </td>
               <td>${team.mp}</td><td>${team.w}</td><td>${team.d}</td><td>${team.l}</td>
               <td>${team.gd}</td><td><strong>${team.pts}</strong></td>
             </tr>
@@ -558,6 +574,9 @@ function renderStandings() {
     `;
     els.standings.append(card);
   }
+  els.standings.querySelectorAll("[data-team]").forEach((button) => {
+    button.addEventListener("click", () => openTeam(button.dataset.team));
+  });
 }
 
 function parseScorers(raw) {
@@ -585,7 +604,7 @@ function renderStats() {
   });
 
   fillRankList(els.scorersList, [...scorers.entries()], "尚無進球資料");
-  fillRankList(els.teamGoalsList, [...teamGoals.entries()], "尚無球隊進球資料", true);
+  fillRankList(els.teamGoalsList, [...teamGoals.entries()], "尚無球隊進球資料", true, true);
   renderDataCoverage();
 }
 
@@ -644,7 +663,7 @@ function coverageRow(label, value, total) {
   `;
 }
 
-function fillRankList(container, rows, emptyText, withFlag = false) {
+function fillRankList(container, rows, emptyText, withFlag = false, teamLinks = false) {
   container.replaceChildren();
   const sorted = rows.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 10);
   if (!sorted.length) {
@@ -655,9 +674,18 @@ function fillRankList(container, rows, emptyText, withFlag = false) {
   }
   sorted.forEach(([name, count]) => {
     const item = document.createElement("li");
-    item.innerHTML = `<span class="stat-row"><span>${withFlag ? `${flagFor(name)} ` : ""}${name}</span><strong>${count}</strong></span>`;
+    const label = withFlag ? `${flagFor(name)} ${name}` : name;
+    const labelMarkup = teamLinks
+      ? `<button class="team-link rank-team-link" type="button" data-team="${name}">${label}</button>`
+      : `<span>${label}</span>`;
+    item.innerHTML = `<span class="stat-row">${labelMarkup}<strong>${count}</strong></span>`;
     container.append(item);
   });
+  if (teamLinks) {
+    container.querySelectorAll("[data-team]").forEach((button) => {
+      button.addEventListener("click", () => openTeam(button.dataset.team));
+    });
+  }
 }
 
 function renderFavorites() {
@@ -689,9 +717,9 @@ function openMatch(id) {
   els.dialogTitle.textContent = `${match.home} vs ${match.away}`;
   els.dialogBody.innerHTML = `
     <div class="detail-score">
-      <span>${flagFor(match.home)}<br>${match.home}</span>
+      <button class="detail-team-link" type="button" data-team="${match.home}">${flagFor(match.home)}<br>${match.home}</button>
       <strong>${scoreText(match.homeScore, match)} : ${scoreText(match.awayScore, match)}</strong>
-      <span>${flagFor(match.away)}<br>${match.away}</span>
+      <button class="detail-team-link" type="button" data-team="${match.away}">${flagFor(match.away)}<br>${match.away}</button>
     </div>
     <div class="detail-block">
       <h3>比賽狀態</h3>
@@ -717,7 +745,158 @@ function openMatch(id) {
       ${renderScorerParagraphs(match.away_scorers)}
     </div>
   `;
-  els.dialog.showModal();
+  els.dialogBody.querySelectorAll("[data-team]").forEach((button) => {
+    button.addEventListener("click", () => openTeam(button.dataset.team));
+  });
+  showDialog();
+}
+
+function openTeam(teamName) {
+  if (!teamName) return;
+  const teamMatches = state.matches.filter((match) => isTeamInMatch(match, teamName));
+  const selectedMatches = getTeamRecentFive(teamMatches);
+  const summary = calculateTeamSummary(teamName, selectedMatches);
+
+  els.dialogStage.textContent = "國家隊近況";
+  els.dialogTitle.textContent = `${flagFor(teamName)} ${teamName}`;
+  els.dialogBody.innerHTML = `
+    <div class="team-summary-card">
+      <div>
+        <span>近五場完成賽事</span>
+        <strong>${summary.finishedCount}</strong>
+      </div>
+      <div>
+        <span>勝 / 和 / 敗</span>
+        <strong>${summary.w}-${summary.d}-${summary.l}</strong>
+      </div>
+      <div>
+        <span>進 / 失球</span>
+        <strong>${summary.gf}-${summary.ga}</strong>
+      </div>
+      <div>
+        <span>角球</span>
+        <strong>${formatStatValue(summary.corners)}</strong>
+      </div>
+      <div>
+        <span>黃 / 紅牌</span>
+        <strong>${formatStatValue(summary.yellowCards)} / ${formatStatValue(summary.redCards)}</strong>
+      </div>
+    </div>
+    <div class="detail-block">
+      <div class="detail-title-row">
+        <h3>近五場 / 接下來</h3>
+        <span>${selectedMatches.length} 場</span>
+      </div>
+      ${selectedMatches.length ? `<div class="team-match-list">${selectedMatches.map((match) => renderTeamMatchDetail(teamName, match)).join("")}</div>` : "<p>目前沒有這支球隊的賽程資料。</p>"}
+    </div>
+  `;
+  els.dialogBody.querySelectorAll("[data-match]").forEach((button) => {
+    button.addEventListener("click", () => openMatch(button.dataset.match));
+  });
+  showDialog();
+}
+
+function showDialog() {
+  if (!els.dialog.open) els.dialog.showModal();
+}
+
+function isTeamInMatch(match, teamName) {
+  return match.home === teamName || match.away === teamName;
+}
+
+function getTeamRecentFive(teamMatches) {
+  const finished = teamMatches.filter((match) => match.isFinished).sort((a, b) => b.date - a.date);
+  const upcoming = teamMatches.filter((match) => !match.isFinished).sort((a, b) => a.date - b.date);
+  return [...finished, ...upcoming].slice(0, 5);
+}
+
+function teamSide(match, teamName) {
+  return match.home === teamName ? "home" : "away";
+}
+
+function opponentFor(match, teamName) {
+  return match.home === teamName ? match.away : match.home;
+}
+
+function teamScore(match, teamName) {
+  const side = teamSide(match, teamName);
+  return side === "home" ? Number(match.homeScore) : Number(match.awayScore);
+}
+
+function opponentScore(match, teamName) {
+  const side = teamSide(match, teamName);
+  return side === "home" ? Number(match.awayScore) : Number(match.homeScore);
+}
+
+function statForSide(match, key, side) {
+  const stat = match.stats.find((item) => item.key === key);
+  if (!stat) return null;
+  return side === "home" ? stat.home : stat.away;
+}
+
+function numericStatForSide(match, key, side) {
+  const value = Number(statForSide(match, key, side));
+  return Number.isNaN(value) ? 0 : value;
+}
+
+function calculateTeamSummary(teamName, matches) {
+  return matches.reduce((summary, match) => {
+    const side = teamSide(match, teamName);
+    summary.corners += numericStatForSide(match, "corners", side);
+    summary.yellowCards += numericStatForSide(match, "yellowCards", side);
+    summary.redCards += numericStatForSide(match, "redCards", side);
+
+    if (!match.isFinished) return summary;
+    const scored = teamScore(match, teamName);
+    const conceded = opponentScore(match, teamName);
+    if (Number.isNaN(scored) || Number.isNaN(conceded)) return summary;
+
+    summary.finishedCount += 1;
+    summary.gf += scored;
+    summary.ga += conceded;
+    if (scored > conceded) summary.w += 1;
+    else if (scored === conceded) summary.d += 1;
+    else summary.l += 1;
+    return summary;
+  }, { finishedCount: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, corners: 0, yellowCards: 0, redCards: 0 });
+}
+
+function renderTeamMatchDetail(teamName, match) {
+  const side = teamSide(match, teamName);
+  const opponent = opponentFor(match, teamName);
+  const score = `${scoreText(side === "home" ? match.homeScore : match.awayScore, match)} : ${scoreText(side === "home" ? match.awayScore : match.homeScore, match)}`;
+  const scorerRaw = side === "home" ? match.home_scorers : match.away_scorers;
+  const scorers = parseScorers(scorerRaw);
+  const statItems = [
+    ["角球", "corners"],
+    ["黃牌", "yellowCards"],
+    ["紅牌", "redCards"],
+    ["射正", "shotsOnTarget"],
+    ["控球", "possession"],
+  ];
+
+  return `
+    <article class="team-match-card">
+      <div class="team-match-meta">
+        <span>${formatDateTime(match.date)} · ${stageText(match)}</span>
+        <span class="status-pill">${statusLabel(match)}</span>
+      </div>
+      <div class="team-match-score">
+        <span>${flagFor(teamName)} ${teamName}</span>
+        <strong>${score}</strong>
+        <span>${flagFor(opponent)} ${opponent}</span>
+      </div>
+      <p class="team-scorers">${scorers.length ? `進球：${scorers.join("、")}` : "進球：目前沒有紀錄"}</p>
+      <div class="team-match-stats">
+        ${statItems.map(([label, key]) => {
+          const stat = match.stats.find((item) => item.key === key);
+          const value = stat ? formatStatValue(side === "home" ? stat.home : stat.away, stat.unit) : "-";
+          return `<span>${label}<strong>${value}</strong></span>`;
+        }).join("")}
+      </div>
+      <button class="small-button team-match-button" type="button" data-match="${match.id}">看完整比賽</button>
+    </article>
+  `;
 }
 
 function renderMatchStats(match) {
