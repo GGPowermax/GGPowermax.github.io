@@ -213,6 +213,7 @@ function mergeStatsSnapshot(snapshotMatches) {
 
     match.statsSource = snapshot.source || "Hourly snapshot";
     match.statsUpdatedAt = snapshot.updatedAt || null;
+    match.snapshotSourceUrl = snapshot.sourceUrl || null;
   });
 }
 
@@ -494,12 +495,14 @@ function renderDataCoverage() {
   const withScores = state.matches.filter((match) => match.homeScore !== "-" && match.awayScore !== "-").length;
   const withScorers = state.matches.filter((match) => parseScorers(match.home_scorers).length || parseScorers(match.away_scorers).length).length;
   const withTechnicalStats = state.matches.filter(hasDetailedStats).length;
+  const fromSnapshot = state.matches.filter((match) => match.statsSource).length;
 
   els.dataCoverage.innerHTML = `
     ${coverageRow("賽程 / 比分", withScores, total)}
     ${coverageRow("進球紀錄", withScorers, total)}
     ${coverageRow("角球 / 紅黃牌", withTechnicalStats, total)}
-    <p class="data-note">角球、紅牌、黃牌目前等待第二資料源；介面與資料欄位已先準備好。</p>
+    ${coverageRow("最新快照覆蓋", fromSnapshot, total)}
+    <p class="data-note">比分與完賽狀態可由最新快照先覆蓋；角球、紅牌、黃牌只在找到可靠資料源時顯示，沒有來源不塞數字。</p>
   `;
 }
 
@@ -568,6 +571,7 @@ function openMatch(id) {
       <p>${statusLabel(match)} · Matchday ${safeText(match.matchday, "-")}</p>
       <p>台灣時間：${formatDateTime(match.date)}</p>
       <p>場館時間：${match.venueTimeLabel}</p>
+      ${renderSnapshotSource(match)}
     </div>
     <div class="detail-block">
       <div class="detail-title-row">
@@ -605,6 +609,15 @@ function renderMatchStats(match) {
       }).join("")}
     </div>
   `;
+}
+
+function renderSnapshotSource(match) {
+  if (!match.statsSource) return "";
+  const updated = match.statsUpdatedAt ? ` · 更新 ${formatCacheTime(match.statsUpdatedAt)}` : "";
+  const source = match.snapshotSourceUrl
+    ? `<a href="${match.snapshotSourceUrl}" target="_blank" rel="noreferrer">${match.statsSource}</a>`
+    : match.statsSource;
+  return `<p class="data-note">最新快照：${source}${updated}</p>`;
 }
 
 function formatStatValue(value, unit = "") {

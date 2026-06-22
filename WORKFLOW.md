@@ -109,3 +109,11 @@
 - 賽程頁新增「已完賽」篩選，作為過往比賽入口。
 - UI 主色改為土金配色，手機比賽卡片縮小並避免超出畫面。
 - 下一輪自動化重點：把 Sporting News 或 FOX Sports 單場頁解析器接進 `scripts/scrape-hourly-stats.mjs`，取代手動快照。
+
+### 2026-06-22 11:15 TST
+
+- 手動餵入今日已完賽結果快照：Belgium 0-0 Iran、New Zealand 1-3 Egypt、Uruguay 2-2 Cape Verde。
+- New Zealand vs Egypt 與 Uruguay vs Cape Verde 已加入進球者；Belgium vs Iran 已加入 Nathan Ngoy 紅牌資訊。
+- 沒有可靠 box score 的角球、黃牌等技術統計保持空白，不塞假資料。
+- 單場詳情新增「最新快照」來源列，數據頁新增「最新快照覆蓋」完整度列，方便辨識哪些比賽由快照修正。
+- 下一輪資料重點：解析 FOX Sports/ESPN box score 或可用 API，把今天三場的角球、黃牌、射正等技術統計補齊。

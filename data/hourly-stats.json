@@ -1,11 +1,42 @@
 {
-  "generatedAt": "2026-06-22T03:30:00+08:00",
-  "source": "Manual media snapshot: Sporting News / Google result check",
+  "generatedAt": "2026-06-22T11:15:00+08:00",
+  "source": "Manual media snapshot: ESPN / Guardian / FOX Sports result check",
   "matches": [
+    {
+      "id": "37",
+      "updatedAt": "2026-06-22T11:15:00+08:00",
+      "source": "ESPN / Guardian match report",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
+      "homeScore": 0,
+      "awayScore": 0,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "null",
+      "awayScorers": "null",
+      "stats": {
+        "redCards": { "home": 1, "away": 0 }
+      },
+      "note": "Nathan Ngoy red card reported by ESPN/Guardian; other technical stats still pending a reliable box-score source."
+    },
+    {
+      "id": "38",
+      "updatedAt": "2026-06-22T11:15:00+08:00",
+      "source": "Guardian live report",
+      "sourceUrl": "https://www.theguardian.com/football/live/2026/jun/22/fifa-world-cup-2026-live-new-zealand-v-egypt-updates-nzl-vs-egy-group-g-match-score-latest",
+      "homeScore": 1,
+      "awayScore": 3,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Finn Surman 15'\" }",
+      "awayScorers": "{ \"Ziko 59'\", \"Mohamed Salah 67'\", \"Trezeguet 82'\" }",
+      "stats": {},
+      "note": "Result and scorers verified from Guardian live report; technical stats pending."
+    },
     {
       "id": "39",
       "updatedAt": "2026-06-22T03:30:00+08:00",
       "source": "Sporting News box score",
+      "sourceUrl": "https://www.sportingnews.com/",
       "homeScore": 4,
       "awayScore": 0,
       "finished": true,
@@ -20,7 +51,21 @@
         "redCards": { "home": 0, "away": 0 },
         "fouls": { "home": 10, "away": 2 }
       }
+    },
+    {
+      "id": "40",
+      "updatedAt": "2026-06-22T11:15:00+08:00",
+      "source": "ESPN / Guardian / FOX Sports recap",
+      "sourceUrl": "https://www.espn.com.au/football/match/_/gameId/760450/cape-verde-uruguay",
+      "homeScore": 2,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Maximiliano Araújo 44'\", \"Agustín Canobbio 45+6'\" }",
+      "awayScorers": "{ \"Kevin Pina 21'\", \"Hélio Varela 61'\" }",
+      "stats": {},
+      "note": "Result and scorers verified from ESPN/Guardian/FOX reporting; technical stats pending."
     }
   ],
-  "note": "Manual snapshot added because the primary free API lagged behind published match reports. Replace with automated fixed-site parsing in the next data iteration."
+  "note": "Manual snapshot added because the primary free API can lag behind published match reports. Result-only rows intentionally leave technical stats empty until a reliable box-score source is parsed."
 }
