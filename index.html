@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#9f741f" />
     <title>世足比分小軟體</title>
-    <link rel="stylesheet" href="styles.css?v=20260622-1235" />
+    <link rel="stylesheet" href="styles.css?v=20260622-1305" />
   </head>
   <body>
     <div class="app-shell">
@@ -30,10 +30,32 @@
 
         <section class="view active" id="view-today" aria-label="今日賽事">
           <div class="section-head">
-            <h2>今日與下一場</h2>
+            <h2>近期賽事</h2>
             <button class="small-button" id="jumpUpcoming" type="button">下一場</button>
           </div>
-          <div id="todayMatches" class="match-list"></div>
+          <div class="day-carousel" aria-label="昨日今日明日賽事，可左右滑動">
+            <section class="day-panel" aria-label="昨日戰績">
+              <div class="day-panel-head">
+                <strong>昨日戰績</strong>
+                <span id="yesterdayLabel"></span>
+              </div>
+              <div id="yesterdayMatches" class="match-list"></div>
+            </section>
+            <section class="day-panel current" aria-label="今日賽事">
+              <div class="day-panel-head">
+                <strong>今日</strong>
+                <span id="todayPanelLabel"></span>
+              </div>
+              <div id="todayMatches" class="match-list"></div>
+            </section>
+            <section class="day-panel" aria-label="明日賽程">
+              <div class="day-panel-head">
+                <strong>明日賽程</strong>
+                <span id="tomorrowLabel"></span>
+              </div>
+              <div id="tomorrowMatches" class="match-list"></div>
+            </section>
+          </div>
         </section>
 
         <section class="view" id="view-schedule" aria-label="全部賽程">
@@ -42,12 +64,12 @@
             <select id="stageFilter" aria-label="篩選賽程階段">
               <option value="all">全部</option>
               <option value="finished">已完賽</option>
-              <option value="group">分組賽</option>
-              <option value="r32">32 強</option>
-              <option value="r16">16 強</option>
-              <option value="qf">8 強</option>
-              <option value="sf">4 強</option>
-              <option value="final">決賽</option>
+              <option value="group">小組賽</option>
+              <option value="knockout">淘汰賽</option>
+              <option value="qf">八強</option>
+              <option value="sf">四強</option>
+              <option value="third">季軍戰</option>
+              <option value="final">冠軍戰</option>
             </select>
           </div>
           <div id="scheduleMatches" class="match-list"></div>
@@ -111,6 +133,6 @@
       <div id="dialogBody"></div>
     </dialog>
 
-    <script src="app.js?v=20260622-1235"></script>
+    <script src="app.js?v=20260622-1305"></script>
   </body>
 </html>

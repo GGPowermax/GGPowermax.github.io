@@ -9,6 +9,7 @@ const state = {
   favorites: new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]")),
   currentView: "today",
   statsSnapshot: null,
+  dayCarouselCentered: false,
 };
 
 const els = {
@@ -17,7 +18,13 @@ const els = {
   heroTitle: document.querySelector("#heroTitle"),
   sourceBadge: document.querySelector("#sourceBadge"),
   statusMessage: document.querySelector("#statusMessage"),
+  dayCarousel: document.querySelector(".day-carousel"),
+  yesterdayLabel: document.querySelector("#yesterdayLabel"),
+  todayPanelLabel: document.querySelector("#todayPanelLabel"),
+  tomorrowLabel: document.querySelector("#tomorrowLabel"),
+  yesterdayMatches: document.querySelector("#yesterdayMatches"),
   todayMatches: document.querySelector("#todayMatches"),
+  tomorrowMatches: document.querySelector("#tomorrowMatches"),
   scheduleMatches: document.querySelector("#scheduleMatches"),
   standings: document.querySelector("#standings"),
   scorersList: document.querySelector("#scorersList"),
@@ -34,14 +41,23 @@ const els = {
 };
 
 const stageNames = {
-  group: "分組賽",
+  group: "小組賽",
   r32: "32 強",
   r16: "16 強",
-  qf: "8 強",
-  sf: "4 強",
+  qf: "八強",
+  sf: "四強",
   third: "季軍戰",
-  final: "決賽",
+  final: "冠軍戰",
 };
+
+const scheduleGroups = [
+  { key: "group", title: "小組賽", stages: ["group"] },
+  { key: "knockout", title: "淘汰賽", stages: ["r32", "r16"] },
+  { key: "qf", title: "八強", stages: ["qf"] },
+  { key: "sf", title: "四強", stages: ["sf"] },
+  { key: "third", title: "季軍戰", stages: ["third"] },
+  { key: "final", title: "冠軍戰", stages: ["final"] },
+];
 
 const TAIWAN_TIME_ZONE = "Asia/Taipei";
 
@@ -121,6 +137,23 @@ function dateKey(date) {
   }).formatToParts(date);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
+}
+
+function taiwanDate(offsetDays = 0) {
+  const now = new Date();
+  const key = dateKey(now);
+  const base = new Date(`${key}T00:00:00+08:00`);
+  base.setDate(base.getDate() + offsetDays);
+  return base;
+}
+
+function formatDayLabel(date) {
+  return new Intl.DateTimeFormat("zh-TW", {
+    timeZone: TAIWAN_TIME_ZONE,
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "short",
+  }).format(date);
 }
 
 function formatDateTime(date) {
@@ -343,15 +376,42 @@ function renderMatchList(container, matches, emptyText) {
   matches.forEach((match) => container.append(createMatchCard(match)));
 }
 
+function getMatchesForTaiwanDate(date) {
+  const target = dateKey(date);
+  return state.matches.filter((match) => dateKey(match.date) === target);
+}
+
 function getTodayMatches() {
   if (!state.matches.length) return [];
-  const now = new Date();
-  const today = dateKey(now);
-  const todayMatches = state.matches.filter((match) => dateKey(match.date) === today);
+  const todayMatches = getMatchesForTaiwanDate(taiwanDate(0));
   if (todayMatches.length) return todayMatches;
 
   const next = state.matches.find((match) => !match.isFinished) || state.matches.at(-1);
   return state.matches.filter((match) => dateKey(match.date) === dateKey(next.date));
+}
+
+function renderDayCarousel() {
+  const yesterday = taiwanDate(-1);
+  const today = taiwanDate(0);
+  const tomorrow = taiwanDate(1);
+
+  els.yesterdayLabel.textContent = formatDayLabel(yesterday);
+  els.todayPanelLabel.textContent = formatDayLabel(today);
+  els.tomorrowLabel.textContent = formatDayLabel(tomorrow);
+
+  renderMatchList(els.yesterdayMatches, getMatchesForTaiwanDate(yesterday), "昨日沒有賽事。");
+  renderMatchList(els.todayMatches, getTodayMatches(), "今日沒有賽事。");
+  renderMatchList(els.tomorrowMatches, getMatchesForTaiwanDate(tomorrow), "明日沒有排定賽事。");
+
+  if (!state.dayCarouselCentered) {
+    requestAnimationFrame(() => {
+      const currentPanel = els.dayCarousel.querySelector(".day-panel.current");
+      if (currentPanel) {
+        els.dayCarousel.scrollLeft = currentPanel.offsetLeft - els.dayCarousel.offsetLeft - 10;
+      }
+      state.dayCarouselCentered = true;
+    });
+  }
 }
 
 function renderHero() {
@@ -379,12 +439,48 @@ function renderHero() {
 
 function renderSchedule() {
   const filter = els.stageFilter.value;
-  const matches = filter === "all"
-    ? state.matches
-    : filter === "finished"
-      ? state.matches.filter((match) => match.isFinished)
-      : state.matches.filter((match) => match.stage === filter);
-  renderMatchList(els.scheduleMatches, matches, "沒有符合條件的賽事。");
+  if (filter === "finished") {
+    renderMatchList(els.scheduleMatches, state.matches.filter((match) => match.isFinished), "沒有符合條件的賽事。");
+    return;
+  }
+
+  const groups = filter === "all"
+    ? scheduleGroups
+    : scheduleGroups.filter((group) => group.key === filter);
+  renderScheduleGroups(groups);
+}
+
+function renderScheduleGroups(groups) {
+  els.scheduleMatches.replaceChildren();
+  let hasMatches = false;
+
+  groups.forEach((group) => {
+    const matches = state.matches.filter((match) => group.stages.includes(match.stage));
+    if (!matches.length) return;
+    hasMatches = true;
+
+    const section = document.createElement("section");
+    section.className = "schedule-stage";
+    section.innerHTML = `
+      <div class="schedule-stage-head">
+        <strong>${group.title}</strong>
+        <span>${matches.length} 場</span>
+      </div>
+    `;
+
+    const list = document.createElement("div");
+    list.className = "match-list";
+    matches.forEach((match) => list.append(createMatchCard(match)));
+    section.append(list);
+    els.scheduleMatches.append(section);
+  });
+
+  if (!hasMatches) {
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.textContent = "沒有符合條件的賽事。";
+    els.scheduleMatches.append(empty);
+  }
 }
 
 function calculateStandings() {
@@ -571,7 +667,7 @@ function renderFavorites() {
 
 function render() {
   renderHero();
-  renderMatchList(els.todayMatches, getTodayMatches(), "今日沒有賽事。");
+  renderDayCarousel();
   renderSchedule();
   renderStandings();
   renderStats();

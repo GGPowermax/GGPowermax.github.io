@@ -164,11 +164,65 @@ select {
   margin: 18px 0 10px;
 }
 
+.day-carousel {
+  display: flex;
+  gap: 10px;
+  margin-inline: -10px;
+  overflow-x: auto;
+  padding: 0 10px 6px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.day-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.day-panel {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: center;
+}
+
+.day-panel-head,
+.schedule-stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.day-panel-head strong,
+.schedule-stage-head strong {
+  color: var(--brand-dark);
+  font-size: 15px;
+}
+
+.day-panel-head span,
+.schedule-stage-head span {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: #f1e3c5;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .match-list,
 .standings-grid,
 .stats-grid {
   display: grid;
   gap: 10px;
+}
+
+.schedule-stage {
+  display: grid;
+  gap: 0;
+  padding-top: 4px;
 }
 
 .match-card,
