@@ -17,7 +17,7 @@ async function main() {
 
   const response = await fetch(sourceUrl, {
     headers: {
-      "user-agent": "Kenhsieh1211 World Cup tracker (+https://kenhsieh1211.github.io/)",
+      "user-agent": "GGPowermax World Cup tracker (+https://ggpowermax.github.io/)",
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     },
   });
