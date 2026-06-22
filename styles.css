@@ -318,6 +318,32 @@ select {
   gap: 12px;
 }
 
+.source-health {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid #d7bf8a;
+  border-radius: 8px;
+  background: #fff5dd;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.source-health strong {
+  color: var(--brand-dark);
+  font-size: 14px;
+}
+
+.source-health a {
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.source-health.warning {
+  border-color: #d9a58e;
+  background: #fff0e8;
+}
+
 .coverage-row {
   display: grid;
   grid-template-columns: 1fr auto;

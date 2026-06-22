@@ -8,6 +8,7 @@ const state = {
   teams: new Map(),
   favorites: new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]")),
   currentView: "today",
+  statsSnapshot: null,
 };
 
 const els = {
@@ -185,8 +186,10 @@ async function fetchStatsSnapshot() {
   try {
     const snapshot = await fetchJson(`${STATS_SNAPSHOT_URL}?v=${Date.now()}`);
     if (!snapshot || !Array.isArray(snapshot.matches)) return;
+    state.statsSnapshot = snapshot;
     mergeStatsSnapshot(snapshot.matches);
   } catch (error) {
+    state.statsSnapshot = null;
     console.info("Hourly stats snapshot is not available yet.", error);
   }
 }
@@ -496,13 +499,41 @@ function renderDataCoverage() {
   const withScorers = state.matches.filter((match) => parseScorers(match.home_scorers).length || parseScorers(match.away_scorers).length).length;
   const withTechnicalStats = state.matches.filter(hasDetailedStats).length;
   const fromSnapshot = state.matches.filter((match) => match.statsSource).length;
+  const snapshotMatches = state.statsSnapshot?.matches?.length || 0;
 
   els.dataCoverage.innerHTML = `
+    ${renderSnapshotHealth(fromSnapshot, snapshotMatches)}
     ${coverageRow("賽程 / 比分", withScores, total)}
     ${coverageRow("進球紀錄", withScorers, total)}
     ${coverageRow("角球 / 紅黃牌", withTechnicalStats, total)}
     ${coverageRow("最新快照覆蓋", fromSnapshot, total)}
     <p class="data-note">比分與完賽狀態可由最新快照先覆蓋；角球、紅牌、黃牌只在找到可靠資料源時顯示，沒有來源不塞數字。</p>
+  `;
+}
+
+function renderSnapshotHealth(mergedCount, snapshotMatches) {
+  if (!state.statsSnapshot) {
+    return `
+      <div class="source-health warning">
+        <strong>技術數據源</strong>
+        <span>等待 hourly-stats.json</span>
+      </div>
+    `;
+  }
+
+  const generatedAt = formatCacheTime(state.statsSnapshot.generatedAt);
+  const source = safeText(state.statsSnapshot.source, "未標示來源");
+  const sourceUrl = state.statsSnapshot.sourceUrl
+    ? `<a href="${state.statsSnapshot.sourceUrl}" target="_blank" rel="noreferrer">查看來源</a>`
+    : "";
+
+  return `
+    <div class="source-health">
+      <strong>技術數據源正常</strong>
+      <span>${source}</span>
+      <span>更新：${generatedAt} · 快照 ${snapshotMatches} 場 · 已合併 ${mergedCount} 場</span>
+      ${sourceUrl}
+    </div>
   `;
 }
 
