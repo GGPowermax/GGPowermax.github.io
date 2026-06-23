@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-23T01:54:03.500Z",
+  "generatedAt": "2026-06-23T11:45:09.278Z",
   "source": "ESPN public scoreboard and summary JSON",
   "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719",
   "matches": [
     {
       "id": "1",
-      "updatedAt": "2026-06-23T01:53:56.956Z",
+      "updatedAt": "2026-06-23T11:45:08.094Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760415",
       "espnEventId": "760415",
@@ -52,7 +52,7 @@
     },
     {
       "id": "2",
-      "updatedAt": "2026-06-23T01:53:57.131Z",
+      "updatedAt": "2026-06-23T11:45:08.136Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760414",
       "espnEventId": "760414",
@@ -99,7 +99,7 @@
     },
     {
       "id": "4",
-      "updatedAt": "2026-06-23T01:53:57.307Z",
+      "updatedAt": "2026-06-23T11:45:08.161Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760417",
       "espnEventId": "760417",
@@ -146,7 +146,7 @@
     },
     {
       "id": "8",
-      "updatedAt": "2026-06-23T01:53:57.486Z",
+      "updatedAt": "2026-06-23T11:45:08.206Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760420",
       "espnEventId": "760420",
@@ -193,7 +193,7 @@
     },
     {
       "id": "7",
-      "updatedAt": "2026-06-23T01:53:57.667Z",
+      "updatedAt": "2026-06-23T11:45:08.248Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760419",
       "espnEventId": "760419",
@@ -240,7 +240,7 @@
     },
     {
       "id": "5",
-      "updatedAt": "2026-06-23T01:53:57.837Z",
+      "updatedAt": "2026-06-23T11:45:08.263Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760418",
       "espnEventId": "760418",
@@ -287,7 +287,7 @@
     },
     {
       "id": "10",
-      "updatedAt": "2026-06-23T01:53:58.008Z",
+      "updatedAt": "2026-06-23T11:45:08.286Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760422",
       "espnEventId": "760422",
@@ -334,7 +334,7 @@
     },
     {
       "id": "11",
-      "updatedAt": "2026-06-23T01:53:58.172Z",
+      "updatedAt": "2026-06-23T11:45:08.301Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760425",
       "espnEventId": "760425",
@@ -381,7 +381,7 @@
     },
     {
       "id": "9",
-      "updatedAt": "2026-06-23T01:53:58.349Z",
+      "updatedAt": "2026-06-23T11:45:08.342Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760423",
       "espnEventId": "760423",
@@ -428,7 +428,7 @@
     },
     {
       "id": "12",
-      "updatedAt": "2026-06-23T01:53:58.509Z",
+      "updatedAt": "2026-06-23T11:45:08.358Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760424",
       "espnEventId": "760424",
@@ -475,7 +475,7 @@
     },
     {
       "id": "14",
-      "updatedAt": "2026-06-23T01:53:58.683Z",
+      "updatedAt": "2026-06-23T11:45:08.370Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760428",
       "espnEventId": "760428",
@@ -522,7 +522,7 @@
     },
     {
       "id": "15",
-      "updatedAt": "2026-06-23T01:53:58.880Z",
+      "updatedAt": "2026-06-23T11:45:08.382Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760426",
       "espnEventId": "760426",
@@ -569,7 +569,7 @@
     },
     {
       "id": "16",
-      "updatedAt": "2026-06-23T01:53:59.067Z",
+      "updatedAt": "2026-06-23T11:45:08.404Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760429",
       "espnEventId": "760429",
@@ -616,7 +616,7 @@
     },
     {
       "id": "13",
-      "updatedAt": "2026-06-23T01:53:59.255Z",
+      "updatedAt": "2026-06-23T11:45:08.446Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760427",
       "espnEventId": "760427",
@@ -663,7 +663,7 @@
     },
     {
       "id": "17",
-      "updatedAt": "2026-06-23T01:53:59.439Z",
+      "updatedAt": "2026-06-23T11:45:08.460Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760432",
       "espnEventId": "760432",
@@ -710,7 +710,7 @@
     },
     {
       "id": "18",
-      "updatedAt": "2026-06-23T01:53:59.630Z",
+      "updatedAt": "2026-06-23T11:45:08.502Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760430",
       "espnEventId": "760430",
@@ -757,7 +757,7 @@
     },
     {
       "id": "19",
-      "updatedAt": "2026-06-23T01:53:59.813Z",
+      "updatedAt": "2026-06-23T11:45:08.547Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760433",
       "espnEventId": "760433",
@@ -804,7 +804,7 @@
     },
     {
       "id": "20",
-      "updatedAt": "2026-06-23T01:53:59.990Z",
+      "updatedAt": "2026-06-23T11:45:08.623Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760431",
       "espnEventId": "760431",
@@ -851,7 +851,7 @@
     },
     {
       "id": "22",
-      "updatedAt": "2026-06-23T01:54:00.167Z",
+      "updatedAt": "2026-06-23T11:45:08.637Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760437",
       "espnEventId": "760437",
@@ -898,7 +898,7 @@
     },
     {
       "id": "24",
-      "updatedAt": "2026-06-23T01:54:00.344Z",
+      "updatedAt": "2026-06-23T11:45:08.677Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760434",
       "espnEventId": "760434",
@@ -945,7 +945,7 @@
     },
     {
       "id": "23",
-      "updatedAt": "2026-06-23T01:54:00.520Z",
+      "updatedAt": "2026-06-23T11:45:08.724Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760436",
       "espnEventId": "760436",
@@ -992,7 +992,7 @@
     },
     {
       "id": "28",
-      "updatedAt": "2026-06-23T01:54:00.696Z",
+      "updatedAt": "2026-06-23T11:45:08.835Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760438",
       "espnEventId": "760438",
@@ -1039,7 +1039,7 @@
     },
     {
       "id": "27",
-      "updatedAt": "2026-06-23T01:54:00.876Z",
+      "updatedAt": "2026-06-23T11:45:08.882Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760440",
       "espnEventId": "760440",
@@ -1086,7 +1086,7 @@
     },
     {
       "id": "25",
-      "updatedAt": "2026-06-23T01:54:01.052Z",
+      "updatedAt": "2026-06-23T11:45:08.895Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760441",
       "espnEventId": "760441",
@@ -1133,7 +1133,7 @@
     },
     {
       "id": "31",
-      "updatedAt": "2026-06-23T01:54:01.232Z",
+      "updatedAt": "2026-06-23T11:45:08.957Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760442",
       "espnEventId": "760442",
@@ -1180,7 +1180,7 @@
     },
     {
       "id": "30",
-      "updatedAt": "2026-06-23T01:54:01.406Z",
+      "updatedAt": "2026-06-23T11:45:09.000Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760445",
       "espnEventId": "760445",
@@ -1227,7 +1227,7 @@
     },
     {
       "id": "29",
-      "updatedAt": "2026-06-23T01:54:01.588Z",
+      "updatedAt": "2026-06-23T11:45:09.012Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760444",
       "espnEventId": "760444",
@@ -1274,7 +1274,7 @@
     },
     {
       "id": "35",
-      "updatedAt": "2026-06-23T01:54:01.764Z",
+      "updatedAt": "2026-06-23T11:45:09.061Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760447",
       "espnEventId": "760447",
@@ -1321,7 +1321,7 @@
     },
     {
       "id": "33",
-      "updatedAt": "2026-06-23T01:54:01.941Z",
+      "updatedAt": "2026-06-23T11:45:09.102Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760448",
       "espnEventId": "760448",
@@ -1368,7 +1368,7 @@
     },
     {
       "id": "34",
-      "updatedAt": "2026-06-23T01:54:02.116Z",
+      "updatedAt": "2026-06-23T11:45:09.114Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760446",
       "espnEventId": "760446",
@@ -1415,7 +1415,7 @@
     },
     {
       "id": "36",
-      "updatedAt": "2026-06-23T01:54:02.304Z",
+      "updatedAt": "2026-06-23T11:45:09.125Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760449",
       "espnEventId": "760449",
@@ -1462,7 +1462,7 @@
     },
     {
       "id": "39",
-      "updatedAt": "2026-06-23T01:54:02.467Z",
+      "updatedAt": "2026-06-23T11:45:09.138Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760453",
       "espnEventId": "760453",
@@ -1509,7 +1509,7 @@
     },
     {
       "id": "37",
-      "updatedAt": "2026-06-23T01:54:02.648Z",
+      "updatedAt": "2026-06-23T11:45:09.180Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760451",
       "espnEventId": "760451",
@@ -1556,7 +1556,7 @@
     },
     {
       "id": "40",
-      "updatedAt": "2026-06-23T01:54:02.826Z",
+      "updatedAt": "2026-06-23T11:45:09.192Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760450",
       "espnEventId": "760450",
@@ -1603,7 +1603,7 @@
     },
     {
       "id": "38",
-      "updatedAt": "2026-06-23T01:54:03.000Z",
+      "updatedAt": "2026-06-23T11:45:09.203Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760452",
       "espnEventId": "760452",
@@ -1650,7 +1650,7 @@
     },
     {
       "id": "43",
-      "updatedAt": "2026-06-23T01:54:03.164Z",
+      "updatedAt": "2026-06-23T11:45:09.214Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760456",
       "espnEventId": "760456",
@@ -1697,7 +1697,7 @@
     },
     {
       "id": "41",
-      "updatedAt": "2026-06-23T01:54:03.339Z",
+      "updatedAt": "2026-06-23T11:45:09.255Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760457",
       "espnEventId": "760457",
@@ -1709,8 +1709,8 @@
       "awayScorers": "null",
       "stats": {
         "possession": {
-          "home": 55.5,
-          "away": 44.5
+          "home": 55.6,
+          "away": 44.4
         },
         "shots": {
           "home": 19,
@@ -1744,24 +1744,24 @@
     },
     {
       "id": "42",
-      "updatedAt": "2026-06-23T01:54:03.500Z",
+      "updatedAt": "2026-06-23T11:45:09.267Z",
       "source": "ESPN public summary JSON",
       "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760454",
       "espnEventId": "760454",
       "homeScore": 3,
       "awayScore": 2,
-      "finished": false,
-      "timeElapsed": "live",
+      "finished": true,
+      "timeElapsed": "finished",
       "homeScorers": "{ \"Marcus Pedersen 43'\", \"Erling Haaland 48'\", \"Erling Haaland 58'\" }",
       "awayScorers": "{ \"Ismaïla Sarr 53'\", \"Ismaïla Sarr 90'+3'\" }",
       "stats": {
         "possession": {
-          "home": 43.3,
-          "away": 56.7
+          "home": 41.7,
+          "away": 58.3
         },
         "shots": {
           "home": 13,
-          "away": 14
+          "away": 16
         },
         "shotsOnTarget": {
           "home": 7,
@@ -1769,7 +1769,7 @@
         },
         "corners": {
           "home": 5,
-          "away": 2
+          "away": 4
         },
         "yellowCards": {
           "home": 0,
@@ -1780,12 +1780,59 @@
           "away": 0
         },
         "fouls": {
-          "home": 11,
-          "away": 4
+          "home": 13,
+          "away": 5
         },
         "offsides": {
           "home": 0,
           "away": 4
+        }
+      }
+    },
+    {
+      "id": "44",
+      "updatedAt": "2026-06-23T11:45:09.278Z",
+      "source": "ESPN public summary JSON",
+      "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760455",
+      "espnEventId": "760455",
+      "homeScore": 1,
+      "awayScore": 2,
+      "finished": true,
+      "timeElapsed": "finished",
+      "homeScorers": "{ \"Nizar Al Rashdan 36'\" }",
+      "awayScorers": "{ \"Nadhir Benbouali 69'\", \"Amine Gouiri 82'\" }",
+      "stats": {
+        "possession": {
+          "home": 27.9,
+          "away": 72.1
+        },
+        "shots": {
+          "home": 8,
+          "away": 17
+        },
+        "shotsOnTarget": {
+          "home": 4,
+          "away": 8
+        },
+        "corners": {
+          "home": 1,
+          "away": 10
+        },
+        "yellowCards": {
+          "home": 1,
+          "away": 1
+        },
+        "redCards": {
+          "home": 0,
+          "away": 0
+        },
+        "fouls": {
+          "home": 11,
+          "away": 6
+        },
+        "offsides": {
+          "home": 1,
+          "away": 0
         }
       }
     }
