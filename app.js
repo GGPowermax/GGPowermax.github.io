@@ -589,6 +589,24 @@ function parseScorers(raw) {
   });
 }
 
+function parseScorerDetails(raw) {
+  const text = safeText(raw).replace(/[{}"“”]/g, "").trim();
+  if (!text) return [];
+  return text.split(",").map((item) => item.trim()).filter(Boolean).map((item) => {
+    const cleaned = item.replace(/\s*\(p\)/i, " (PK)").replace(/\s*\(OG\)/i, " (烏龍)");
+    const minuteMatch = cleaned.match(/\d{1,3}'(?:\+\d{1,2}')?/);
+    const minute = minuteMatch?.[0] || "";
+    const beforeMinute = minuteMatch ? cleaned.slice(0, minuteMatch.index).trim() : cleaned;
+    const afterMinute = minuteMatch ? cleaned.slice(minuteMatch.index + minute.length).trim() : "";
+    const note = afterMinute || "";
+    return {
+      name: beforeMinute || cleaned,
+      minute,
+      note,
+    };
+  });
+}
+
 function renderStats() {
   const scorers = new Map();
   const teamGoals = new Map();
@@ -866,7 +884,7 @@ function renderTeamMatchDetail(teamName, match) {
   const opponent = opponentFor(match, teamName);
   const score = `${scoreText(side === "home" ? match.homeScore : match.awayScore, match)} : ${scoreText(side === "home" ? match.awayScore : match.homeScore, match)}`;
   const scorerRaw = side === "home" ? match.home_scorers : match.away_scorers;
-  const scorers = parseScorers(scorerRaw);
+  const scorers = parseScorerDetails(scorerRaw);
   const statItems = [
     ["角球", "corners"],
     ["黃牌", "yellowCards"],
@@ -886,7 +904,7 @@ function renderTeamMatchDetail(teamName, match) {
         <strong>${score}</strong>
         <span>${flagFor(opponent)} ${opponent}</span>
       </div>
-      <p class="team-scorers">${scorers.length ? `進球：${scorers.join("、")}` : "進球：目前沒有紀錄"}</p>
+      <p class="team-scorers">${scorers.length ? `進球：${scorers.map(renderInlineScorer).join("、")}` : "進球：目前沒有紀錄"}</p>
       <div class="team-match-stats">
         ${statItems.map(([label, key]) => {
           const stat = match.stats.find((item) => item.key === key);
@@ -932,9 +950,20 @@ function formatStatValue(value, unit = "") {
 }
 
 function renderScorerParagraphs(raw) {
-  const scorers = parseScorers(raw);
+  const scorers = parseScorerDetails(raw);
   if (!scorers.length) return "<p>目前沒有進球紀錄。</p>";
-  return `<ul class="scorer-list">${scorers.map((name) => `<li>${name}</li>`).join("")}</ul>`;
+  return `<ul class="scorer-list">${scorers.map((scorer) => `
+    <li>
+      <span>${scorer.name}${scorer.note ? ` ${scorer.note}` : ""}</span>
+      <strong>${scorer.minute || "-"}</strong>
+    </li>
+  `).join("")}</ul>`;
+}
+
+function renderInlineScorer(scorer) {
+  const note = scorer.note ? ` ${scorer.note}` : "";
+  const minute = scorer.minute ? ` ${scorer.minute}` : "";
+  return `${scorer.name}${note}${minute}`;
 }
 
 function switchView(view) {
