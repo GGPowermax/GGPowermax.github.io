@@ -162,3 +162,11 @@
 - 加上 `concurrency: hourly-stats-snapshot`，避免多個抓取工作同時推送造成衝突。
 - 手動重新產生 `data/hourly-stats.json`；目前快照 47 場、47 場完賽，來源仍為 ESPN public scoreboard/summary JSON。
 - 下一輪建議：新增前端資料狀態警示，若快照超過 90 分鐘未更新就提示「資料可能延遲」。
+
+### 2026-06-25 21:30 TST
+
+- 使用者回報許多已完賽比賽仍缺黃牌、角球、射門等細節；檢查後發現不是 ESPN 沒資料，而是隊名別名對應漏掉。
+- 補上 ESPN 隊名別名：`Türkiye -> Turkey`、`Bosnia-Herzegovina -> Bosnia and Herzegovina`、`Congo DR -> Democratic Republic of the Congo`。
+- 重新產生 `data/hourly-stats.json`，快照從 47 場增加到 54 場；目前 worldcup26 顯示已完賽但沒有技術快照的場次為 0。
+- 補回的場次包含 Canada vs Bosnia and Herzegovina、Australia vs Turkey、Portugal vs Democratic Republic of the Congo、Switzerland vs Bosnia and Herzegovina、Turkey vs Paraguay、Colombia vs Democratic Republic of the Congo、Bosnia and Herzegovina vs Qatar。
+- 下一輪建議：把 scraper 加上「已完賽但未對應」檢查，若漏場就讓 GitHub Actions 直接 fail，避免靜默缺資料。

@@ -28,14 +28,19 @@ const statMap = {
 
 const teamAliases = new Map([
   ["bosnia-herzegovina", "bosnia and herzegovina"],
+  ["bosnia herzegovina", "bosnia and herzegovina"],
   ["bosnia herz", "bosnia and herzegovina"],
   ["cabo verde", "cape verde"],
+  ["congo dr", "democratic republic of the congo"],
+  ["dr congo", "democratic republic of the congo"],
+  ["democratic republic congo", "democratic republic of the congo"],
   ["czechia", "czech republic"],
   ["curaçao", "curacao"],
   ["côte d'ivoire", "ivory coast"],
   ["cote d'ivoire", "ivory coast"],
   ["ivory coast", "ivory coast"],
   ["korea republic", "south korea"],
+  ["turkiye", "turkey"],
   ["usa", "united states"],
 ]);
 
