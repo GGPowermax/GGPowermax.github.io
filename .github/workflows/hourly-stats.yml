@@ -2,8 +2,12 @@ name: Hourly stats snapshot
 
 on:
   schedule:
-    - cron: "7 * * * *"
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
+
+concurrency:
+  group: hourly-stats-snapshot
+  cancel-in-progress: false
 
 permissions:
   contents: write

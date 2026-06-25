@@ -154,3 +154,11 @@
 - 手動重新產生 `data/hourly-stats.json`，快照更新到 38 場；France 3-1 的技術數據已補齊角球、紅黃牌、射正、控球率等欄位。
 - France 3-1 資料源仍為 ESPN public summary JSON；沒有真實來源的欄位不手填。
 - 下一輪建議：在比賽詳情加事件時間線，整合進球、紅黃牌與換人事件。
+
+### 2026-06-25 21:25 TST
+
+- 使用者回報自動化沒有穩定完整上傳；檢查 GitHub Actions 後確認 workflow 成功，但 `schedule` 實際觸發間隔不穩，曾出現 4-12 小時才跑一次。
+- 將 `.github/workflows/hourly-stats.yml` 從每小時 1 次改為每小時 4 次冗餘觸發：`7,22,37,52 * * * *`。
+- 加上 `concurrency: hourly-stats-snapshot`，避免多個抓取工作同時推送造成衝突。
+- 手動重新產生 `data/hourly-stats.json`；目前快照 47 場、47 場完賽，來源仍為 ESPN public scoreboard/summary JSON。
+- 下一輪建議：新增前端資料狀態警示，若快照超過 90 分鐘未更新就提示「資料可能延遲」。
