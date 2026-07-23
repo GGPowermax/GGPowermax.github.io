@@ -228,6 +228,48 @@ body::after{content:'';position:fixed;right:-46px;bottom:52px;width:330px;height
 .ph-natal{height:152px;background:#060406 var(--img-luopan) right center/cover no-repeat}
 /* cloud ornament moves to verdict box */
 .verdict-box::after{content:'';position:absolute;right:-14px;bottom:-8px;width:150px;height:104px;background:var(--img-cloud) center/contain no-repeat;opacity:.13;pointer-events:none}
+
+/* ===== v10 ziwei chart ===== */
+.zw-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(94px,auto);gap:5px;margin:12px 0}
+.zw-cell{position:relative;border:1px solid rgba(226,180,95,.16);border-radius:9px;background:rgba(246,212,136,.03);padding:7px 7px 20px;cursor:pointer;overflow:hidden;transition:transform .2s,background .3s,border-color .3s}
+.zw-cell:active{transform:scale(.94);background:rgba(226,180,95,.08)}
+.zw-center{grid-column:2/4;grid-row:2/4;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid rgba(226,180,95,.28);border-radius:9px;background:radial-gradient(circle at 50% 35%,rgba(62,44,28,.5),rgba(18,12,14,.85));cursor:default;padding:8px}
+.zw-center .zc-t{font-family:var(--font-display);font-size:15px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--gold-hi),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:5px}
+.zw-center .zc-s{font-size:10px;color:var(--text2);line-height:1.9}
+.zw-stars{display:flex;gap:4px;flex-wrap:wrap;align-items:baseline}
+.zw-star{font-family:var(--font-display);font-size:12.5px;font-weight:900;line-height:1.35;white-space:nowrap}
+.zw-none{font-size:10px;color:var(--text3);font-style:italic}
+.zw-aux{font-size:8.5px;color:var(--text3);margin-top:3px;line-height:1.5}
+.zw-hua{display:inline-block;font-size:8px;padding:0 3px;border-radius:3px;margin-left:1px;vertical-align:2px;font-weight:700;font-family:var(--font-body)}
+.zw-hua.lu{background:rgba(169,185,133,.2);color:var(--green)}
+.zw-hua.quan{background:rgba(226,180,95,.2);color:var(--gold-hi)}
+.zw-hua.ke{background:rgba(143,166,186,.2);color:var(--blue)}
+.zw-hua.ji{background:rgba(212,85,60,.22);color:var(--red)}
+.zw-gong{position:absolute;bottom:5px;left:7px;font-size:9px;color:var(--text2);font-weight:700;letter-spacing:1px}
+.zw-gz{position:absolute;bottom:5px;right:7px;font-size:8.5px;color:var(--text3)}
+.zw-badge{position:absolute;top:4px;right:4px;font-size:8.5px;padding:1px 5px;border-radius:4px;font-weight:900;font-family:var(--font-display);letter-spacing:1px}
+.zw-badge.ming{background:linear-gradient(140deg,#cf5138,#992f1f);color:#f6e9d6;box-shadow:0 1px 5px rgba(201,79,53,.4)}
+.zw-badge.shen{background:rgba(226,180,95,.2);color:var(--gold-hi);border:1px solid rgba(226,180,95,.4)}
+.zw-badge.dx{background:rgba(226,180,95,.14);color:var(--gold-hi);border:1px solid rgba(226,180,95,.35)}
+.zw-cell.dx-active{border-color:rgba(226,180,95,.55);background:rgba(226,180,95,.06);animation:pulse-gold 2.5s infinite}
+@keyframes zwIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.zw-cell,.zw-center{animation:zwIn .5s cubic-bezier(.22,1,.36,1) both}
+.zw-note{font-size:10.5px;color:var(--text3);line-height:1.7;margin-top:8px;padding-top:8px;border-top:1px solid rgba(226,180,95,.1)}
+/* ===== v10 motion ===== */
+@media (prefers-reduced-motion: no-preference){
+.sec .card,.sec .verdict-box,.sec .cat-card,.sec .kpi-card{animation:none;opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+.sec .card.rev,.sec .verdict-box.rev,.sec .cat-card.rev,.sec .kpi-card.rev{opacity:1;transform:none}
+}
+@keyframes goldSweep{0%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(340%) skewX(-18deg)}}
+.gold-sweep{position:absolute;top:0;bottom:0;left:0;width:38%;z-index:3;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(246,212,136,.13) 50%,transparent);animation:goldSweep 2.6s cubic-bezier(.4,0,.2,1) .5s 1 both}
+.pg-hero::after{content:'';position:absolute;top:0;bottom:0;left:0;width:44%;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(246,212,136,.12) 50%,transparent);transform:translateX(-120%) skewX(-18deg);animation:goldSweep 2.4s cubic-bezier(.4,0,.2,1) .4s 1 both}
+@keyframes radarIn{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+.radar-poly{transform-box:fill-box;transform-origin:center;animation:radarIn 1s cubic-bezier(.22,1,.36,1) both}
+@keyframes compassIn{from{opacity:0;transform:rotate(-50deg) scale(.85)}to{opacity:1;transform:rotate(0) scale(1)}}
+.compass-wrap svg{animation:compassIn 1.1s cubic-bezier(.22,1,.36,1) both}
+@keyframes flipIn{0%{opacity:0;transform:perspective(700px) rotateX(70deg) translateY(24px)}100%{opacity:1;transform:none}}
+.stick-result.show .card{animation:flipIn .7s cubic-bezier(.22,1,.36,1) both}
+.score-orb::before{content:'';position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(226,180,95,.25);animation:luopanSpin 60s linear infinite}
 </style>
 </head>
 <body>
@@ -236,7 +278,7 @@ body::after{content:'';position:fixed;right:-46px;bottom:52px;width:330px;height
 <!-- HOME -->
 <div id="s-home" class="sec on">
   <div class="hdr"><div class="hdr-left"><div class="hdr-seal" aria-hidden="true">命</div><div><div class="hdr-logo">命理日課</div><div class="greeting" id="h-greeting"></div></div></div><div class="hdr-date" id="h-date"></div></div>
-  <div class="card home-hero" id="h-strip"><div class="hero-art" aria-hidden="true"></div><div class="hero-vert" aria-hidden="true">順天應時</div>
+  <div class="card home-hero" id="h-strip"><div class="hero-art" aria-hidden="true"></div><div class="gold-sweep" aria-hidden="true"></div><div class="hero-vert" aria-hidden="true">順天應時</div>
     <div class="hero-top">
       <div class="score-orb">
         <svg viewBox="0 0 92 92">
@@ -556,7 +598,7 @@ function radarSVG(cats,size){
   for(var lv=1;lv<=4;lv++){var lr=r*lv/4,pts=[];for(i=0;i<n;i++)pts.push((cx+lr*Math.cos(angles[i])).toFixed(1)+","+(cy+lr*Math.sin(angles[i])).toFixed(1));svg+='<polygon points="'+pts.join(" ")+'" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>'}
   for(i=0;i<n;i++)svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+r*Math.cos(angles[i])).toFixed(1)+'" y2="'+(cy+r*Math.sin(angles[i])).toFixed(1)+'" stroke="rgba(255,255,255,.04)"/>';
   var dpts=[];for(i=0;i<n;i++){var v=Math.max(0,Math.min(1,(cats[cn[i]]-30)/70));dpts.push((cx+r*v*Math.cos(angles[i])).toFixed(1)+","+(cy+r*v*Math.sin(angles[i])).toFixed(1))}
-  svg+='<polygon points="'+dpts.join(" ")+'" fill="rgba(226,180,95,.14)" stroke="var(--accent)" stroke-width="1.5"/>';
+  svg+='<polygon class="radar-poly" points="'+dpts.join(" ")+'" fill="rgba(226,180,95,.14)" stroke="var(--accent)" stroke-width="1.5"/>';
   for(i=0;i<n;i++){svg+='<circle cx="'+dpts[i].split(",")[0]+'" cy="'+dpts[i].split(",")[1]+'" r="3" fill="var(--accent)"/>';var lx=cx+(r+14)*Math.cos(angles[i]),ly=cy+(r+14)*Math.sin(angles[i]);svg+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" fill="var(--text2)" font-size="10" font-family="var(--font-body)">'+cn[i]+'</text>'}
   return svg+'</svg>'
 }
@@ -932,6 +974,55 @@ var jieqiData=[
 ];
 function getJieqi(m,d){for(var i=0;i<jieqiData.length;i++){var j=jieqiData[i];if(j[0]===m+1&&Math.abs(j[1]-d)<=1)return j[2]}return null}
 // === NATAL RENDER (expanded) ===
+
+// === ZIWEI CHART (乙丑年十月三十日卯時 男命；安星已與水二局/命主廉貞/身主天相/身宮寅/財帛大限五項既知盤面交叉驗證一致) ===
+var ZW={
+"巳":{gz:"辛巳",gong:"子女宮",main:[["天梁","quan"]],aux:[],d:"天梁化權坐子女宮。天梁是蔭星、長者星，化權後管教與承擔的味道更重——對晚輩、部屬、學生帶有「照顧＋要求」的雙重姿態。也代表你在團隊裡容易扮演罩人的角色，但要留意好為人師、替人扛過頭。"},
+"午":{gz:"壬午",gong:"夫妻宮",main:[["七殺",""]],aux:["火星"],d:"七殺坐夫妻宮，加會火星。感情模式偏「快、烈、直」，欣賞有主見有稜角的對象，關係中容易速熱，也容易硬碰硬。經營之道是留白：給彼此獨立空間，衝突時先降溫再談，別在氣頭上做決定。"},
+"未":{gz:"癸未",gong:"兄弟宮",main:[],aux:["文昌","文曲"],d:"無主星，借對宮（丑）日月來看，昌曲同守。兄弟朋友緣偏文氣——身邊容易聚集會讀書、會表達的人，手足或平輩間以理相交多於以情相黏。合作找互補的軍師型人物，比找哥們更順。"},
+"申":{gz:"甲申",gong:"命宮",main:[["廉貞",""]],aux:["天鉞"],badge:"ming",d:"廉貞坐命，天鉞貴人同宮。廉貞是「次桃花＋政治星」：公關手腕、企圖心、原則性並存，擅長在體制內把關係與資源盤活——很符合你在通路業務的路子。天鉞加持，一生多長輩型貴人提攜。要留意的是廉貞的擰勁：認定的事不易回頭，偶爾要提醒自己「認錯不丟人」。"},
+"酉":{gz:"乙酉",gong:"父母宮",main:[],aux:[],d:"無主星，借對宮（卯）天機巨門來看。與父母的相處偏「講道理」的互動模式，觀念交流多但也容易有代溝式的辯論。長輩緣分不薄，但深度交心需要刻意經營。"},
+"戌":{gz:"丙戌",gong:"福德宮",main:[["破軍",""]],aux:[],d:"破軍坐福德宮。內在世界不安分——喜歡開新局、換跑道、打掉重練，靜不下來是常態。這股勁用對了是開創力，用歪了是自我消耗。給自己安排「合法的破壞出口」：運動、策略遊戲、牌局研究，都比悶著好。"},
+"亥":{gz:"丁亥",gong:"田宅宮",main:[["天同",""]],aux:[],d:"天同坐田宅宮。天同是福星，落田宅代表居住環境求舒適、家裡是你的充電站。置產緣分平順、偏晚更穩，適合「住得舒服」優先於「炒得漂亮」的置產邏輯。"},
+"子":{gz:"戊子",gong:"官祿宮",main:[["武曲",""],["天府",""]],aux:["天魁"],d:"武曲天府坐事業宮，天魁貴人守。這是相當硬的財經組合：武曲主財務執行力，天府主庫藏管理，事業格局天生跟「錢、資源、通路」綁在一起——業務、財務、營運管理都是對盤的跑道。天魁加持，職場中每逢關卡多有貴人開門。"},
+"丑":{gz:"己丑",gong:"交友宮",main:[["太陽",""],["太陰","ji"]],aux:["左輔","右弼","鈴星"],d:"日月同守交友宮，左輔右弼來拱，但太陰化忌也落在這裡。人脈是你的大資產——輔弼拱照，朋友、同事、客戶關係網豐厚，關鍵時刻有人幫。但太陰化忌提醒：情感帳與金錢帳要分開，對「私下的、檯面下的」人情往來要多一分核實，防被暗著消耗。合夥、借貸、代持一類的事，寧可白紙黑字。"},
+"寅":{gz:"戊寅",gong:"遷移宮",main:[["貪狼",""]],aux:["陀羅"],badge:"shen",d:"貪狼坐遷移，且是你的身宮——後天的重心在外面的世界。貪狼主慾望與交際，出外應酬、飯局、牌桌都是你的主場，機會也多從外緣來。陀羅同宮是唯一的但書：外面的局容易「拖」與「纏」，爛攤子型的應酬要果斷抽身，別讓沉沒成本綁住你。"},
+"卯":{gz:"己卯",gong:"疾厄宮",main:[["天機","lu"],["巨門",""]],aux:["祿存"],d:"機巨同守疾厄，天機化祿＋祿存雙祿聚。健康面主「神經與腸胃」——想太多、吃飯不定時是主要風險源；化祿與祿存守疾厄反而是保護傘，小病多、大病少，但前提是別揮霍。具體就三件事：睡眠、腸胃、資訊焦慮（少滑盤面）。"},
+"辰":{gz:"庚辰",gong:"財帛宮",main:[["紫微","ke"],["天相",""]],aux:["擎羊"],badge:"dx",d:"紫微天相坐財帛，紫微化科——財富格局走「正財＋名聲財」路線：地位、專業、信用帶財，越有名聲錢越順。擎羊同宮是刀：賺得到也切得快，投機槓桿是你財帛宮的天敵。2026–2035 大限正走到這裡，這十年是財務佈局的主場——重心放在本業深耕、現金流結構與長期部位，而不是短打。"}
+};
+var ZW_LAYOUT=["巳","午","未","申","辰","CENTER","酉","卯","戌","寅","丑","子","亥"];
+var ZW_HUA={lu:"祿",quan:"權",ke:"科",ji:"忌"};
+function renderZiwei(){
+  var h='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:4px">'
+  +'<div style="background:rgba(246,212,136,.03);padding:9px 6px;border-radius:var(--radius-sm);border:1px solid var(--card-border);text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:3px">局數</div><div style="font-weight:700;font-size:12px;color:var(--water)">水二局</div></div>'
+  +'<div style="background:rgba(246,212,136,.03);padding:9px 6px;border-radius:var(--radius-sm);border:1px solid var(--card-border);text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:3px">命主</div><div style="font-weight:700;font-size:12px;color:var(--purple)">廉貞</div></div>'
+  +'<div style="background:rgba(246,212,136,.03);padding:9px 6px;border-radius:var(--radius-sm);border:1px solid var(--card-border);text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:3px">身主</div><div style="font-weight:700;font-size:12px;color:var(--blue)">天相</div></div>'
+  +'<div style="background:rgba(246,212,136,.03);padding:9px 6px;border-radius:var(--radius-sm);border:1px solid var(--card-border);text-align:center"><div style="font-size:9px;color:var(--text3);margin-bottom:3px">身宮</div><div style="font-weight:700;font-size:12px;color:var(--green)">遷移（寅）</div></div></div>';
+  h+='<div class="zw-grid">';
+  for(var i=0;i<ZW_LAYOUT.length;i++){
+    var k=ZW_LAYOUT[i];
+    if(k==="CENTER"){h+='<div class="zw-center" style="animation-delay:'+(i*45)+'ms"><div class="zc-t">紫微命盤</div><div class="zc-s">乙丑年 十月三十 卯時<br>陰男 · 水二局<br>命主廉貞 · 身主天相<br><span style="color:var(--gold-hi)">大限 2026–35 財帛宮</span></div></div>';continue}
+    var p=ZW[k],stars='';
+    if(p.main.length){for(var s=0;s<p.main.length;s++){var st=p.main[s];stars+='<span class="zw-star">'+st[0]+(st[1]?'<span class="zw-hua '+st[1]+'">'+ZW_HUA[st[1]]+'</span>':'')+'</span>'}}
+    else stars='<span class="zw-none">無主星·借對宮</span>';
+    var badge=p.badge==="ming"?'<span class="zw-badge ming">命</span>':p.badge==="shen"?'<span class="zw-badge shen">身</span>':p.badge==="dx"?'<span class="zw-badge dx">大限</span>':'';
+    h+='<div class="zw-cell'+(p.badge==="dx"?' dx-active':'')+'" style="animation-delay:'+(i*45)+'ms" onclick="showZW(\''+k+'\')">'+badge+'<div class="zw-stars">'+stars+'</div>'+(p.aux.length?'<div class="zw-aux">'+p.aux.join("·")+'</div>':'')+'<div class="zw-gong">'+p.gong.replace("宮","")+'</div><div class="zw-gz">'+p.gz+'</div></div>'
+  }
+  h+='</div><div style="font-size:11px;color:var(--text2);padding-top:10px;border-top:1px solid rgba(226,180,95,.1)"><strong style="color:var(--accent)">生年四化：</strong><span class="zw-hua lu" style="font-size:10px">祿</span>天機（疾厄）　<span class="zw-hua quan" style="font-size:10px">權</span>天梁（子女）　<span class="zw-hua ke" style="font-size:10px">科</span>紫微（財帛）　<span class="zw-hua ji" style="font-size:10px">忌</span>太陰（交友）</div>';
+  h+='<div class="zw-note">點宮位看詳解。安星依乙丑年十月三十日卯時（陰男）標準法推排，已與既知五項定盤資料（水二局、命主廉貞、身主天相、身宮寅、2026–35 財帛大限）交叉驗證一致；如與老師手排有出入，以手排為準。命盤描述的是傾向與結構，不是保證。</div>';
+  document.getElementById("natal-ziwei").innerHTML=h;
+}
+function showZW(k){
+  var p=ZW[k];haptic(10);
+  var stars=p.main.length?p.main.map(function(s){return s[0]+(s[1]?"（化"+ZW_HUA[s[1]]+"）":"")}).join("、"):"無主星（借對宮）";
+  var badgeTxt=p.badge==="ming"?'<div style="margin-bottom:8px"><span class="zw-badge ming" style="position:static">命宮</span></div>':p.badge==="shen"?'<div style="margin-bottom:8px"><span class="zw-badge shen" style="position:static">身宮所在</span></div>':p.badge==="dx"?'<div style="margin-bottom:8px"><span class="zw-badge dx" style="position:static">2026–2035 大限</span></div>':'';
+  showM(p.gong+" · "+p.gz,badgeTxt
+  +'<div style="font-size:13px;margin-bottom:6px"><strong style="color:var(--accent);font-family:var(--font-display)">主星：</strong>'+stars+'</div>'
+  +(p.aux.length?'<div style="font-size:12px;color:var(--text2);margin-bottom:10px"><strong style="color:var(--text2)">輔佐煞曜：</strong>'+p.aux.join("、")+'</div>':'')
+  +'<div style="font-size:13px;line-height:1.9;color:var(--text)">'+p.d+'</div>'
+  +'<div class="anti-misread" style="margin-top:12px">宮位解讀是結構傾向，不是宿命，更不是行動指令。重大決策仍以現實條件與風控為準。</div>')
+}
+
 function rNatal(){
   var pillars=[{label:"年柱",g:"乙",z:"丑",gEl:"木",zEl:"土"},{label:"月柱",g:"戊",z:"子",gEl:"土",zEl:"水"},{label:"日柱",g:"甲",z:"申",gEl:"木",zEl:"金"},{label:"時柱",g:"丁",z:"卯",gEl:"火",zEl:"木"}];
   var elCol={"木":"var(--wood)","火":"var(--fire)","土":"var(--earth)","金":"var(--metal)","水":"var(--water)"};
@@ -941,7 +1032,7 @@ function rNatal(){
   renderGlossary();
   document.getElementById("natal-yongshen").innerHTML='<div style="font-size:13px;line-height:2"><div style="margin-bottom:8px"><span style="color:var(--accent);font-weight:700;font-family:var(--font-display)">日主：甲木</span> · 身強</div><div style="padding:8px 0;border-top:1px solid rgba(216,167,76,.1)"><span style="color:var(--accent)">✅ 喜用神</span><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><span class="elem-tag" style="background:rgba(198,93,73,.12);color:var(--fire)">火 — 洩秀</span><span class="elem-tag" style="background:rgba(216,167,76,.12);color:var(--earth)">土 — 財星</span><span class="elem-tag" style="background:rgba(199,181,155,.12);color:var(--metal)">金 — 官殺</span></div></div><div style="padding:8px 0;border-top:1px solid rgba(216,167,76,.1)"><span style="color:var(--red)">❌ 忌神</span><div style="display:flex;gap:6px;margin-top:6px"><span class="elem-tag" style="background:rgba(143,115,89,.14);color:var(--water)">水 — 印星生身</span><span class="elem-tag" style="background:rgba(183,141,79,.12);color:var(--wood)">木 — 比劫助身</span></div></div><div style="padding:10px 0;border-top:1px solid rgba(216,167,76,.1);color:var(--text2);font-size:12px">甲木生於子月水旺，地支有卯木助身，得令得地，身強無疑。需火洩秀、土耗身取財、金制身為佳。</div></div>';
   renderCompass();
-  document.getElementById("natal-ziwei").innerHTML='<div style="font-size:13px;line-height:2"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px"><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">局數</div><div style="font-weight:700;color:var(--water)">水二局</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">命主星</div><div style="font-weight:700;color:var(--purple)">廉貞</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">身主星</div><div style="font-weight:700;color:var(--blue)">天相</div></div><div style="background:rgba(255,255,255,.02);padding:10px;border-radius:var(--radius-sm);border:1px solid var(--card-border)"><div style="font-size:10px;color:var(--text3);margin-bottom:4px">身宮</div><div style="font-weight:700;color:var(--green)">遷移宮（寅）</div></div></div><div style="font-size:11px;color:var(--text2);border-top:1px solid rgba(216,167,76,.1);padding-top:10px"><strong style="color:var(--accent)">生年四化：</strong>天機化祿、天梁化權、紫微化科、太陰化忌</div><div style="margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(198,93,73,.08);border:1px solid rgba(198,93,73,.16);font-size:11px;color:var(--text2);line-height:1.7"><strong style="color:var(--red)">TODO：</strong>完整十二宮星曜尚未載入，目前只顯示已知固定資料，不自行補斷宮位主星。</div></div>';
+  renderZiwei();
   var now=new Date(),yr=now.getFullYear(),age=yr-1985,dxPct=Math.min(100,Math.max(0,(yr-2026)/9*100)).toFixed(0);
   document.getElementById("natal-daxian").innerHTML='<div style="font-size:13px;line-height:2"><div style="margin-bottom:12px"><span style="color:var(--accent);font-weight:700">當前大限：</span>2026~2035 · <span style="color:var(--earth)">財帛宮</span></div><div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px"><span>2026</span><span>'+yr+' ('+age+'歲)</span><span>2035</span></div><div style="height:6px;background:rgba(255,255,255,.03);border-radius:3px;overflow:hidden"><div style="width:'+dxPct+'%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px"></div></div></div><div style="color:var(--text2);font-size:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.04)">大限走財帛宮，此十年重心在財務經營、商業佈局。適合深耕 HEINEKEN 通路、建立長期收入來源。</div><div style="background:rgba(226,180,95,.04);border:1px solid rgba(226,180,95,.1);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:var(--text2)"><div style="color:var(--accent);font-weight:700;margin-bottom:4px">💡 '+yr+' 流年提示</div>丙午年火旺，喜用神得力。火洩木秀，利於事業與財務。午火旺時需防急躁，宜穩中求進。</div></div>'
 }
@@ -976,6 +1067,19 @@ document.addEventListener("DOMContentLoaded",function(){
   if(qaIn)qaIn.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();askQA()}});
   if("serviceWorker" in navigator&&location.protocol!=="file:"){navigator.serviceWorker.register("sw.js").catch(function(){})}
 });
+
+// === v10 scroll reveal ===
+var _revObs=null;
+function initReveal(){
+  var sel=".sec.on .card:not(.rev),.sec.on .verdict-box:not(.rev),.sec.on .cat-card:not(.rev),.sec.on .kpi-card:not(.rev)";
+  var els=document.querySelectorAll(sel);
+  if(!("IntersectionObserver" in window)){for(var i=0;i<els.length;i++)els[i].classList.add("rev");return}
+  if(!_revObs)_revObs=new IntersectionObserver(function(es){for(var j=0;j<es.length;j++){if(es[j].isIntersecting){es[j].target.classList.add("rev");_revObs.unobserve(es[j].target)}}},{threshold:.06,rootMargin:"0px 0px -3% 0px"});
+  for(var i2=0;i2<els.length;i2++){els[i2].style.transitionDelay=(i2%5*70)+"ms";_revObs.observe(els[i2])}
+}
+var _goOrig=go;
+go=function(p,dir){_goOrig(p,dir);setTimeout(initReveal,80);setTimeout(initReveal,450)};
+setTimeout(initReveal,120);
 </script>
 </body>
 </html>
