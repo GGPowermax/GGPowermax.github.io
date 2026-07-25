@@ -410,10 +410,115 @@ function hGZ(dg,h){var hm=[[23,1,0],[1,3,1],[3,5,2],[5,7,3],[7,9,4],[9,11,5],[11
 function getGZ(dt){var y=dt.getFullYear(),m=dt.getMonth()+1;if(m===1||(m===2&&dt.getDate()<4))y--;return{year:yGZ(y),month:mGZ(y,dt.getMonth()+1),day:dGZ(dt),hour:hGZ(dGZ(dt).g,dt.getHours())}}
 function wxS(w){return{火:85,土:80,金:78,水:40,木:35}[w]||50}
 function pBase(g,z){var gs=wxS(GW[g]),zs=wxS(ZW[z]),cg=ZC[z]||[];var ca=cg.length?cg.reduce(function(a,c){return a+wxS(GW[c])},0)/cg.length:50;return gs*.45+zs*.4+ca*.15}
-function sP(g,z){var nz=["丑","子","申","卯"],ng=["乙","戊","甲","丁"];var base=pBase(g,z),ga=0;var i;for(i=0;i<ng.length;i++)if(isGH(g,ng[i]))ga+=FAV.has(GW[g])?5:-3;var cc=[],cn=0;for(i=0;i<nz.length;i++)if(isC(z,nz[i])){cn++;cc.push(z+"沖"+nz[i])}var xc=[],xn=0;for(var xi=0;xi<SX.length;xi++){var xs=SX[xi];if(xs.indexOf(z)>=0)for(i=0;i<nz.length;i++)if(xs.indexOf(nz[i])>=0&&nz[i]!==z){xn++;xc.push(z+"刑"+nz[i])}}var tp=Math.min(Math.min(cn*8,12)+Math.min(xn*5,12),12);var hc=[],hn=0;for(i=0;i<nz.length;i++)if(isH(z,nz[i])){hn++;hc.push(z+"合"+nz[i])}var hb=Math.min(hn*8,8);var f=Math.max(30,Math.min(100,base+ga-tp+hb));return{score:Math.round(f*10)/10,chong:cc,xing:xc,he:hc,penalty:-tp,bonus:hb,base:Math.round(base*10)/10}}
-var WT={year:.1,month:.3,day:.35,hour:.25};
-function calc(dt){var gz=getGZ(dt);var ps={},ds={};var pillars=["year","month","day","hour"];for(var pi=0;pi<pillars.length;pi++){var p=pillars[pi];var r=sP(gz[p].g,gz[p].z);ps[p]=r.score;ds[p]=r}var c=0;for(var k in WT)c+=ps[k]*WT[k];c=Math.max(30,Math.min(100,Math.round(c*10)/10));var ac=[],ah=[],ax=[];for(pi=0;pi<pillars.length;pi++){p=pillars[pi];ac=ac.concat(ds[p].chong);ah=ah.concat(ds[p].he);ax=ax.concat(ds[p].xing)}var sp=[];if(ac.length)sp.push({t:"六沖",d:Array.from(new Set(ac))});if(ah.length)sp.push({t:"六合",d:Array.from(new Set(ah))});if(ax.length)sp.push({t:"三刑",d:Array.from(new Set(ax))});return{gz:gz,ps:ps,ds:ds,comp:c,sp:sp,cats:catS(c,gz),star:toS(c)}}
-function catS(c,gz){var dw=GW[gz.day.g],hw=GW[gz.hour.g];var w=c,ca=c,h=c,l=c,s=c;if(dw==="土"||hw==="土")w+=5;else if(dw==="水")w-=5;if(dw==="金"||hw==="金")ca+=5;else if(dw==="木")ca-=3;if(dw==="火")h+=5;else if(dw==="水")h-=5;if(dw==="火"||dw==="土")l+=4;else if(dw==="水")l-=4;var hg=gz.hour.g;if(hg==="己"||hg==="庚")s+=8;else if(hg==="壬"||hg==="癸")s-=6;if(dw==="土")s+=3;var cl=function(v){return Math.max(30,Math.min(100,Math.round(v)))};return{"財運":cl(w),"事業":cl(ca),"健康":cl(h),"感情":cl(l),"偏財":cl(s)}}
+// ===== v11 scoring engine =====
+// 命主：甲木身強（乙丑/戊子/甲申/丁卯）。喜火(洩秀)土(財)金(官殺)、忌水(印)木(比劫)。
+// 依據：窮通寶鑑（子月甲木，寒木向陽專用丙火）、子平真詮（身強喜洩剋耗）、
+//       滴天髓（氣勢與會局）、紫微：十干四化＋流年命宮＋星曜廟陷（日月晝夜加權）。
+var TEN_W={"火":10,"土":8,"金":6.5,"木":-7,"水":-9};
+function seasonAdj(mz){
+  if("亥子丑".indexOf(mz)>=0)return{"火":1.6,"水":1.35,"金":0.9,"土":1.0,"木":1.0};   // 冬：寒木向陽
+  if("巳午未".indexOf(mz)>=0)return{"火":0.75,"水":0.7,"金":1.1,"土":1.05,"木":1.0}; // 夏：火炎稍斂、水不那麼壞
+  if("寅卯辰".indexOf(mz)>=0)return{"火":1.15,"水":1.1,"金":1.0,"土":1.0,"木":1.15}; // 春：比劫當令更忌
+  return{"火":1.0,"水":1.0,"金":1.15,"土":1.0,"木":1.0};                              // 秋：官殺得地
+}
+// 紫微流日宮位分（依 Ken 盤星曜＋廟陷：太陽丑陷、太陰丑廟但化忌）
+var DAY_ZW={"子":2.5,"丑":-1.5,"寅":1,"卯":3,"辰":1.5,"巳":2,"午":-2,"未":1,"申":1.5,"酉":0,"戌":-1.5,"亥":1.5};
+// 十干四化 + 本盤星曜宮位
+var SIHUA={
+"甲":["廉貞","破軍","武曲","太陽"],"乙":["天機","天梁","紫微","太陰"],"丙":["天同","天機","文昌","廉貞"],
+"丁":["太陰","天同","天機","巨門"],"戊":["貪狼","太陰","右弼","天機"],"己":["武曲","貪狼","天梁","文曲"],
+"庚":["太陽","武曲","太陰","天同"],"辛":["巨門","太陽","文曲","文昌"],"壬":["天梁","紫微","左輔","武曲"],
+"癸":["破軍","巨門","太陰","貪狼"]};
+var STAR_PAL={"廉貞":"申","破軍":"戌","武曲":"子","太陽":"丑","天機":"卯","天梁":"巳","紫微":"辰","太陰":"丑","天同":"亥","文昌":"未","文曲":"未","右弼":"丑","左輔":"丑","貪狼":"寅","巨門":"卯","天相":"辰","天府":"子","七殺":"午"};
+var PAL_NAME={"申":"命宮","未":"兄弟宮","午":"夫妻宮","巳":"子女宮","辰":"財帛宮","卯":"疾厄宮","寅":"遷移宮","丑":"交友宮","子":"官祿宮","亥":"田宅宮","戌":"福德宮","酉":"父母宮"};
+var KEY_PAL={"申":1,"寅":1,"辰":1};// 命/身/財帛(大限)
+function ziweiYearInfo(yGan,yZhi){
+  var sh=SIHUA[yGan]||[],names=["祿","權","科","忌"],list=[],adj=0;
+  for(var i=0;i<4;i++){var star=sh[i],pal=STAR_PAL[star]||"",pn=PAL_NAME[pal]||"";
+    list.push({h:names[i],star:star,pal:pal,palName:pn});
+    var key=KEY_PAL[pal]?1:0;
+    if(i===0)adj+=key?4:2;          // 化祿
+    else if(i===1)adj+=key?2:1;     // 化權
+    else if(i===2)adj+=key?1.5:0.8; // 化科
+    else adj-=key?4:2;              // 化忌
+  }
+  var palScore=DAY_ZW[yZhi]||0;adj+=palScore*0.6; // 流年命宮宮氣
+  var warn=null;
+  for(i=0;i<4;i++)if(list[i].h==="忌"&&KEY_PAL[list[i].pal])warn=list[i].star+"化忌入"+list[i].palName+"——今年"+(list[i].pal==="申"?"自身狀態與名聲":"該領域")+"易有暗耗，重大決策多留備案。";
+  return{list:list,adj:adj,warn:warn,liuGong:PAL_NAME[yZhi]||""}
+}
+function sP(g,z,mz,isDay){
+  var adj=seasonAdj(mz),i;
+  // 十神：干全值、支本氣0.75、藏干餘氣0.25
+  var t=TEN_W[GW[g]]*adj[GW[g]];
+  t+=TEN_W[ZW[z]]*adj[ZW[z]]*0.75;
+  var cg=ZC[z]||[];for(i=1;i<cg.length;i++){var e=GW[cg[i]];t+=TEN_W[e]*adj[e]*0.25}
+  // 天干五合（與原局乙戊甲丁）
+  var ng=["乙","戊","甲","丁"];for(i=0;i<ng.length;i++)if(isGH(g,ng[i]))t+=(g==="己")?4:(FAV.has(GW[g])?2:-2); // 己合甲=財來就我
+  // 地支互動（與原局丑子申卯）
+  var nz=["丑","子","申","卯"],cc=[],hc=[],xc=[];
+  for(i=0;i<nz.length;i++){
+    if(isC(z,nz[i])){cc.push(z+"沖"+nz[i]);t-=(nz[i]==="申")?9:6}
+    if(isH(z,nz[i])){hc.push(z+"合"+nz[i]);t+=3}
+  }
+  for(var xi=0;xi<SX.length;xi++){var xs=SX[xi];
+    if(xs.indexOf(z)>=0)for(i=0;i<nz.length;i++)if(xs.indexOf(nz[i])>=0&&nz[i]!==z){xc.push(z+"刑"+nz[i]);t-=4.5}
+  }
+  // 三合會局（半合）：申子辰會水(忌)、亥未會卯木(忌)、巳酉會丑金(喜)、寅午戌會火(喜)
+  if(z==="辰")t-=8;                       // 申子辰全會水局
+  if(z==="亥"||z==="未")t-=3.5;           // 半合木
+  if(z==="巳"||z==="酉")t+=4;             // 半合金
+  if(z==="午"||z==="戌")t+=3;             // 與寅(身宮)拱火
+  // 紫微流日/流時宮位
+  t+=DAY_ZW[z]*(isDay?1:0.5);
+  return{score:t,chong:cc,he:hc,xing:xc,penalty:0,bonus:0,base:Math.round(t*10)/10}
+}
+var WT={year:0.10,month:0.20,day:0.42,hour:0.28};
+var STRETCH_K=1.78,STRETCH_C=63;
+function calc(dt){
+  var gz=getGZ(dt),mz=gz.month.z;
+  var ps={},ds={},pillars=["year","month","day","hour"];
+  for(var pi=0;pi<pillars.length;pi++){var p=pillars[pi];
+    var r=sP(gz[p].g,gz[p].z,mz,p==="day");ps[p]=r.score;ds[p]=r}
+  var raw=0;for(var k in WT)raw+=ps[k]*WT[k];
+  // 紫微流年層
+  var zy=ziweiYearInfo(gz.year.g,gz.year.z);raw+=zy.adj*0.35;
+  // 日月晝夜加權：白天太陽力增（陷宮減半）、夜間太陰廟旺但化忌折半
+  var hr=dt.getHours();var daytime=hr>=5&&hr<17;
+  if(daytime&&(gz.day.z==="丑"||gz.hour.z==="丑"))raw+=0.5;      // 太陽在丑（陷）白天微升
+  if(!daytime&&(gz.day.z==="丑"||gz.hour.z==="丑"))raw+=0.75;    // 太陰丑廟(3)×忌(×0.25)
+  var c=Math.max(22,Math.min(98,Math.round((STRETCH_C+raw*STRETCH_K)*10)/10));
+  for(pi=0;pi<pillars.length;pi++){p=pillars[pi];ps[p]=Math.max(20,Math.min(99,Math.round((STRETCH_C+ds[p].score*1.3)*10)/10))}
+  var ac=[],ah=[],ax=[];
+  for(pi=0;pi<pillars.length;pi++){p=pillars[pi];ac=ac.concat(ds[p].chong);ah=ah.concat(ds[p].he);ax=ax.concat(ds[p].xing)}
+  var sp=[];if(ac.length)sp.push({t:"六沖",d:Array.from(new Set(ac))});if(ah.length)sp.push({t:"六合",d:Array.from(new Set(ah))});if(ax.length)sp.push({t:"三刑",d:Array.from(new Set(ax))});
+  return{gz:gz,ps:ps,ds:ds,comp:c,sp:sp,cats:catS(c,gz,mz),star:toS(c),zy:zy}
+}
+function catS(c,gz,mz){
+  var adj=seasonAdj(mz||gz.month.z);
+  var dg=gz.day.g,hg=gz.hour.g,dz=gz.day.z,hz=gz.hour.z;
+  var dw=GW[dg],hw=GW[hg],dzw=ZW[dz],hzw=ZW[hz];
+  function cnt(el){var n=0;if(dw===el)n+=1.5;if(hw===el)n+=1;if(dzw===el)n+=1;if(hzw===el)n+=0.6;return n}
+  var earth=cnt("土"),metal=cnt("金"),fire=cnt("火"),water=cnt("水"),wood=cnt("木");
+  var chongShen=isC(dz,"申")||isC(hz,"申"),anyChong=["丑","子","申","卯"].some(function(n){return isC(dz,n)||isC(hz,n)});
+  var w=c+earth*5-water*4+((dg==="己"||hg==="己")?4:0);
+  var ca=c+metal*5-wood*4-(chongShen?6:0)+((dg==="辛"||hg==="辛")?2:0);
+  var h=c+fire*4*Math.min(adj["火"],1.3)-water*4-(gzHasXing(gz)?4:0);
+  var l=c+fire*3+earth*2-(anyChong?5:0)+("子午卯酉".indexOf(dz)>=0?3:0);
+  var s=c+((dg==="戊")?7:0)+((hg==="戊")?5:0)+((dg==="己"||hg==="己")?3:0)-water*5-(anyChong?4:0)-(gzHasXing(gz)?3:0)+((dz==="寅"||hz==="寅")?3:0);
+  var cl=function(v){return Math.max(20,Math.min(98,Math.round(v)))};
+  return{"財運":cl(w),"事業":cl(ca),"健康":cl(h),"感情":cl(l),"偏財":cl(s)}
+}
+function gzHasXing(gz){
+  var nz=["丑","子","申","卯"],zz=[gz.day.z,gz.hour.z];
+  for(var j=0;j<zz.length;j++)for(var xi=0;xi<SX.length;xi++){var xs=SX[xi];
+    if(xs.indexOf(zz[j])>=0)for(var i=0;i<nz.length;i++)if(xs.indexOf(nz[i])>=0&&nz[i]!==zz[j])return true}
+  return false
+}
+
+
+
+
 function toS(s){return s>=88?5:s>=75?4:s>=60?3:s>=45?2:1}
 function stars(n){var r="";for(var i=0;i<n;i++)r+="★";for(var j=0;j<5-n;j++)r+="☆";return r}
 function sCol(s){return s>=80?"var(--accent)":s>=65?"var(--green)":s>=50?"var(--blue)":s>=40?"var(--orange)":"var(--red)"}
@@ -439,6 +544,7 @@ function getBaziWarnings(f){
   if(hasSpecial(f,"六沖"))w.push("有六沖：事情容易變動，先備案，不宜把話說死。");
   if(hasSpecial(f,"三刑"))w.push("有三刑：口舌與內耗升高，重要訊息先降溫再送。");
   if(c["偏財"]>=70)w.push("偏財分高：只代表狀態較活，不是下注或重倉理由。");
+  if(f.zy&&f.zy.warn)w.push("流年提醒："+f.zy.warn);
   if(!w.length)w.push("今日無強烈誤判訊號；照計畫執行，仍保留停損與現實檢查。");
   return w
 }
@@ -737,6 +843,22 @@ function rCats(){
   document.getElementById("cats-list").innerHTML=html
 }
 function rSpec(){var i=document.getElementById("sp-dt");if(!i.value)i.value=new Date().toISOString().slice(0,10);loadSp()}
+
+var HOUR_NAME={"子":"子時 23-01","丑":"丑時 01-03","寅":"寅時 03-05","卯":"卯時 05-07","辰":"辰時 07-09","巳":"巳時 09-11","午":"午時 11-13","未":"未時 13-15","申":"申時 15-17","酉":"酉時 17-19","戌":"戌時 19-21","亥":"亥時 21-23"};
+function liveSpecHTML(){
+  var now=new Date(),f=calc(now),s=f.cats["偏財"],comp=f.comp,hz=f.gz.hour.z;
+  var light=s>=72?["狀態順","var(--green)","可以清醒地做事，但順≠該衝"]:s>=52?["狀態平","var(--accent)","平盤日常，別替自己找進場藉口"]:["狀態亂","var(--red)","先離桌。亂的時候做的決定，事後都最貴"];
+  var tags='';var hd=f.ds.hour;
+  var all=hd.chong.concat(hd.xing).map(function(x){return'<span class="bazi-tag bazi-warning">'+x+'</span>'}).concat(hd.he.map(function(x){return'<span class="bazi-tag">'+x+'</span>'}));
+  tags=all.length?all.join(''):'<span class="bazi-tag">本時辰無沖合刑</span>';
+  return '<div class="card" id="spec-live"><div class="card-title">即時快照 <span class="section-hint">'+HOUR_NAME[hz]+' · 每分鐘更新</span></div>'
+  +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:10px"><div style="width:14px;height:14px;border-radius:50%;background:'+light[1]+';box-shadow:0 0 12px '+light[1]+';animation:pulse-gold 2s infinite"></div><div><div style="font-family:var(--font-display);font-size:19px;font-weight:900;color:'+light[1]+'">'+light[0]+'</div><div style="font-size:11px;color:var(--text2)">本時辰偏財 '+s+' · 綜合 '+comp+'</div></div></div>'
+  +'<div class="bazi-tags">'+tags+'</div>'
+  +'<div style="font-size:12.5px;color:var(--text2);line-height:1.8;margin-top:4px">'+light[2]+'</div>'
+  +'<div style="margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(226,180,95,.05);border:1px solid rgba(226,180,95,.12);font-size:12.5px;line-height:2"><strong style="color:var(--accent)">上桌前三問</strong><br>① 這一局能不能不上？<br>② 停損線與停玩時間寫下來了嗎？<br>③ 是我狀態好，還是機會真的好？</div>'
+  +'<div class="anti-misread">快照描述的是你的狀態，不是賭局的期望值。線上賭場是負期望值遊戲，狀態再旺也改變不了賠率——只用輸光也不心疼的娛樂預算，達到停損或時限就走。</div></div>'
+}
+
 function loadSp(){
   var d=document.getElementById("sp-dt").value,base=new Date(d+"T12:00:00"),f=calc(base),ss=f.cats["偏財"];
   var vt,vc;if(ss>=80){vt="狀態偏旺，但只適合小部位觀察";vc="var(--accent)"}else if(ss>=65){vt="偏財尚可，仍以紀律為先";vc="var(--green)"}else if(ss>=50){vt="偏財普通，建議保守";vc="var(--orange)"}else{vt="今日不宜冒險";vc="var(--red)"}
@@ -746,7 +868,7 @@ function loadSp(){
   var strat;if(ss>=70)strat="分數偏高只代表狀態較順，不代表勝率或報酬保證。若仍要參與，只能小部位、短時間，且先寫好停損與停玩條件。";else if(ss>=50)strat="觀察為主，不追高殺低。保持紀律比追求利潤更重要。";else strat="今日觀望。好牌手知道何時離桌，好投資人知道何時空手。";
   var t3h="";for(var ti=0;ti<t3.length;ti++)t3h+='<div class="spec-row"><span style="color:var(--text2)">'+t3[ti].n+'</span><span style="color:'+sCol(t3[ti].spec)+'">偏財 '+t3[ti].spec+" · 綜合 "+t3[ti].comp+"</span></div>";
   var w2h="";for(var wi=0;wi<w2.length;wi++)w2h+='<div class="spec-row"><span style="color:var(--text2)">'+w2[wi].n+'</span><span style="color:var(--red)">偏財 '+w2[wi].spec+"</span></div>";
-  document.getElementById("sp-body").innerHTML='<div class="card"><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>'
+  document.getElementById("sp-body").innerHTML=liveSpecHTML()+'<div class="card"><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>'
 }
 // === CALENDAR ===
 function rCal(){
@@ -976,7 +1098,7 @@ function getJieqi(m,d){for(var i=0;i<jieqiData.length;i++){var j=jieqiData[i];if
 // === NATAL RENDER (expanded) ===
 
 // === ZIWEI CHART (乙丑年十月三十日卯時 男命；安星已與水二局/命主廉貞/身主天相/身宮寅/財帛大限五項既知盤面交叉驗證一致) ===
-var ZW={
+var ZWPAL={
 "巳":{gz:"辛巳",gong:"子女宮",main:[["天梁","quan"]],aux:[],d:"天梁化權坐子女宮。天梁是蔭星、長者星，化權後管教與承擔的味道更重——對晚輩、部屬、學生帶有「照顧＋要求」的雙重姿態。也代表你在團隊裡容易扮演罩人的角色，但要留意好為人師、替人扛過頭。"},
 "午":{gz:"壬午",gong:"夫妻宮",main:[["七殺",""]],aux:["火星"],d:"七殺坐夫妻宮，加會火星。感情模式偏「快、烈、直」，欣賞有主見有稜角的對象，關係中容易速熱，也容易硬碰硬。經營之道是留白：給彼此獨立空間，衝突時先降溫再談，別在氣頭上做決定。"},
 "未":{gz:"癸未",gong:"兄弟宮",main:[],aux:["文昌","文曲"],d:"無主星，借對宮（丑）日月來看，昌曲同守。兄弟朋友緣偏文氣——身邊容易聚集會讀書、會表達的人，手足或平輩間以理相交多於以情相黏。合作找互補的軍師型人物，比找哥們更順。"},
@@ -1002,7 +1124,7 @@ function renderZiwei(){
   for(var i=0;i<ZW_LAYOUT.length;i++){
     var k=ZW_LAYOUT[i];
     if(k==="CENTER"){h+='<div class="zw-center" style="animation-delay:'+(i*45)+'ms"><div class="zc-t">紫微命盤</div><div class="zc-s">乙丑年 十月三十 卯時<br>陰男 · 水二局<br>命主廉貞 · 身主天相<br><span style="color:var(--gold-hi)">大限 2026–35 財帛宮</span></div></div>';continue}
-    var p=ZW[k],stars='';
+    var p=ZWPAL[k],stars='';
     if(p.main.length){for(var s=0;s<p.main.length;s++){var st=p.main[s];stars+='<span class="zw-star">'+st[0]+(st[1]?'<span class="zw-hua '+st[1]+'">'+ZW_HUA[st[1]]+'</span>':'')+'</span>'}}
     else stars='<span class="zw-none">無主星·借對宮</span>';
     var badge=p.badge==="ming"?'<span class="zw-badge ming">命</span>':p.badge==="shen"?'<span class="zw-badge shen">身</span>':p.badge==="dx"?'<span class="zw-badge dx">大限</span>':'';
@@ -1013,7 +1135,7 @@ function renderZiwei(){
   document.getElementById("natal-ziwei").innerHTML=h;
 }
 function showZW(k){
-  var p=ZW[k];haptic(10);
+  var p=ZWPAL[k];haptic(10);
   var stars=p.main.length?p.main.map(function(s){return s[0]+(s[1]?"（化"+ZW_HUA[s[1]]+"）":"")}).join("、"):"無主星（借對宮）";
   var badgeTxt=p.badge==="ming"?'<div style="margin-bottom:8px"><span class="zw-badge ming" style="position:static">命宮</span></div>':p.badge==="shen"?'<div style="margin-bottom:8px"><span class="zw-badge shen" style="position:static">身宮所在</span></div>':p.badge==="dx"?'<div style="margin-bottom:8px"><span class="zw-badge dx" style="position:static">2026–2035 大限</span></div>':'';
   showM(p.gong+" · "+p.gz,badgeTxt
@@ -1021,6 +1143,17 @@ function showZW(k){
   +(p.aux.length?'<div style="font-size:12px;color:var(--text2);margin-bottom:10px"><strong style="color:var(--text2)">輔佐煞曜：</strong>'+p.aux.join("、")+'</div>':'')
   +'<div style="font-size:13px;line-height:1.9;color:var(--text)">'+p.d+'</div>'
   +'<div class="anti-misread" style="margin-top:12px">宮位解讀是結構傾向，不是宿命，更不是行動指令。重大決策仍以現實條件與風控為準。</div>')
+}
+
+
+function liuNianHTML(yr){
+  var f=calc(new Date()),zy=f.zy,gz=f.gz;
+  var hcol={"祿":"var(--green)","權":"var(--gold-hi)","科":"var(--blue)","忌":"var(--red)"};
+  var rows='';
+  for(var i=0;i<zy.list.length;i++){var it=zy.list[i];
+    rows+='<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px"><span><span class="zw-hua '+(it.h==="祿"?"lu":it.h==="權"?"quan":it.h==="科"?"ke":"ji")+'" style="font-size:10px;margin-right:5px">'+it.h+'</span>'+it.star+'</span><span style="color:var(--text2)">'+it.palName+'（'+it.pal+'）</span></div>'}
+  var advice=zy.warn?('<div class="anti-misread" style="margin-top:8px"><strong style="color:var(--red)">流年警訊：</strong>'+zy.warn+' 趨吉避凶做法：名聲與信用是今年的資產也是罩門——承諾放慢、文件留痕、避免站上灰色地帶；狀態差的日子（分數低於 50）不做不可逆的決定。</div>'):'<div style="font-size:12px;color:var(--text2);margin-top:8px">流年四化平穩，照大限主軸推進即可。</div>';
+  return '<div style="background:rgba(226,180,95,.04);border:1px solid rgba(226,180,95,.1);border-radius:var(--radius-sm);padding:12px"><div style="color:var(--accent);font-weight:700;margin-bottom:6px;font-size:12px">'+gz.year.g+gz.year.z+'年 流年四化 · 流年命宮：'+zy.liuGong+'（'+gz.year.z+'）</div>'+rows+advice+'</div>'
 }
 
 function rNatal(){
@@ -1034,7 +1167,7 @@ function rNatal(){
   renderCompass();
   renderZiwei();
   var now=new Date(),yr=now.getFullYear(),age=yr-1985,dxPct=Math.min(100,Math.max(0,(yr-2026)/9*100)).toFixed(0);
-  document.getElementById("natal-daxian").innerHTML='<div style="font-size:13px;line-height:2"><div style="margin-bottom:12px"><span style="color:var(--accent);font-weight:700">當前大限：</span>2026~2035 · <span style="color:var(--earth)">財帛宮</span></div><div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px"><span>2026</span><span>'+yr+' ('+age+'歲)</span><span>2035</span></div><div style="height:6px;background:rgba(255,255,255,.03);border-radius:3px;overflow:hidden"><div style="width:'+dxPct+'%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px"></div></div></div><div style="color:var(--text2);font-size:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.04)">大限走財帛宮，此十年重心在財務經營、商業佈局。適合深耕 HEINEKEN 通路、建立長期收入來源。</div><div style="background:rgba(226,180,95,.04);border:1px solid rgba(226,180,95,.1);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:var(--text2)"><div style="color:var(--accent);font-weight:700;margin-bottom:4px">💡 '+yr+' 流年提示</div>丙午年火旺，喜用神得力。火洩木秀，利於事業與財務。午火旺時需防急躁，宜穩中求進。</div></div>'
+  document.getElementById("natal-daxian").innerHTML='<div style="font-size:13px;line-height:2"><div style="margin-bottom:12px"><span style="color:var(--accent);font-weight:700">當前大限：</span>2026~2035 · <span style="color:var(--earth)">財帛宮</span></div><div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px"><span>2026</span><span>'+yr+' ('+age+'歲)</span><span>2035</span></div><div style="height:6px;background:rgba(255,255,255,.03);border-radius:3px;overflow:hidden"><div style="width:'+dxPct+'%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px"></div></div></div><div style="color:var(--text2);font-size:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.04)">大限走財帛宮，此十年重心在財務經營、商業佈局。適合深耕 HEINEKEN 通路、建立長期收入來源。</div>'+liuNianHTML(yr)+'</div>'
 }
 // === FORTUNE STICK ===
 var stickTexts=[
@@ -1080,6 +1213,8 @@ function initReveal(){
 var _goOrig=go;
 go=function(p,dir){_goOrig(p,dir);setTimeout(initReveal,80);setTimeout(initReveal,450)};
 setTimeout(initReveal,120);
+
+setInterval(function(){if(curPage==="spec"){var el=document.getElementById("spec-live");if(el)el.outerHTML=liveSpecHTML()}},60000);
 </script>
 </body>
 </html>
