@@ -148,7 +148,22 @@ button{cursor:pointer}
 .tg-cell:active{transform:scale(.95)}.tg-cell.tg-active{border-color:rgba(226,180,95,.38);background:rgba(226,180,95,.06)}
 .tg-name{font-family:var(--font-display);font-size:14px;font-weight:900}.tg-label{font-size:9px;color:var(--text3);margin-top:4px}
 /* Compass */
-.compass-wrap{display:flex;justify-content:center;padding:10px 0}
+.compass-wrap{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.cp-stage{position:relative;line-height:0}
+.cp-stage.cp-live::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(226,180,95,.3);animation:pulse-gold 2.4s ease-in-out infinite;pointer-events:none}
+#lp-dial{transition:transform .12s linear}
+.cp-panel{width:100%;max-width:230px;text-align:center;margin-top:10px}
+.cp-read{font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--text);letter-spacing:.5px}
+.cp-read strong{color:var(--gold-hi);font-size:18px}
+.cp-hint{font-size:11.5px;color:var(--text2);margin-top:5px;min-height:16px;transition:color .2s}
+.cp-hint.on{color:var(--green);font-weight:800}
+.cp-hint.warn{color:var(--red);font-weight:800}
+.cp-btn{margin-top:10px;width:100%;min-height:44px;background:linear-gradient(140deg,rgba(226,180,95,.16),rgba(226,180,95,.06));color:var(--gold-hi);border:1px solid rgba(226,180,95,.34);border-radius:var(--radius-sm);font-family:var(--font-display);font-size:13.5px;font-weight:800;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.cp-btn:active{transform:scale(.97);background:rgba(226,180,95,.24)}
+.cp-status{font-size:10.5px;color:var(--text3);margin-top:7px;line-height:1.6}
+.cp-status.on{color:var(--green)}
+.cp-status.warn{color:var(--orange)}
+@media(prefers-reduced-motion:reduce){#lp-dial{transition:none}.cp-stage.cp-live::after{animation:none}}
 /* Fortune stick */
 .stick-area{text-align:center;padding:20px 0}
 .stick-btn{background:linear-gradient(140deg,#d4553c,#a03322);color:#f8ecd9;border:1px solid rgba(246,233,214,.18);padding:14px 32px;border-radius:var(--radius);font-size:15px;font-weight:900;font-family:var(--font-display);cursor:pointer;box-shadow:0 4px 20px rgba(212,85,60,.3),inset 0 0 12px rgba(60,10,4,.3);transition:all .3s;position:relative;overflow:hidden;letter-spacing:2px}
@@ -552,10 +567,13 @@ function getWealthDirection(f){
   var branchDir={"子":"北","丑":"東北","寅":"東北","卯":"東","辰":"東南","巳":"東南","午":"南","未":"西南","申":"西南","酉":"西","戌":"西北","亥":"西北"};
   var chongMap={"子":"南","丑":"西南","寅":"西南","卯":"西","辰":"西北","巳":"西北","午":"北","未":"東北","申":"東北","酉":"東","戌":"東南","亥":"東南"};
   var wealthByDayGan={甲:"東北",乙:"西南",丙:"西",丁:"西北",戊:"北",己:"北",庚:"東",辛:"東南",壬:"南",癸:"南"};
+  // 六合方＝日支的六合對象所在方位，主穩定、黏合、守成
+  var heMap={"子":"丑","丑":"子","寅":"亥","亥":"寅","卯":"戌","戌":"卯","辰":"酉","酉":"辰","巳":"申","申":"巳","午":"未","未":"午"};
   var dayZ=f.gz.day.z,dayG=f.gz.day.g,wealth=wealthByDayGan[dayG]||"東北";
   var move=branchDir[dayZ]||"東",avoid=chongMap[dayZ]||"西";
+  var hold=branchDir[heMap[dayZ]]||"南";
   var guard=(f.cats["財運"]<50||f.cats["偏財"]<50||hasSpecial(f,"六沖")||hasSpecial(f,"三刑"));
-  return{wealth:wealth,move:move,avoid:avoid,guard:guard,guardText:guard?"有財位，但今日不宜重倉、追損或冒險；適合整理財務與談條件。":"財位可作為談財務、整理預算、安排行動的提示；仍不是獲利保證。"}
+  return{wealth:wealth,move:move,avoid:avoid,hold:hold,heZhi:heMap[dayZ]||"",guard:guard,guardText:guard?"有財位，但今日不宜重倉、追損或冒險；適合整理財務與談條件。":"財位可作為談財務、整理預算、安排行動的提示；仍不是獲利保證。"}
 }
 function pillarMiniHTML(gz){
   var labels=[["年",gz.year],["月",gz.month],["日",gz.day],["時",gz.hour]],h="";
@@ -802,25 +820,33 @@ function toggleChat(){
 }
 function yiJi(f){var c=f.cats,comp=f.comp,yi=[],ji=[];if(c["財運"]>=70)yi.push("理財規劃");else if(c["財運"]<50)ji.push("大額消費");if(c["事業"]>=70)yi.push("商業談判");else if(c["事業"]<50)ji.push("重大決策");if(c["健康"]>=70)yi.push("運動健身");else if(c["健康"]<50)ji.push("熬夜過勞");if(c["感情"]>=70)yi.push("社交聚會");else if(c["感情"]<50)ji.push("情緒化溝通");if(c["偏財"]>=75)yi.push("資金檢視");else if(c["偏財"]<45)ji.push("投機冒險");if(comp>=75)yi.push("新計畫");if(comp<45)ji.push("簽約合作");return{yi:yi.length?yi:["照常行事"],ji:ji.length?ji:["無特別禁忌"]}}
 function rWeek(){
-  var now=new Date(),dow=now.getDay(),mon=new Date(now);mon.setDate(now.getDate()-((dow+6)%7));
-  document.getElementById("wk-sub").textContent=(mon.getMonth()+1)+"/"+mon.getDate()+" ~ "+(mon.getMonth()+1)+"/"+(mon.getDate()+6);
+  // 一律用「午時基準」計分，與月曆、日期 modal、年度頁完全一致。
+  // 不可用 new Date() 直接帶現在時刻：時柱佔 28% 權重，會讓同一天在不同頁面出現不同分數。
+  var now=new Date(),dow=now.getDay();
+  var mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-((dow+6)%7),12,0,0);
+  var sun=new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+6,12,0,0);
+  document.getElementById("wk-sub").textContent=(mon.getMonth()+1)+"/"+mon.getDate()+" ~ "+(sun.getMonth()+1)+"/"+sun.getDate()+"　·　午時基準分";
   var dayNames=["一","二","三","四","五","六","日"],days=[],avgCats={};
   var cn=["財運","事業","健康","感情","偏財"];for(var ci=0;ci<cn.length;ci++)avgCats[cn[ci]]=0;
-  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);var f=calc(d);days.push({d:d,f:f,name:dayNames[i]});for(ci=0;ci<cn.length;ci++)avgCats[cn[ci]]+=f.cats[cn[ci]]}
+  for(var i=0;i<7;i++){var d=new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+i,12,0,0);var f=calc(d);days.push({d:d,f:f,name:dayNames[i]});for(ci=0;ci<cn.length;ci++)avgCats[cn[ci]]+=f.cats[cn[ci]]}
   for(ci=0;ci<cn.length;ci++)avgCats[cn[ci]]=Math.round(avgCats[cn[ci]]/7);
   var best=0;for(i=1;i<7;i++){if(days[i].f.comp>days[best].f.comp)best=i}
   var todayIdx=(dow+6)%7;
   var dhtml="<div class=\"wk-days\">";
   for(i=0;i<7;i++){var dd=days[i],cls="wk-day";if(i===best)cls+=" wk-best";if(i===todayIdx)cls+=" wk-today";
     dhtml+='<div class="'+cls+'" onclick="showDay('+dd.d.getFullYear()+","+dd.d.getMonth()+","+dd.d.getDate()+')"><div class="wd-name">'+dd.name+'</div><div class="wd-date">'+(dd.d.getMonth()+1)+"/"+dd.d.getDate()+'</div><div class="wd-sc" style="color:'+sCol(dd.f.comp)+'">'+Math.round(dd.f.comp)+'</div><div class="wd-star">'+stars(dd.f.star)+'</div></div>'}
-  dhtml+="</div>";document.getElementById("wk-days").innerHTML=dhtml;
+  dhtml+="</div>";
+  dhtml+='<div style="font-size:10.5px;color:var(--text3);line-height:1.7;margin-top:8px;text-align:center">每日分數以午時為基準，點進去看到的是同一個數字。<br>首頁「今日總分」是<strong style="color:var(--accent)">當下時辰</strong>的即時分，會隨時辰浮動，兩者不同屬正常。</div>';
+  document.getElementById("wk-days").innerHTML=dhtml;
   var ranked=days.slice().sort(function(a,b){return b.f.comp-a.f.comp});
   var rhtml="";for(i=0;i<7;i++){var rd=ranked[i],nc=i===0?"background:rgba(216,167,76,.15);color:var(--accent)":i===1?"background:rgba(159,92,74,.12);color:var(--purple)":i===2?"background:rgba(179,138,100,.12);color:var(--blue)":"background:rgba(255,255,255,.03);color:var(--text3)";
     rhtml+='<div class="wk-rank-row"><div class="wk-rank-num" style="'+nc+'">'+(i+1)+'</div><div style="flex:1;font-size:13px">'+rd.name+" "+(rd.d.getMonth()+1)+"/"+rd.d.getDate()+'</div><div style="font-family:var(--font-display);font-weight:900;font-size:16px;color:'+sCol(rd.f.comp)+'">'+rd.f.comp+'</div><div style="font-size:9px;color:var(--accent);margin-left:6px">'+stars(rd.f.star)+'</div></div>'}
   document.getElementById("wk-rank").innerHTML=rhtml;
   document.getElementById("wk-radar").innerHTML=radarSVG(avgCats,160)
 }
-function rHrs(){var i=document.getElementById("hrs-dt");if(!i.value)i.value=new Date().toISOString().slice(0,10);loadHrs()}
+// toISOString() 是 UTC。台灣 UTC+8，凌晨 00:00~08:00 用它會抓到「昨天」。一律用本地日期。
+function localISO(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function rHrs(){var i=document.getElementById("hrs-dt");if(!i.value)i.value=localISO(new Date());loadHrs()}
 function loadHrs(){
   var d=document.getElementById("hrs-dt").value,base=new Date(d+"T00:00:00");
   document.getElementById("hrs-sub").textContent=base.toLocaleDateString("zh-TW",{year:"numeric",month:"long",day:"numeric"});
@@ -842,7 +868,7 @@ function rCats(){
     html+='<div class="card cat-card" onclick="this.classList.toggle(\'expanded\')"><div class="cat-card-hdr"><div class="cat-card-title">'+ciI[ki]+" "+n+'</div><div class="cat-card-score" style="color:'+sCol(sv)+'">'+sv+'</div></div><div class="cat-track" style="height:5px;margin-bottom:12px"><div class="cat-fill" style="width:'+pct+"%;background:"+sCol(sv)+'"></div></div><div class="cat-advice">'+adv[n][t]+tipH+"</div></div>"}
   document.getElementById("cats-list").innerHTML=html
 }
-function rSpec(){var i=document.getElementById("sp-dt");if(!i.value)i.value=new Date().toISOString().slice(0,10);loadSp()}
+function rSpec(){var i=document.getElementById("sp-dt");if(!i.value)i.value=localISO(new Date());loadSp()}
 
 var HOUR_NAME={"子":"子時 23-01","丑":"丑時 01-03","寅":"寅時 03-05","卯":"卯時 05-07","辰":"辰時 07-09","巳":"巳時 09-11","午":"午時 11-13","未":"未時 13-15","申":"申時 15-17","酉":"酉時 17-19","戌":"戌時 19-21","亥":"亥時 21-23"};
 function liveSpecHTML(){
@@ -1047,11 +1073,105 @@ function showGlossary(name){
   showM(name,'<div class="guide-section"><h4>命理意思</h4>'+g.meaning+'</div><div class="guide-section"><h4>對 Ken 的意義</h4>'+g.ken+'</div><div class="guide-section"><h4>今天怎麼用</h4>'+g.use+'</div><div class="guide-section"><h4>不要誤用</h4>'+g.misuse+'</div>')
 }
 // === COMPASS (方位) ===
+// ===== 真實羅盤（接裝置磁力計）=====
+var CP={heading:null,raw:null,mode:"static",evt:null,handler:null,timer:null,raf:0,wd:null};
+var DIR8=["北","東北","東","東南","南","西南","西","西北"];
+function headingToDir(h){return DIR8[Math.round((((h%360)+360)%360)/45)%8]}
+function dirToDeg(n){var i=DIR8.indexOf(n);return i<0?0:i*45}
+// 磁力計原始值抖動大，做環形低通濾波（處理 0/360 交界）
+function smoothHeading(prev,next){
+  if(prev===null)return next;
+  var d=((next-prev+540)%360)-180;
+  return ((prev+d*0.22)%360+360)%360;
+}
+function setCompassStatus(txt,cls){
+  var el=document.getElementById("cp-status");
+  if(el){el.textContent=txt;el.className="cp-status"+(cls?" "+cls:"")}
+  if(cls==="warn")setCompassBtn(false); // 失敗就把按鈕標籤打回「啟動」
+}
+function setCompassBtn(live){
+  var b=document.getElementById("cp-btn");if(b)b.textContent=live?"關閉指南針":"啟動指南針";
+}
+function applyHeading(){
+  CP.raf=0;
+  var dial=document.getElementById("lp-dial");
+  if(!dial||CP.heading===null)return;
+  dial.setAttribute("transform","rotate("+(-CP.heading).toFixed(1)+" 105 105)");
+  var facing=headingToDir(CP.heading),wd=CP.wd;
+  var deg=Math.round(CP.heading);
+  var read=document.getElementById("cp-read");
+  if(read)read.innerHTML='面向 <strong>'+facing+'</strong> <span style="color:var(--text3)">'+deg+'°</span>';
+  // 是否正對財位（±22.5°）
+  var hint=document.getElementById("cp-hint");
+  if(hint&&wd){
+    var diff=Math.abs(((CP.heading-dirToDeg(wd.wealth)+540)%360)-180);
+    if(diff<=22.5){hint.textContent="✓ 正對財位 "+wd.wealth;hint.className="cp-hint on"}
+    else{
+      var da=Math.abs(((CP.heading-dirToDeg(wd.avoid)+540)%360)-180);
+      if(da<=22.5){hint.textContent="⚠ 正對沖方 "+wd.avoid;hint.className="cp-hint warn"}
+      else{hint.textContent="財位在 "+wd.wealth+"，再轉一下";hint.className="cp-hint"}
+    }
+  }
+}
+function onOrientation(e){
+  var h=null;
+  if(typeof e.webkitCompassHeading==="number"&&!isNaN(e.webkitCompassHeading))h=e.webkitCompassHeading; // iOS：已是真北磁方位
+  else if(typeof e.alpha==="number"&&e.alpha!==null)h=(360-e.alpha)%360;                                 // Android：alpha 逆時針
+  if(h===null||isNaN(h))return;
+  if(CP.evt==="deviceorientation"&&e.absolute===false&&CP.mode!=="live"){
+    setCompassStatus("此裝置只給相對方位，讀數可能偏移","warn");
+  }
+  CP.raw=h;CP.heading=smoothHeading(CP.heading,h);
+  if(CP.mode!=="live"){CP.mode="live";var w=document.getElementById("compass-wrap-inner");if(w)w.classList.add("cp-live");setCompassStatus("已連線 · 轉動手機校準","on");setCompassBtn(true)}
+  if(!CP.raf)CP.raf=requestAnimationFrame(applyHeading);
+  if(CP.timer){clearTimeout(CP.timer);CP.timer=null}
+}
+function attachCompass(){
+  detachCompass(true);
+  CP.evt=("ondeviceorientationabsolute" in window)?"deviceorientationabsolute":"deviceorientation";
+  CP.handler=onOrientation;
+  window.addEventListener(CP.evt,CP.handler,true);
+  setCompassStatus("讀取方位中…");
+  CP.timer=setTimeout(function(){
+    if(CP.heading===null){detachCompass();setCompassStatus("讀不到方位資料，維持靜態盤面","warn")}
+  },3500);
+}
+function detachCompass(keepHeading){
+  if(CP.handler&&CP.evt)window.removeEventListener(CP.evt,CP.handler,true);
+  CP.handler=null;CP.evt=null;
+  if(CP.timer){clearTimeout(CP.timer);CP.timer=null}
+  if(!keepHeading){CP.heading=null;CP.mode="static";var w=document.getElementById("compass-wrap-inner");if(w)w.classList.remove("cp-live")}
+}
+function startCompass(){
+  haptic(15);
+  if(typeof DeviceOrientationEvent==="undefined"){setCompassStatus("此裝置/瀏覽器不支援方位感測","warn");return}
+  if(location.protocol!=="https:"&&location.hostname!=="localhost"&&location.hostname!=="127.0.0.1"){
+    setCompassStatus("需在 HTTPS 網址下才能讀方位","warn");return
+  }
+  if(typeof DeviceOrientationEvent.requestPermission==="function"){ // iOS 13+
+    DeviceOrientationEvent.requestPermission().then(function(s){
+      if(s==="granted")attachCompass();
+      else setCompassStatus("方位權限被拒絕，維持靜態盤面","warn")
+    }).catch(function(){setCompassStatus("無法取得方位權限（請用 Safari 開啟）","warn")});
+  }else attachCompass();
+}
+function toggleCompass(){
+  if(CP.mode==="live"){
+    detachCompass();
+    var dial=document.getElementById("lp-dial");if(dial)dial.setAttribute("transform","rotate(0 105 105)");
+    var read=document.getElementById("cp-read");if(read)read.innerHTML='靜態盤面 <span style="color:var(--text3)">北在上</span>';
+    var hint=document.getElementById("cp-hint");if(hint){hint.textContent="財位在 "+(CP.wd?CP.wd.wealth:"—");hint.className="cp-hint"}
+    setCompassStatus("已關閉指南針");
+    setCompassBtn(false);
+  }else{
+    startCompass(); // 成功連上才由 onOrientation 改按鈕標籤
+  }
+}
 function renderCompass(){
   var f=curFortune||calc(new Date()),gz=f.gz;
-  var wd=getWealthDirection(f);
+  var wd=getWealthDirection(f);CP.wd=wd;
   var dayZ=gz.day.z;
-  var goodDir=wd.move,badDir=wd.avoid,wealthDir=wd.wealth;
+  var goodDir=wd.move,badDir=wd.avoid,wealthDir=wd.wealth,holdDir=wd.hold;
   var size=210,cx=105,cy=105;
   var dirs=[["北",0],["東北",45],["東",90],["東南",135],["南",180],["西南",225],["西",270],["西北",315]];
   var trig={"北":"☵","東北":"☶","東":"☳","東南":"☴","南":"☲","西南":"☷","西":"☱","西北":"☰"};
@@ -1060,11 +1180,15 @@ function renderCompass(){
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="96" fill="url(#lpbg)"/>';
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="96" fill="none" stroke="rgba(226,180,95,.45)" stroke-width="1.5"/>';
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="91" fill="none" stroke="rgba(226,180,95,.14)" stroke-width="1"/>';
-  var ticks='';
-  for(var t=0;t<24;t++){var ta=t*15*Math.PI/180;
+
+  // ── 轉盤：跟著真北轉，所以刻度不能再做裝飾性旋轉動畫 ──
+  svg+='<g id="lp-dial" transform="rotate(0 '+cx+' '+cy+')">';
+  for(var t=0;t<24;t++){var ta=(t*15-90)*Math.PI/180;
     var tx1=cx+87*Math.cos(ta),ty1=cy+87*Math.sin(ta),tx2=cx+92*Math.cos(ta),ty2=cy+92*Math.sin(ta);
-    ticks+='<line x1="'+tx1.toFixed(1)+'" y1="'+ty1.toFixed(1)+'" x2="'+tx2.toFixed(1)+'" y2="'+ty2.toFixed(1)+'" stroke="rgba(226,180,95,'+(t%3===0?'.5':'.2')+')" stroke-width="'+(t%3===0?'1.5':'1')+'"/>'}
-  svg+='<g class="luopan-ticks" style="transform-box:fill-box">'+ticks+'</g>';
+    svg+='<line x1="'+tx1.toFixed(1)+'" y1="'+ty1.toFixed(1)+'" x2="'+tx2.toFixed(1)+'" y2="'+ty2.toFixed(1)+'" stroke="rgba(226,180,95,'+(t%3===0?'.5':'.2')+')" stroke-width="'+(t%3===0?'1.5':'1')+'"/>'}
+  // 真北標記（紅針指向的那一格）
+  svg+='<path d="M '+cx+' '+(cy-84)+' l -4.5 9 l 9 0 Z" fill="var(--red)" opacity=".9"/>';
+  svg+='<text x="'+cx+'" y="'+(cy-70)+'" text-anchor="middle" dominant-baseline="middle" fill="var(--red)" font-size="8" font-weight="900" letter-spacing="1">N</text>';
   for(var i=0;i<dirs.length;i++){var d=dirs[i],name=d[0],ang=(d[1]-90)*Math.PI/180;
     var bx=cx+76*Math.cos(ang),by=cy+76*Math.sin(ang);
     svg+='<text x="'+bx.toFixed(1)+'" y="'+by.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" fill="rgba(226,180,95,.6)" font-size="13">'+trig[name]+'</text>';
@@ -1074,19 +1198,37 @@ function renderCompass(){
   for(i=0;i<dirs.length;i++){var d2=dirs[i],name2=d2[0],ang2=(d2[1]-90)*Math.PI/180;
     var lx=cx+51*Math.cos(ang2),ly=cy+51*Math.sin(ang2);
     var col="var(--text3)",fw="600";
-    if(name2===wealthDir){col="var(--gold-hi)";fw="900"}
+    if(name2===holdDir){col="var(--blue)";fw="700"}
     if(name2===goodDir){col="var(--green)";fw="800"}
     if(name2===badDir){col="var(--red)";fw="800"}
+    if(name2===wealthDir){col="var(--gold-hi)";fw="900"}
     var fs=name2.length>1?10:12;
     if(name2===wealthDir)svg+='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="12" fill="rgba(226,180,95,.13)" stroke="rgba(226,180,95,.45)" stroke-width="1"/>';
     svg+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" dominant-baseline="middle" fill="'+col+'" font-size="'+fs+'" font-weight="'+fw+'" font-family="var(--font-display)">'+name2+'</text>'}
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="33" fill="none" stroke="rgba(226,180,95,.22)"/>';
+  svg+='</g>';
+
+  // ── 固定層：太極中心 + 頂端「你面向」指標（不隨盤轉）──
   svg+='<circle cx="'+cx+'" cy="'+cy+'" r="12" fill="#14100f" stroke="rgba(226,180,95,.5)" stroke-width="1"/>';
   svg+='<path d="M '+cx+' '+(cy-12)+' A 12 12 0 0 1 '+cx+' '+(cy+12)+' A 6 6 0 0 1 '+cx+' '+cy+' A 6 6 0 0 0 '+cx+' '+(cy-12)+' Z" fill="rgba(226,180,95,.78)"/>';
   svg+='<circle cx="'+cx+'" cy="'+(cy-6)+'" r="2" fill="#14100f"/><circle cx="'+cx+'" cy="'+(cy+6)+'" r="2" fill="rgba(226,180,95,.9)"/>';
+  svg+='<path d="M '+cx+' 3 l -6 12 l 12 0 Z" fill="var(--gold-hi)"/>';
+  svg+='<line x1="'+cx+'" y1="15" x2="'+cx+'" y2="26" stroke="rgba(226,180,95,.5)" stroke-width="1.5"/>';
   svg+='</svg>';
-  document.getElementById("compass-wrap").innerHTML=svg;
-  document.getElementById("compass-detail").innerHTML='<div class="compass-legend"><div class="compass-item"><span style="color:var(--accent)">財位</span><br><strong>'+wealthDir+'</strong><br>談條件、整理預算</div><div class="compass-item"><span style="color:var(--green)">宜動方</span><br><strong>'+goodDir+'</strong><br>拜訪、溝通、推進</div><div class="compass-item"><span style="color:var(--red)">沖方</span><br><strong>'+badDir+'</strong><br>少硬碰、留備案</div><div class="compass-item"><span style="color:var(--text2)">宜守方</span><br><strong>'+dayZ+'</strong><br>'+gz.day.g+gz.day.z+'日參考</div></div><div class="anti-misread">'+wd.guardText+' 命理只能作為狀態與風險輔助，不能取代現實風控。</div>'
+
+  var live=(CP.mode==="live");
+  var html='<div class="cp-stage'+(live?" cp-live":"")+'" id="compass-wrap-inner">'+svg+'</div>'
+    +'<div class="cp-panel">'
+    +'<div class="cp-read" id="cp-read">'+(live?'讀取中…':'靜態盤面 <span style="color:var(--text3)">北在上</span>')+'</div>'
+    +'<div class="cp-hint" id="cp-hint">財位在 '+wealthDir+'</div>'
+    +'<button class="cp-btn" id="cp-btn" onclick="toggleCompass()">'+(live?"關閉指南針":"啟動指南針")+'</button>'
+    +'<div class="cp-status" id="cp-status">頂端金色箭頭＝你面向的方向</div>'
+    +'</div>';
+  var wrap=document.getElementById("compass-wrap");
+  wrap.innerHTML=html;
+  if(live&&CP.heading!==null)applyHeading();
+
+  document.getElementById("compass-detail").innerHTML='<div class="compass-legend"><div class="compass-item"><span style="color:var(--accent)">財位</span><br><strong>'+wealthDir+'</strong><br>談條件、整理預算</div><div class="compass-item"><span style="color:var(--green)">宜動方</span><br><strong>'+goodDir+'</strong><br>拜訪、溝通、推進</div><div class="compass-item"><span style="color:var(--red)">沖方</span><br><strong>'+badDir+'</strong><br>少硬碰、留備案</div><div class="compass-item"><span style="color:var(--blue)">宜守方</span><br><strong>'+holdDir+'</strong><br>'+gz.day.g+dayZ+'日合'+wd.heZhi+'</div></div><div class="anti-misread">'+wd.guardText+' 命理只能作為狀態與風險輔助，不能取代現實風控。</div>'
 }
 var jieqiData=[
   [1,5,"小寒"],[1,20,"大寒"],[2,4,"立春"],[2,19,"雨水"],[3,5,"驚蟄"],[3,20,"春分"],
@@ -1211,10 +1353,43 @@ function initReveal(){
   for(var i2=0;i2<els.length;i2++){els[i2].style.transitionDelay=(i2%5*70)+"ms";_revObs.observe(els[i2])}
 }
 var _goOrig=go;
-go=function(p,dir){_goOrig(p,dir);setTimeout(initReveal,80);setTimeout(initReveal,450)};
+go=function(p,dir){
+  if(p!=="natal"&&CP.mode==="live")detachCompass(); // 離開命盤頁就收掉磁力計，省電
+  _goOrig(p,dir);setTimeout(initReveal,80);setTimeout(initReveal,450)
+};
 setTimeout(initReveal,120);
 
 setInterval(function(){if(curPage==="spec"){var el=document.getElementById("spec-live");if(el)el.outerHTML=liveSpecHTML()}},60000);
+
+// === 跨日 / 跨時辰自動更新 ===
+// 舊版只有在切換分頁時才重算。App 開著過午夜、或從背景喚回，畫面會停在昨天。
+function _dayKey(d){return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()}
+function _hourZhi(d){return Math.floor(((d.getHours()+1)%24)/2)} // 子時 23-01 起算
+var _lastDayKey=_dayKey(new Date()),_lastHourZhi=_hourZhi(new Date());
+function refreshCurrentPage(){
+  var p=curPage;
+  if(p==="home")rHome();else if(p==="week")rWeek();else if(p==="hours")rHrs();
+  else if(p==="cats")rCats();else if(p==="spec")rSpec();else if(p==="cal")rCal();
+  else if(p==="year")rYear();else if(p==="natal")rNatal();
+  setTimeout(initReveal,60);
+}
+function checkRollover(force){
+  var now=new Date(),dk=_dayKey(now),hz=_hourZhi(now);
+  var dayChanged=(dk!==_lastDayKey),hourChanged=(hz!==_lastHourZhi);
+  if(!force&&!dayChanged&&!hourChanged)return;
+  _lastDayKey=dk;_lastHourZhi=hz;
+  curFortune=null; // 清掉快取，讓所有 curFortune|| 的地方（羅盤、問答、十神）重算
+  if(dayChanged){
+    calY=now.getFullYear();calM=now.getMonth();
+    var a=document.getElementById("hrs-dt");if(a)a.value=localISO(now);
+    var b=document.getElementById("sp-dt");if(b)b.value=localISO(now);
+  }
+  refreshCurrentPage();
+}
+setInterval(function(){checkRollover(false)},30000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden)checkRollover(false)});
+window.addEventListener("focus",function(){checkRollover(false)});
+window.addEventListener("pageshow",function(e){if(e.persisted)checkRollover(true)});
 </script>
 </body>
 </html>
