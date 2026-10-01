@@ -898,7 +898,7 @@ function loadSp(){
 }
 // === CALENDAR ===
 function rCal(){
-  var now=new Date();if(!calY)calY=now.getFullYear();if(!calM)calM=now.getMonth();
+  var now=new Date();if(calY==null)calY=now.getFullYear();if(calM==null)calM=now.getMonth();
   document.getElementById("cal-title").textContent=calY+"年 "+(calM+1)+"月";
   drawCal();calStats();calTrend();
   // Set default range
