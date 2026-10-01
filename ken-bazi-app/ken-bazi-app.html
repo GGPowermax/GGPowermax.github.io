@@ -328,11 +328,11 @@ body::after{content:'';position:fixed;right:-46px;bottom:52px;width:330px;height
 <!-- WEEK -->
 <div id="s-week" class="sec"><div class="pg-hero ph-week"><div class="ph-seal" aria-hidden="true">週</div><div class="pg-title">本週總覽</div><div class="pg-sub" id="wk-sub"></div></div><div class="card"><div id="wk-days"></div></div><div class="card"><div class="card-title">本週排行</div><div class="wk-rank" id="wk-rank"></div></div><div class="card"><div class="card-title">本週雷達</div><div class="radar-wrap" id="wk-radar"></div></div></div>
 <!-- HOURS -->
-<div id="s-hours" class="sec"><div class="pg-hero ph-hours"><div class="ph-seal" aria-hidden="true">辰</div><div class="pg-title">十二時辰</div><div class="pg-sub" id="hrs-sub"></div></div><div class="date-row"><input type="date" id="hrs-dt"><button onclick="loadHrs()">查詢</button></div><div class="card"><div class="hr-grid" id="hrs-grid"></div></div></div>
+<div id="s-hours" class="sec"><div class="pg-hero ph-hours"><div class="ph-seal" aria-hidden="true">辰</div><div class="pg-title">十二時辰</div><div class="pg-sub" id="hrs-sub"></div></div><div class="date-row"><input type="date" id="hrs-dt" oninput="if(this.value)loadHrs()" onchange="if(this.value)loadHrs()"><button onclick="loadHrs()">查詢</button></div><div class="card"><div class="hr-grid" id="hrs-grid"></div></div></div>
 <!-- CATS -->
 <div id="s-cats" class="sec"><div class="pg-hero ph-cats"><div class="ph-seal" aria-hidden="true">項</div><div class="pg-title">分項運勢</div><div class="pg-sub">點擊卡片展開詳細解讀</div></div><div class="card"><div class="radar-wrap" id="cats-radar"></div></div><div id="cats-list"></div></div>
 <!-- SPEC -->
-<div id="s-spec" class="sec"><div class="pg-hero ph-spec"><div class="ph-seal" aria-hidden="true">牌</div><div class="pg-title">投資 · 牌局</div><div class="pg-sub">偏財運分析與最佳時機</div></div><div class="date-row"><input type="date" id="sp-dt"><button onclick="loadSp()">查詢</button></div><div id="sp-body"></div></div>
+<div id="s-spec" class="sec"><div class="pg-hero ph-spec"><div class="ph-seal" aria-hidden="true">牌</div><div class="pg-title">投資 · 牌局</div><div class="pg-sub">偏財運分析與最佳時機</div></div><div class="date-row"><input type="date" id="sp-dt" oninput="if(this.value)loadSp()" onchange="if(this.value)loadSp()"><button onclick="loadSp()">查詢</button></div><div id="sp-body"></div></div>
 <!-- CALENDAR -->
 <div id="s-cal" class="sec">
   <div class="pg-hero ph-cal"><div class="ph-seal" aria-hidden="true">曆</div><div class="pg-title">月曆</div><div class="pg-sub">吉凶趨勢 · 點日期看詳解</div></div>
@@ -887,6 +887,7 @@ function liveSpecHTML(){
 
 function loadSp(){
   var d=document.getElementById("sp-dt").value,base=new Date(d+"T12:00:00"),f=calc(base),ss=f.cats["偏財"];
+  var spLbl=(base.getMonth()+1)+"月"+base.getDate()+"日（"+"日一二三四五六".charAt(base.getDay())+"）· "+f.gz.day.g+f.gz.day.z+"日",spToday=(d===localISO(new Date()));
   var vt,vc;if(ss>=80){vt="狀態偏旺，但只適合小部位觀察";vc="var(--accent)"}else if(ss>=65){vt="偏財尚可，仍以紀律為先";vc="var(--green)"}else if(ss>=50){vt="偏財普通，建議保守";vc="var(--orange)"}else{vt="今日不宜冒險";vc="var(--red)"}
   var hrs=[[23,"子時"],[1,"丑時"],[3,"寅時"],[5,"卯時"],[7,"辰時"],[9,"巳時"],[11,"午時"],[13,"未時"],[15,"申時"],[17,"酉時"],[19,"戌時"],[21,"亥時"]];
   var hd=[];for(var hi=0;hi<hrs.length;hi++){var h=hrs[hi][0],n=hrs[hi][1];var dt=new Date(base);dt.setHours(h===23?23:h);var hf=calc(dt);hd.push({h:h,n:n,spec:hf.cats["偏財"],comp:hf.comp})}
@@ -894,7 +895,7 @@ function loadSp(){
   var strat;if(ss>=70)strat="分數偏高只代表狀態較順，不代表勝率或報酬保證。若仍要參與，只能小部位、短時間，且先寫好停損與停玩條件。";else if(ss>=50)strat="觀察為主，不追高殺低。保持紀律比追求利潤更重要。";else strat="今日觀望。好牌手知道何時離桌，好投資人知道何時空手。";
   var t3h="";for(var ti=0;ti<t3.length;ti++)t3h+='<div class="spec-row"><span style="color:var(--text2)">'+t3[ti].n+'</span><span style="color:'+sCol(t3[ti].spec)+'">偏財 '+t3[ti].spec+" · 綜合 "+t3[ti].comp+"</span></div>";
   var w2h="";for(var wi=0;wi<w2.length;wi++)w2h+='<div class="spec-row"><span style="color:var(--text2)">'+w2[wi].n+'</span><span style="color:var(--red)">偏財 '+w2[wi].spec+"</span></div>";
-  document.getElementById("sp-body").innerHTML=liveSpecHTML()+'<div class="card"><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>'
+  document.getElementById("sp-body").innerHTML=liveSpecHTML()+'<div class="card"><div class="card-title">'+(spToday?"今日":"當日")+'偏財 <span class="section-hint">'+spLbl+'</span></div><div style="font-size:11.5px;color:var(--text2);line-height:1.7;margin:-4px 0 2px">以午時（11–13）為當日基準分，和月曆、本週同一把尺；上方即時快照是「此刻時辰」的分數，兩者本來就會不同。</div><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>'
 }
 // === CALENDAR ===
 function rCal(){
