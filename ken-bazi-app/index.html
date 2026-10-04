@@ -846,9 +846,19 @@ function rWeek(){
 }
 // toISOString() 是 UTC。台灣 UTC+8，凌晨 00:00~08:00 用它會抓到「昨天」。一律用本地日期。
 function localISO(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+// 日期欄防呆：iOS 日期選擇器按「清除/重置」會讓值變空字串，直接計算會整頁 NaN。空值或無效值一律回到今天。
+function safeDate(id){
+  var i=document.getElementById(id),v=i?i.value:"",t=new Date(v+"T12:00:00");
+  var ok=/^\d{4}-\d{2}-\d{2}$/.test(v)&&!isNaN(t.getTime());
+  if(ok&&typeof CAL!=="undefined"&&(t.getFullYear()<CAL.Y0||t.getFullYear()>CAL.Y1)){
+    ok=false;if(typeof showM==="function")showM("日期超出範圍","目前曆法資料支援 "+CAL.Y0+"–"+CAL.Y1+" 年，已改回今天。");
+  }
+  if(!ok){v=localISO(new Date());if(i)i.value=v}
+  return v
+}
 function rHrs(){var i=document.getElementById("hrs-dt");if(!i.value)i.value=localISO(new Date());loadHrs()}
 function loadHrs(){
-  var d=document.getElementById("hrs-dt").value,base=new Date(d+"T00:00:00");
+  var d=safeDate("hrs-dt"),base=new Date(d+"T00:00:00");
   document.getElementById("hrs-sub").textContent=base.toLocaleDateString("zh-TW",{year:"numeric",month:"long",day:"numeric"});
   var hrs=[[23,"子","23-01"],[1,"丑","01-03"],[3,"寅","03-05"],[5,"卯","05-07"],[7,"辰","07-09"],[9,"巳","09-11"],[11,"午","11-13"],[13,"未","13-15"],[15,"申","15-17"],[17,"酉","17-19"],[19,"戌","19-21"],[21,"亥","21-23"]];
   var res=[];for(var hi=0;hi<hrs.length;hi++){var h=hrs[hi][0],n=hrs[hi][1],t=hrs[hi][2];var dt=new Date(base);dt.setHours(h===23?23:h);var ff=calc(dt);res.push({h:h,n:n,t:t,comp:ff.comp,spec:ff.cats["偏財"],star:ff.star,cats:ff.cats,gz:ff.gz,sp:ff.sp})}
@@ -886,7 +896,7 @@ function liveSpecHTML(){
 }
 
 function loadSp(){
-  var d=document.getElementById("sp-dt").value,base=new Date(d+"T12:00:00"),f=calc(base),ss=f.cats["偏財"];
+  var d=safeDate("sp-dt"),base=new Date(d+"T12:00:00"),f=calc(base),ss=f.cats["偏財"];
   var spLbl=(base.getMonth()+1)+"月"+base.getDate()+"日（"+"日一二三四五六".charAt(base.getDay())+"）· "+f.gz.day.g+f.gz.day.z+"日",spToday=(d===localISO(new Date()));
   var vt,vc;if(ss>=80){vt="狀態偏旺，但只適合小部位觀察";vc="var(--accent)"}else if(ss>=65){vt="偏財尚可，仍以紀律為先";vc="var(--green)"}else if(ss>=50){vt="偏財普通，建議保守";vc="var(--orange)"}else{vt="今日不宜冒險";vc="var(--red)"}
   var hrs=[[23,"子時"],[1,"丑時"],[3,"寅時"],[5,"卯時"],[7,"辰時"],[9,"巳時"],[11,"午時"],[13,"未時"],[15,"申時"],[17,"酉時"],[19,"戌時"],[21,"亥時"]];
