@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ken-bazi-v12.3';
+const CACHE_NAME = 'ken-bazi-v12.4';
 const ASSETS = [
   '/ken-bazi-app/',
   '/ken-bazi-app/index.html',

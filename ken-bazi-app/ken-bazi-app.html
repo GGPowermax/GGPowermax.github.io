@@ -905,7 +905,8 @@ function loadSp(){
   var strat;if(ss>=70)strat="分數偏高只代表狀態較順，不代表勝率或報酬保證。若仍要參與，只能小部位、短時間，且先寫好停損與停玩條件。";else if(ss>=50)strat="觀察為主，不追高殺低。保持紀律比追求利潤更重要。";else strat="今日觀望。好牌手知道何時離桌，好投資人知道何時空手。";
   var t3h="";for(var ti=0;ti<t3.length;ti++)t3h+='<div class="spec-row"><span style="color:var(--text2)">'+t3[ti].n+'</span><span style="color:'+sCol(t3[ti].spec)+'">偏財 '+t3[ti].spec+" · 綜合 "+t3[ti].comp+"</span></div>";
   var w2h="";for(var wi=0;wi<w2.length;wi++)w2h+='<div class="spec-row"><span style="color:var(--text2)">'+w2[wi].n+'</span><span style="color:var(--red)">偏財 '+w2[wi].spec+"</span></div>";
-  document.getElementById("sp-body").innerHTML=liveSpecHTML()+'<div class="card"><div class="card-title">'+(spToday?"今日":"當日")+'偏財 <span class="section-hint">'+spLbl+'</span></div><div style="font-size:11.5px;color:var(--text2);line-height:1.7;margin:-4px 0 2px">以午時（11–13）為當日基準分，和月曆、本週同一把尺；上方即時快照是「此刻時辰」的分數，兩者本來就會不同。</div><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>'
+  document.getElementById("sp-body").innerHTML=liveSpecHTML()+'<div class="card"><div class="card-title">'+(spToday?"今日":"當日")+'偏財 <span class="section-hint">'+spLbl+'</span></div><div style="font-size:11.5px;color:var(--text2);line-height:1.7;margin:-4px 0 2px">以午時（11–13）為當日基準分，和月曆、本週同一把尺；上方即時快照是「此刻時辰」的分數，兩者本來就會不同。</div><div class="spec-hero"><div class="spec-score" style="color:'+vc+'">'+ss+'</div><div class="spec-stars">'+stars(toS(ss))+'</div><div class="spec-verdict" style="color:'+vc+'">'+vt+'</div></div></div><div class="card"><div class="card-title">狀態較佳時辰</div>'+t3h+'</div><div class="card"><div class="card-title">應避開時辰</div>'+w2h+'</div><div class="card"><div class="card-title">策略建議</div><div class="strategy">'+strat+'<span class="warn">命理只能作為狀態與風險輔助，不能取代現實風控。</span></div></div>';
+  if(typeof initReveal==="function"){setTimeout(initReveal,30);setTimeout(initReveal,400)}
 }
 // === CALENDAR ===
 function rCal(){
@@ -1370,7 +1371,7 @@ go=function(p,dir){
 };
 setTimeout(initReveal,120);
 
-setInterval(function(){if(curPage==="spec"){var el=document.getElementById("spec-live");if(el)el.outerHTML=liveSpecHTML()}},60000);
+setInterval(function(){if(curPage==="spec"){var el=document.getElementById("spec-live");if(el){var wasRev=el.classList.contains("rev");el.outerHTML=liveSpecHTML();var ne=document.getElementById("spec-live");if(ne&&wasRev)ne.classList.add("rev")}}},60000);
 
 // === 跨日 / 跨時辰自動更新 ===
 // 舊版只有在切換分頁時才重算。App 開著過午夜、或從背景喚回，畫面會停在昨天。
